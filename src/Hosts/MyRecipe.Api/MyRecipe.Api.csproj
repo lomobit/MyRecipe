@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>0a34a112-6fab-4091-9976-a34210959c90</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="11.1.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Application\MyRecipe.AppServices\MyRecipe.AppServices.csproj" />
+    <ProjectReference Include="..\..\Application\MyRecipe.Handlers\MyRecipe.Handlers.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\MyRecipe.ComponentRegistrar\MyRecipe.ComponentRegistrar.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\MyRecipe.Infrastructure\MyRecipe.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Logging\MyRecipe.Logging\MyRecipe.Logging.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\MyRecipeLogging.Infrastructure\MyRecipeLogging.Infrastructure.csproj" />
+  </ItemGroup>
+
+	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+	  <Exec Command="xcopy &quot;..\..\Infrastructure\MyRecipe.Infrastructure\SqlScriptsForMigrations\*&quot; &quot;.\bin\$(Configuration)\$(TargetFramework)\SqlScriptsForMigrations\&quot; /e /f /h /k /y" />
+	</Target>
+
+</Project>
