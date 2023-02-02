@@ -17,6 +17,8 @@ builder.Services.AddMediatR(typeof(MediatREntrypoint).Assembly);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors();
+
 // Добавление зависимостей для MyRecipe
 builder.Services.AddMyRecipe();
 
@@ -35,5 +37,10 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors(options =>
+     options.WithOrigins("http://localhost:3000")
+            .AllowAnyHeader()
+            .AllowAnyMethod());
 
 app.Run();
