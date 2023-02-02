@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Application\MyRecipe.AppServices\MyRecipe.AppServices.csproj" />
+    <ProjectReference Include="..\..\Application\MyRecipe.Handlers\MyRecipe.Handlers.csproj" />
     <ProjectReference Include="..\..\Logging\MyRecipe.Logging\MyRecipe.Logging.csproj" />
     <ProjectReference Include="..\MyRecipeLogging.Infrastructure\MyRecipeLogging.Infrastructure.csproj" />
   </ItemGroup>

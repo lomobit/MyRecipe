@@ -22,7 +22,7 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
                 .AnyAsync(x => x.Name == ingredientDto.Name, cancellationToken);
             if (isAlreadyExist)
             {
-                var ex = new ValidationException($"Ингредиент с названием {ingredientDto.Name} уже существует");
+                var ex = new ValidationException($"Ингредиент с названием \"{ingredientDto.Name}\" уже существует");
                 ex.Data.Add("Ингредиент", $"Ингредиент с названием \"{ingredientDto.Name}\" уже существует");
 
                 throw ex;
@@ -47,6 +47,16 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
                 .Where(x => x.Name == ingredientDto.Name)
                 .Select(x => x.Id)
                 .FirstAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Domain.Ingredient>> GetAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
+        {
+            return await _context.Ingredients
+                .AsNoTracking()
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(cancellationToken);
         }
     }
 }

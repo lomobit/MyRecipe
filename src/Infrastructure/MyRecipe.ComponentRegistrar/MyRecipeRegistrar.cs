@@ -1,10 +1,14 @@
 ﻿using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MyRecipe.AppServices.Ingredient;
+using MyRecipe.Contracts.Ingredient;
+using MyRecipe.Handlers.Ingredient;
 using MyRecipe.Infrastructure;
+using MyRecipe.Infrastructure.MappingProfiles;
 using MyRecipe.Infrastructure.Repositories.Ingredient;
 using MyRecipe.Logging.Loggers;
 using MyRecipeLogging.Infrastructure;
@@ -36,6 +40,9 @@ namespace MyRecipe.ComponentRegistrar
 
             // Добавление автомапперов.
             services.AddMyRecipeMappers();
+
+            // Добавление поведенческих пайплайнов.
+            services.AddMyRecipePipelineBehaviors();
 
             return services;
         }
@@ -103,7 +110,20 @@ namespace MyRecipe.ComponentRegistrar
             services.AddAutoMapper((IMapperConfigurationExpression cfg) =>
             {
                 cfg.AddProfile<MyRecipeLoggingMappingProfile>();
+                cfg.AddProfile<MyRecipeMappingProfile>();
             });
+
+            return services;
+        }
+
+        /// <summary>
+        /// Добавление поведенческих пайплайнов.
+        /// </summary>
+        /// <param name="services">Коллекция сервисов DI.</param>
+        /// <returns>Коллекция сервисов DI.</returns>
+        public static IServiceCollection AddMyRecipePipelineBehaviors(this IServiceCollection services)
+        {
+            services.AddScoped<IPipelineBehavior<IngredientGetQuery, IEnumerable<IngredientDto>>, IngredientGetQueryBehavior>();
 
             return services;
         }
