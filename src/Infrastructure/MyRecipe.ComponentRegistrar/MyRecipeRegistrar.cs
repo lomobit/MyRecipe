@@ -54,8 +54,8 @@ namespace MyRecipe.ComponentRegistrar
         /// <returns>Коллекция сервисов DI.</returns>
         public static IServiceCollection AddMyRecipeDbContexts(this IServiceCollection services)
         {
-            services.AddDbContext<MyRecipeDbContext>(AddMyRecipeDbContext, ServiceLifetime.Singleton);
-            services.AddDbContext<MyRecipeLoggingDbContext>(AddMyRecipeLoggingDbContext, ServiceLifetime.Singleton);
+            services.AddDbContext<MyRecipeDbContext>(AddMyRecipeDbContext, ServiceLifetime.Scoped);
+            services.AddDbContext<MyRecipeLoggingDbContext>(AddMyRecipeLoggingDbContext, ServiceLifetime.Scoped);
 
             return services;
         }
