@@ -71,9 +71,9 @@ namespace MyRecipe.Contracts.Api
 #pragma warning disable CS8604 // Possible null reference argument.
                 apiResult.Messages.Add(new ApiResultMessage()
                 {
-                    Value = key?.ToString() ?? "Unknown",
+                    Value = messages[key]?.ToString() ?? "Unknown",
                     Type = ApiResultMessageTypeEnum.Error,
-                    Key = messages[key]?.ToString() ?? "Unknown",
+                    Key = key?.ToString() ?? "Unknown",
                 });
 #pragma warning restore CS8604 // Possible null reference argument.
             }
