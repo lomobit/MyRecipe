@@ -60,7 +60,7 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
         public async Task<bool> EditAsync(IngredientDto ingredientDto, CancellationToken cancellationToken)
         {
             await ValidateId(ingredientDto.Id, cancellationToken);
-            await ValidateName(ingredientDto.Name, cancellationToken);
+            await ValidateNameExceptWithId(ingredientDto.Id, ingredientDto.Name, cancellationToken);
 
             try
             {
@@ -116,6 +116,26 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
             var isNameAlreadyExist = await _context.Ingredients
                 .AsNoTracking()
                 .AnyAsync(x => x.Name == name, cancellationToken);
+            if (isNameAlreadyExist)
+            {
+                var ex = new ValidationException($"Ингредиент с названием \"{name}\" уже существует");
+                ex.Data.Add("Ингредиент", $"Ингредиент с названием \"{name}\" уже существует");
+
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Если ингредиент с заданным названием уже существует (не считая указанный идетификатор), то выбрасывает исключение.
+        /// </summary>
+        /// <param name="id">Идентификатор исключаемого ингредиента.</param>
+        /// <param name="name">Название ингредиента.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        private async Task ValidateNameExceptWithId(int id, string name, CancellationToken cancellationToken)
+        {
+            var isNameAlreadyExist = await _context.Ingredients
+                .AsNoTracking()
+                .AnyAsync(x => x.Name == name && x.Id != id, cancellationToken);
             if (isNameAlreadyExist)
             {
                 var ex = new ValidationException($"Ингредиент с названием \"{name}\" уже существует");
