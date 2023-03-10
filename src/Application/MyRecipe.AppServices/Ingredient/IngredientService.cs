@@ -28,8 +28,6 @@ namespace MyRecipe.AppServices.Ingredient
         {
             var paginatedResult = await _ingredientRepository.GetAsync(pageNumber, pageSize, cancellationToken);
             return new Pagination<IngredientDto>(
-                paginatedResult.PageNumber,
-                paginatedResult.PageSize,
                 paginatedResult.Count,
                 _mapper.Map<IEnumerable<IngredientDto>>(paginatedResult.ItemsSlice));
         }

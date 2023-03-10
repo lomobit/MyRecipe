@@ -62,7 +62,7 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
                 .Take(pageSize)
                 .ToListAsync(cancellationToken);
 
-            return new Pagination<Domain.Ingredient>(pageSize, pageNumber, ingredientsCount, ingredientSlice);
+            return new Pagination<Domain.Ingredient>(ingredientsCount, ingredientSlice);
         }
     }
 }
