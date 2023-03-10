@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyRecipe.Contracts.Api;
 using MyRecipe.Contracts.Ingredient;
@@ -48,6 +47,14 @@ namespace MyRecipe.Api.Controllers.v1
         public async Task<IActionResult> Get([FromQuery] IngredientGetQuery query, CancellationToken cancellationToken)
         {
             return await CallApiActionWithResultAsync(async () => await _mediator.Send(query, cancellationToken));
+        }
+
+        [HttpPost]
+        [Route("Edit")]
+        [ProducesResponseType(typeof(ApiResult<bool>), statusCode: StatusCodes.Status200OK)]
+        public async Task<IActionResult> Edit([FromBody] IngredientEditCommand command, CancellationToken cancellationToken)
+        {
+            return await CallApiActionWithResultAsync(async () => await _mediator.Send(command, cancellationToken));
         }
     }
 }

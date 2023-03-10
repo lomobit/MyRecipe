@@ -22,5 +22,13 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Список ингредиентов для страницы.</returns>
         Task<Pagination<Domain.Ingredient>> GetAsync(int pageNumber, int pageSize, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Изменяет ингредиент в базе данных.
+        /// </summary>
+        /// <param name="ingredientDto">Данные об ингредиенте.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Возвращает успешно ли был обновлен ингредиент.</returns>
+        Task<bool> EditAsync(IngredientDto ingredientDto, CancellationToken cancellationToken);
     }
 }

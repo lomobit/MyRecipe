@@ -17,7 +17,9 @@ namespace MyRecipe.Handlers.Ingredient
 
         public async Task<Pagination<IngredientDto>> Handle(IngredientGetQuery request, CancellationToken cancellationToken)
         {
+#pragma warning disable CS8629 // Nullable value type may be null.
             return await _ingredientService.GetAsync(request.PageNumber.Value, request.PageSize.Value, cancellationToken);
+#pragma warning restore CS8629 // Nullable value type may be null.
         }
     }
 }

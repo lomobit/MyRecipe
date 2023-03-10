@@ -10,7 +10,7 @@ namespace MyRecipe.AppServices.Ingredient
         /// Добавление ингридиента в базу данных.
         /// </summary>
         /// <param name="ingredientDto">Данные об ингредиенте.</param>
-        /// <param name="cancellationToken">Токен отмены</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Идентификатор ингридиента.</returns>
         Task<int> AddAsync(IngredientDto ingredientDto, CancellationToken cancellationToken);
 
@@ -22,5 +22,13 @@ namespace MyRecipe.AppServices.Ingredient
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Список ингредиентов для страницы.</returns>
         Task<Pagination<IngredientDto>> GetAsync(int pageNumber, int pageSize, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Изменение ингридиента в базе данных.
+        /// </summary>
+        /// <param name="ingredientDto">Данные об ингредиенте.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Возвращает успешно ли был обновлен ингредиент.</returns>
+        Task<bool> EditAsync(IngredientDto ingredientDto, CancellationToken cancellationToken);
     }
 }

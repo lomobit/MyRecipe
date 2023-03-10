@@ -31,5 +31,11 @@ namespace MyRecipe.AppServices.Ingredient
                 paginatedResult.Count,
                 _mapper.Map<IEnumerable<IngredientDto>>(paginatedResult.ItemsSlice));
         }
+
+        /// <inheritdoc/>
+        public async Task<bool> EditAsync(IngredientDto ingredientDto, CancellationToken cancellationToken)
+        {
+            return await _ingredientRepository.EditAsync(ingredientDto, cancellationToken);
+        }
     }
 }
