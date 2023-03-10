@@ -1,4 +1,5 @@
 ﻿
+using MyRecipe.Contracts.Api;
 using MyRecipe.Contracts.Ingredient;
 
 namespace MyRecipe.Infrastructure.Repositories.Ingredient
@@ -20,6 +21,6 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
         /// <param name="pageSize">Количество записей на странице.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Список ингредиентов для страницы.</returns>
-        Task<IEnumerable<Domain.Ingredient>> GetAsync(int pageNumber, int pageSize, CancellationToken cancellationToken);
+        Task<Pagination<Domain.Ingredient>> GetAsync(int pageNumber, int pageSize, CancellationToken cancellationToken);
     }
 }

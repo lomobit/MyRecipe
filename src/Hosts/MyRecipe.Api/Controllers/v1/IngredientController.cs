@@ -44,7 +44,7 @@ namespace MyRecipe.Api.Controllers.v1
         /// <returns></returns>
         [HttpGet]
         [Route("Get")]
-        [ProducesResponseType(typeof(ApiResult<IEnumerable<IngredientDto>>), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResult<Pagination<IngredientDto>>), statusCode: StatusCodes.Status200OK)]
         public async Task<IActionResult> Get([FromQuery] IngredientGetQuery query, CancellationToken cancellationToken)
         {
             return await CallApiActionWithResultAsync(async () => await _mediator.Send(query, cancellationToken));

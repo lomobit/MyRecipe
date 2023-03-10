@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using MyRecipe.Contracts.Api;
 using MyRecipe.Contracts.Ingredient;
 using MyRecipe.Infrastructure.Repositories.Ingredient;
 
@@ -23,9 +24,14 @@ namespace MyRecipe.AppServices.Ingredient
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<IngredientDto>> GetAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
+        public async Task<Pagination<IngredientDto>> GetAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            return _mapper.Map<IEnumerable<IngredientDto>>(await _ingredientRepository.GetAsync(pageNumber, pageSize, cancellationToken));
+            var paginatedResult = await _ingredientRepository.GetAsync(pageNumber, pageSize, cancellationToken);
+            return new Pagination<IngredientDto>(
+                paginatedResult.PageNumber,
+                paginatedResult.PageSize,
+                paginatedResult.Count,
+                _mapper.Map<IEnumerable<IngredientDto>>(paginatedResult.ItemsSlice));
         }
     }
 }

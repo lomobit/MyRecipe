@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using MyRecipe.Contracts.Api;
 using MyRecipe.Contracts.Ingredient;
 using System.ComponentModel.DataAnnotations;
 
@@ -50,13 +51,18 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<Domain.Ingredient>> GetAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
+        public async Task<Pagination<Domain.Ingredient>> GetAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            return await _context.Ingredients
+            var ingredientsCount = await _context.Ingredients
+                .AsNoTracking()
+                .CountAsync(cancellationToken);
+            var ingredientSlice = await _context.Ingredients
                 .AsNoTracking()
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync(cancellationToken);
+
+            return new Pagination<Domain.Ingredient>(pageSize, pageNumber, ingredientsCount, ingredientSlice);
         }
     }
 }

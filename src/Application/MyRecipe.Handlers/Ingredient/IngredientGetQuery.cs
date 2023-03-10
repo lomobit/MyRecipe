@@ -1,10 +1,11 @@
 ﻿
 using MediatR;
+using MyRecipe.Contracts.Api;
 using MyRecipe.Contracts.Ingredient;
 
 namespace MyRecipe.Handlers.Ingredient
 {
-    public class IngredientGetQuery : IRequest<IEnumerable<IngredientDto>>
+    public class IngredientGetQuery : IRequest<Pagination<IngredientDto>>
     {
         /// <summary>
         /// Номер страницы.

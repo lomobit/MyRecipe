@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MyRecipe.AppServices.Ingredient;
+using MyRecipe.Contracts.Api;
 using MyRecipe.Contracts.Ingredient;
 using MyRecipe.Handlers.Ingredient;
 using MyRecipe.Infrastructure;
@@ -123,7 +124,7 @@ namespace MyRecipe.ComponentRegistrar
         /// <returns>Коллекция сервисов DI.</returns>
         public static IServiceCollection AddMyRecipePipelineBehaviors(this IServiceCollection services)
         {
-            services.AddScoped<IPipelineBehavior<IngredientGetQuery, IEnumerable<IngredientDto>>, IngredientGetQueryBehavior>();
+            services.AddScoped<IPipelineBehavior<IngredientGetQuery, Pagination<IngredientDto>>, IngredientGetQueryBehavior>();
 
             return services;
         }

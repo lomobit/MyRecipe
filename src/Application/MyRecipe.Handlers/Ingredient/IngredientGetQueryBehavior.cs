@@ -1,12 +1,13 @@
 ﻿
 using MediatR;
 using Microsoft.Extensions.Logging;
+using MyRecipe.Contracts.Api;
 using MyRecipe.Contracts.Ingredient;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyRecipe.Handlers.Ingredient
 {
-    public class IngredientGetQueryBehavior : IPipelineBehavior<IngredientGetQuery, IEnumerable<IngredientDto>>
+    public class IngredientGetQueryBehavior : IPipelineBehavior<IngredientGetQuery, Pagination<IngredientDto>>
     {
         private readonly ILogger _logger;
 
@@ -15,7 +16,7 @@ namespace MyRecipe.Handlers.Ingredient
             _logger = logger;
         }
 
-        public async Task<IEnumerable<IngredientDto>> Handle(IngredientGetQuery request, RequestHandlerDelegate<IEnumerable<IngredientDto>> next, CancellationToken cancellationToken)
+        public async Task<Pagination<IngredientDto>> Handle(IngredientGetQuery request, RequestHandlerDelegate<Pagination<IngredientDto>> next, CancellationToken cancellationToken)
         {
             if (request == null || !request.PageNumber.HasValue || !request.PageSize.HasValue)
             {
