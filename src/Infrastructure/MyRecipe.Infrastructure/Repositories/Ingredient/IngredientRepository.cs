@@ -115,7 +115,7 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
         {
             var isNameAlreadyExist = await _context.Ingredients
                 .AsNoTracking()
-                .AnyAsync(x => x.Name == name, cancellationToken);
+                .AnyAsync(x => x.Name.ToLower() == name.ToLower(), cancellationToken);
             if (isNameAlreadyExist)
             {
                 var ex = new ValidationException($"Ингредиент с названием \"{name}\" уже существует");
@@ -135,7 +135,7 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
         {
             var isNameAlreadyExist = await _context.Ingredients
                 .AsNoTracking()
-                .AnyAsync(x => x.Name == name && x.Id != id, cancellationToken);
+                .AnyAsync(x => x.Name.ToLower() == name.ToLower() && x.Id != id, cancellationToken);
             if (isNameAlreadyExist)
             {
                 var ex = new ValidationException($"Ингредиент с названием \"{name}\" уже существует");
