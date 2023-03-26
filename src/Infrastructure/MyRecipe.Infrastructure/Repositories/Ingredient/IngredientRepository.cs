@@ -2,6 +2,9 @@
 using MyRecipe.Contracts.Api;
 using MyRecipe.Contracts.Ingredient;
 using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
+using MyRecipe.Contracts.Enums.Common;
+using MyRecipe.Contracts.Enums.Ingredient;
 using MyRecipe.Handlers.Contracts.Ingredient;
 
 namespace MyRecipe.Infrastructure.Repositories.Ingredient
@@ -44,12 +47,22 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
         /// <inheritdoc/>
         public async Task<Pagination<Domain.Ingredient>> GetAsync(IngredientGetQuery request, CancellationToken cancellationToken)
         {
-            var ingredientsCount = await _context.Ingredients
-                .AsNoTracking()
+            var commonQuery = _context.Ingredients.AsNoTracking();
+
+            // Добавление фильтрации по имени
+            if (!string.IsNullOrEmpty(request.NameFilter))
+            {
+                commonQuery = commonQuery.Where(x => x.Name.ToLower().Contains(request.NameFilter.ToLower()));
+            }
+
+            // Добавление сортировки
+            var fieldExpression = GetExpressionsForGet(request.SortingField);
+            var sliceQuery = AddSortingForGet(commonQuery, request.SortingOrder, fieldExpression);
+            
+            var ingredientsCount = await commonQuery
                 .CountAsync(cancellationToken);
-            var ingredientSlice = await _context.Ingredients
-                .AsNoTracking()
-                .OrderBy(x => x.Id)
+            
+            var ingredientSlice = await sliceQuery
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
@@ -84,6 +97,41 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
             finally
             {
                 _context.ChangeTracker.Clear();
+            }
+        }
+        
+        /// <summary>
+        /// Возвращает Expression для методов сортировки, в зависимости от используемого для сортировки поля.
+        /// </summary>
+        /// <param name="sortingField">Используемое для сортировки поле.</param>
+        private Expression<Func<Domain.Ingredient, object>> GetExpressionsForGet(SortingFieldEnum sortingField)
+        {
+            switch (sortingField)
+            {
+                case SortingFieldEnum.Name:
+                    return x => x.Name;
+                default:
+                    return x => x.Id;
+            }
+        }
+
+        /// <summary>
+        /// Возвращает IQueryable с добавленной сортировкой.
+        /// </summary>
+        /// <param name="query">Изначальный IQueryable.</param>
+        /// <param name="sortingOrder">Порядок сортировки.</param>
+        /// <param name="expression">Expression для сортировки.</param>
+        private IQueryable<Domain.Ingredient> AddSortingForGet(
+            IQueryable<Domain.Ingredient> query,
+            SortingOrderEnum sortingOrder,
+            Expression<Func<Domain.Ingredient, object>> expression)
+        {
+            switch (sortingOrder)
+            {
+                case SortingOrderEnum.Descending:
+                    return query.OrderByDescending(expression);
+                default:
+                    return query.OrderBy(expression);
             }
         }
 
