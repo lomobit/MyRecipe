@@ -52,6 +52,7 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
             // Добавление фильтрации по имени
             if (!string.IsNullOrEmpty(request.NameFilter))
             {
+                // TODO: добавить валидацию текстовых полей в Behaviour для всех запросов, потому что сейчас доступна SQL-инъекция для запросов.
                 commonQuery = commonQuery.Where(x => x.Name.ToLower().Contains(request.NameFilter.ToLower()));
             }
 
