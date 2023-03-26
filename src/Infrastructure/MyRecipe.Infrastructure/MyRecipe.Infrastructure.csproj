@@ -17,6 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Contracts\MyRecipe.Handlers.Contracts\MyRecipe.Handlers.Contracts.csproj" />
       <ProjectReference Include="..\..\Domain\MyRecipe.Domain\MyRecipe.Domain.csproj" />
     </ItemGroup>
 

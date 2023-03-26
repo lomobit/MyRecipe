@@ -2,6 +2,7 @@
 using MyRecipe.Contracts.Api;
 using MyRecipe.Contracts.Ingredient;
 using System.ComponentModel.DataAnnotations;
+using MyRecipe.Handlers.Contracts.Ingredient;
 
 namespace MyRecipe.Infrastructure.Repositories.Ingredient
 {
@@ -41,7 +42,7 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
         }
 
         /// <inheritdoc/>
-        public async Task<Pagination<Domain.Ingredient>> GetAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
+        public async Task<Pagination<Domain.Ingredient>> GetAsync(IngredientGetQuery request, CancellationToken cancellationToken)
         {
             var ingredientsCount = await _context.Ingredients
                 .AsNoTracking()
@@ -49,8 +50,8 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
             var ingredientSlice = await _context.Ingredients
                 .AsNoTracking()
                 .OrderBy(x => x.Id)
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
 
             return new Pagination<Domain.Ingredient>(ingredientsCount, ingredientSlice);

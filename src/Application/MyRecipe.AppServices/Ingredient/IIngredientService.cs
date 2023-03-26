@@ -1,6 +1,7 @@
 ﻿
 using MyRecipe.Contracts.Api;
 using MyRecipe.Contracts.Ingredient;
+using MyRecipe.Handlers.Contracts.Ingredient;
 
 namespace MyRecipe.AppServices.Ingredient
 {
@@ -17,11 +18,10 @@ namespace MyRecipe.AppServices.Ingredient
         /// <summary>
         /// Получение из базы списка ингредиентов с пейджинацией.
         /// </summary>
-        /// <param name="pageNumber">Номер страницы.</param>
-        /// <param name="pageSize">Количество записей на странице.</param>
+        /// <param name="request">Данные запроса.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Список ингредиентов для страницы.</returns>
-        Task<Pagination<IngredientDto>> GetAsync(int pageNumber, int pageSize, CancellationToken cancellationToken);
+        Task<Pagination<IngredientDto>> GetAsync(IngredientGetQuery request, CancellationToken cancellationToken);
 
         /// <summary>
         /// Изменение ингридиента в базе данных.

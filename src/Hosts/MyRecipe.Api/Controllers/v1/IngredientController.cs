@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MyRecipe.Contracts.Api;
 using MyRecipe.Contracts.Ingredient;
-using MyRecipe.Handlers.Ingredient;
+using MyRecipe.Handlers.Contracts.Ingredient;
 
 namespace MyRecipe.Api.Controllers.v1
 {

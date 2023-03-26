@@ -43,3 +43,5 @@
 /src/Contracts/MyRecipeLogging.Contracts/bin
 /src/Application/MyRecipe.AppServices/bin
 /src/Application/MyRecipe.AppServices/obj
+/src/Contracts/MyRecipe.Handlers.Contracts/bin
+/src/Contracts/MyRecipe.Handlers.Contracts/obj

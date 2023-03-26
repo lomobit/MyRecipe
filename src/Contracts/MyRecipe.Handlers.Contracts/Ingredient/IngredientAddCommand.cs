@@ -1,14 +1,9 @@
 ﻿using MediatR;
 
-namespace MyRecipe.Handlers.Ingredient
+namespace MyRecipe.Handlers.Contracts.Ingredient
 {
-    public class IngredientEditCommand : IRequest<bool>
+    public class IngredientAddCommand : IRequest<int>
     {
-        /// <summary>
-        /// Идентификатор изменяемого ингредиента.
-        /// </summary>
-        public int Id { get; set; }
-
         /// <summary>
         /// Наименование ингридиента.
         /// </summary>

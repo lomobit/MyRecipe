@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using MyRecipe.AppServices.Ingredient;
 using MyRecipe.Contracts.Api;
 using MyRecipe.Contracts.Ingredient;
+using MyRecipe.Handlers.Contracts.Ingredient;
 using MyRecipe.Handlers.Ingredient;
 using MyRecipe.Infrastructure;
 using MyRecipe.Infrastructure.MappingProfiles;

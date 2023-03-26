@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using MyRecipe.Contracts.Api;
 using MyRecipe.Contracts.Ingredient;
 using System.ComponentModel.DataAnnotations;
+using MyRecipe.Handlers.Contracts.Ingredient;
 
 namespace MyRecipe.Handlers.Ingredient
 {
@@ -18,7 +19,7 @@ namespace MyRecipe.Handlers.Ingredient
 
         public async Task<Pagination<IngredientDto>> Handle(IngredientGetQuery request, RequestHandlerDelegate<Pagination<IngredientDto>> next, CancellationToken cancellationToken)
         {
-            if (request == null || !request.PageNumber.HasValue || !request.PageSize.HasValue)
+            if (request == null || request.PageNumber < 1 || request.PageSize < 1)
             {
                 _logger.LogError($"Некорректный запрос {nameof(IngredientGetQuery)} в {nameof(IngredientGetQueryBehavior)}");
                 
