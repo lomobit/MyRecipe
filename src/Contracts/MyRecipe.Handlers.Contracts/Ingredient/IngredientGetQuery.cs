@@ -11,7 +11,7 @@ namespace MyRecipe.Handlers.Contracts.Ingredient
         /// <summary>
         /// Номер страницы.
         /// </summary>
-        public int PageNumber { get; set; }
+        public int PageNumber { get; set; } = 1;
 
         /// <summary>
         /// Размер страницы.
