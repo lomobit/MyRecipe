@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Contracts\MyRecipe.Contracts\MyRecipe.Contracts.csproj" />
-    <ProjectReference Include="..\..\Contracts\MyRecipeFiles.Handlers.Contracts\MyRecipeFiles.Handlers.Contracts.csproj" />
     <ProjectReference Include="..\..\Infrastructure\MyRecipeFiles.Infrastructure\MyRecipeFiles.Infrastructure.csproj" />
   </ItemGroup>
 

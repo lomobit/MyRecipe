@@ -8,18 +8,15 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Application\MyRecipe.AppServices\MyRecipe.AppServices.csproj" />
     <ProjectReference Include="..\..\Application\MyRecipe.Handlers\MyRecipe.Handlers.csproj" />
     <ProjectReference Include="..\..\Application\MyRecipeFiles.AppServices\MyRecipeFiles.AppServices.csproj" />
-    <ProjectReference Include="..\..\Contracts\MyRecipe.Handlers.Contracts\MyRecipe.Handlers.Contracts.csproj" />
     <ProjectReference Include="..\..\Logging\MyRecipe.Logging\MyRecipe.Logging.csproj" />
+    <ProjectReference Include="..\MyRecipe.Infrastructure\MyRecipe.Infrastructure.csproj" />
     <ProjectReference Include="..\MyRecipeFiles.Infrastructure\MyRecipeFiles.Infrastructure.csproj" />
     <ProjectReference Include="..\MyRecipeLogging.Infrastructure\MyRecipeLogging.Infrastructure.csproj" />
   </ItemGroup>
