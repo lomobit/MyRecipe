@@ -1,8 +1,8 @@
 ﻿using MyRecipe.Contracts.File;
 
-namespace MyRecipeFiles.AppServices.File
+namespace MyRecipeFiles.Infrastructure.Repositories.File
 {
-    public interface IFileService
+    public interface IFileRepository
     {
         /// <summary>
         /// Метод загрузки файла в базу данных.

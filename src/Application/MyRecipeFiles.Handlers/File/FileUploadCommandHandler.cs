@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using MyRecipe.Contracts.File;
 using MyRecipeFiles.AppServices.File;
 using MyRecipeFiles.Handlers.Contracts.File;
 
@@ -15,7 +16,14 @@ namespace MyRecipeFiles.Handlers.File
 
         public async Task<Guid> Handle(FileUploadCommand command, CancellationToken cancellationToken)
         {
-            return await _fileService.UploadAsync(command, cancellationToken);
+            var fileDto = new FileDto()
+            {
+                Name = command.Name,
+                Content = command.Content,
+                Size = command.Size
+            };
+
+            return await _fileService.UploadAsync(fileDto, cancellationToken);
         }
     }
 }
