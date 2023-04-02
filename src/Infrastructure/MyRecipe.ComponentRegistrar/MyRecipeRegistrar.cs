@@ -15,6 +15,7 @@ using MyRecipe.Infrastructure.Repositories.Ingredient;
 using MyRecipe.Logging.Loggers;
 using MyRecipeFiles.AppServices.File;
 using MyRecipeFiles.Infrastructure;
+using MyRecipeFiles.Infrastructure.Repositories.File;
 using MyRecipeLogging.Infrastructure;
 using MyRecipeLogging.Infrastructure.MappingProfiles;
 using MyRecipeLogging.Infrastructure.Repositories.Log;
@@ -90,6 +91,9 @@ namespace MyRecipe.ComponentRegistrar
 
             // Репозитории MyRecipeLoggingDbContext'а
             services.AddScoped<ILogRepository, LogRepository>();
+
+            // Репозитории MyRecipeFilesDbContext'а
+            services.AddScoped<IFileRepository, FileRepository>();
 
             return services;
         }

@@ -42,7 +42,7 @@ namespace MyRecipe.Api.Controllers.v1
 
             var command = new FileUploadCommand
             {
-                Name = file.Name,
+                Name = file.FileName,
                 Content = fileContent,
                 Size = file.Length
             };
