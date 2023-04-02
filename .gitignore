@@ -45,3 +45,7 @@
 /src/Application/MyRecipe.AppServices/obj
 /src/Contracts/MyRecipe.Handlers.Contracts/bin
 /src/Contracts/MyRecipe.Handlers.Contracts/obj
+/src/Domain/MyRecipeFiles.Domain/bin
+/src/Domain/MyRecipeFiles.Domain/obj
+/src/Infrastructure/MyRecipeFiles.Infrastructure/bin
+/src/Infrastructure/MyRecipeFiles.Infrastructure/obj

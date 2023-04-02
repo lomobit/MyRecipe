@@ -13,6 +13,7 @@ using MyRecipe.Infrastructure;
 using MyRecipe.Infrastructure.MappingProfiles;
 using MyRecipe.Infrastructure.Repositories.Ingredient;
 using MyRecipe.Logging.Loggers;
+using MyRecipeFiles.Infrastructure;
 using MyRecipeLogging.Infrastructure;
 using MyRecipeLogging.Infrastructure.MappingProfiles;
 using MyRecipeLogging.Infrastructure.Repositories.Log;
@@ -58,6 +59,7 @@ namespace MyRecipe.ComponentRegistrar
         {
             services.AddDbContext<MyRecipeDbContext>(AddMyRecipeDbContext, ServiceLifetime.Scoped);
             services.AddDbContext<MyRecipeLoggingDbContext>(AddMyRecipeLoggingDbContext, ServiceLifetime.Scoped);
+            services.AddDbContext<MyRecipeFilesDbContext>(AddMyRecipeFilesDbContext, ServiceLifetime.Scoped);
 
             return services;
         }
@@ -148,6 +150,16 @@ namespace MyRecipe.ComponentRegistrar
         private static void AddMyRecipeLoggingDbContext(IServiceProvider sp, DbContextOptionsBuilder dbOptions)
         {
             AddDbContextAction("MyRecipeLoggingDb", sp, dbOptions);
+        }
+
+        /// <summary>
+        /// Метод <see cref="Action"/>'а для добавления контекста базы данных MyRecipeFiles в коллекцию сервисов DI.
+        /// </summary>
+        /// <param name="sp">Провайдер сервисов.</param>
+        /// <param name="dbOptions">Опции для построения конекста базы данных.</param>
+        private static void AddMyRecipeFilesDbContext(IServiceProvider sp, DbContextOptionsBuilder dbOptions)
+        {
+            AddDbContextAction("MyRecipeFilesDb", sp, dbOptions);
         }
 
         /// <summary>

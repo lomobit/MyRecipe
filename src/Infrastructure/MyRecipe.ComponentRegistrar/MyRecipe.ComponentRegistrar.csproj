@@ -19,6 +19,7 @@
     <ProjectReference Include="..\..\Application\MyRecipe.Handlers\MyRecipe.Handlers.csproj" />
     <ProjectReference Include="..\..\Contracts\MyRecipe.Handlers.Contracts\MyRecipe.Handlers.Contracts.csproj" />
     <ProjectReference Include="..\..\Logging\MyRecipe.Logging\MyRecipe.Logging.csproj" />
+    <ProjectReference Include="..\MyRecipeFiles.Infrastructure\MyRecipeFiles.Infrastructure.csproj" />
     <ProjectReference Include="..\MyRecipeLogging.Infrastructure\MyRecipeLogging.Infrastructure.csproj" />
   </ItemGroup>
 
