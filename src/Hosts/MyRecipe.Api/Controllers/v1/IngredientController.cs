@@ -22,7 +22,7 @@ namespace MyRecipe.Api.Controllers.v1
         }
 
         /// <summary>
-        /// 
+        /// Добавление ингредиента.
         /// </summary>
         /// <param name="command"></param>
         /// <param name="cancellationToken"></param>
@@ -36,7 +36,7 @@ namespace MyRecipe.Api.Controllers.v1
         }
 
         /// <summary>
-        /// 
+        /// Получение ингредиентов.
         /// </summary>
         /// <param name="query"></param>
         /// <param name="cancellationToken"></param>
@@ -49,6 +49,12 @@ namespace MyRecipe.Api.Controllers.v1
             return await CallApiActionWithResultAsync(async () => await _mediator.Send(query, cancellationToken));
         }
 
+        /// <summary>
+        /// Изменение ингредиента.
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("Edit")]
         [ProducesResponseType(typeof(ApiResult<bool>), statusCode: StatusCodes.Status200OK)]

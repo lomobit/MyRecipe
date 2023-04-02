@@ -22,7 +22,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Application\MyRecipe.AppServices\MyRecipe.AppServices.csproj" />
     <ProjectReference Include="..\..\Application\MyRecipe.Handlers\MyRecipe.Handlers.csproj" />
+    <ProjectReference Include="..\..\Application\MyRecipeFiles.Handlers\MyRecipeFiles.Handlers.csproj" />
     <ProjectReference Include="..\..\Contracts\MyRecipe.Handlers.Contracts\MyRecipe.Handlers.Contracts.csproj" />
+    <ProjectReference Include="..\..\Contracts\MyRecipeFiles.Handlers.Contracts\MyRecipeFiles.Handlers.Contracts.csproj" />
     <ProjectReference Include="..\..\Infrastructure\MyRecipe.ComponentRegistrar\MyRecipe.ComponentRegistrar.csproj" />
     <ProjectReference Include="..\..\Infrastructure\MyRecipe.Infrastructure\MyRecipe.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Logging\MyRecipe.Logging\MyRecipe.Logging.csproj" />

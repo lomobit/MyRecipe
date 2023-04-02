@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MyRecipe.AppServices.File;
 using MyRecipe.AppServices.Ingredient;
 using MyRecipe.Contracts.Api;
 using MyRecipe.Contracts.Ingredient;
@@ -72,6 +73,7 @@ namespace MyRecipe.ComponentRegistrar
         public static IServiceCollection AddMyRecipeServices(this IServiceCollection services)
         {
             services.AddScoped<IIngredientService, IngredientService>();
+            services.AddScoped<IFileService, FileService>();
 
             return services;
         }
