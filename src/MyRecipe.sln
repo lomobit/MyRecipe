@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRecipe.AppServices", "App
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{D8E10566-B843-4825-B0D5-E006464BAD53}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRecipe.Common", "Common\MyRecipe.Common\MyRecipe.Common.csproj", "{392FF990-CD83-4365-8C55-BC0E37B00373}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRecipe.Common.ComponentRegistrar", "Common\MyRecipe.Common.ComponentRegistrar\MyRecipe.Common.ComponentRegistrar.csproj", "{392FF990-CD83-4365-8C55-BC0E37B00373}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logging", "Logging", "{04AE969F-D264-462C-96D7-A097F153074B}"
 EndProject
@@ -56,6 +56,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRecipeFiles.AppServices", "Application\MyRecipeFiles.AppServices\MyRecipeFiles.AppServices.csproj", "{3DB95C6A-591D-4D37-928F-688F4CAEBF2A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ComponentRegistrar", "ComponentRegistrar", "{69748607-A6EB-461E-B014-10ECAEAE4294}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyRecipeLogging.ComponentRegistrar", "ComponentRegistrar\MyRecipeLogging.ComponentRegistrar\MyRecipeLogging.ComponentRegistrar.csproj", "{FDEFFDAB-A1E1-4753-920C-DA16FBC7C630}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -135,6 +137,10 @@ Global
 		{3DB95C6A-591D-4D37-928F-688F4CAEBF2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DB95C6A-591D-4D37-928F-688F4CAEBF2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DB95C6A-591D-4D37-928F-688F4CAEBF2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDEFFDAB-A1E1-4753-920C-DA16FBC7C630}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDEFFDAB-A1E1-4753-920C-DA16FBC7C630}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDEFFDAB-A1E1-4753-920C-DA16FBC7C630}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDEFFDAB-A1E1-4753-920C-DA16FBC7C630}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -158,6 +164,7 @@ Global
 		{2AAB75D0-D1DD-4352-82FC-F94179101772} = {F52BF040-504C-4F09-9850-5FF87506F757}
 		{9A189E1C-5B12-4FCA-9E27-BC0C320EC419} = {B857B53E-DCA2-4BC9-87AC-C941FD2DCDFA}
 		{3DB95C6A-591D-4D37-928F-688F4CAEBF2A} = {F52BF040-504C-4F09-9850-5FF87506F757}
+		{FDEFFDAB-A1E1-4753-920C-DA16FBC7C630} = {69748607-A6EB-461E-B014-10ECAEAE4294}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {156C03F2-72DF-4AE9-9B8A-A00E22065A42}

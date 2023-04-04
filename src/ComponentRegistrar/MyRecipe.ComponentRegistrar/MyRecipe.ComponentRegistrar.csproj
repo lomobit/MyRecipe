@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -8,17 +8,15 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Application\MyRecipe.AppServices\MyRecipe.AppServices.csproj" />
     <ProjectReference Include="..\..\Application\MyRecipe.Handlers\MyRecipe.Handlers.csproj" />
     <ProjectReference Include="..\..\Application\MyRecipeFiles.AppServices\MyRecipeFiles.AppServices.csproj" />
-    <ProjectReference Include="..\..\Logging\MyRecipe.Logging\MyRecipe.Logging.csproj" />
+    <ProjectReference Include="..\..\Common\MyRecipe.Common.ComponentRegistrar\MyRecipe.Common.ComponentRegistrar.csproj" />
     <ProjectReference Include="..\..\Infrastructure\MyRecipe.Infrastructure\MyRecipe.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\MyRecipeFiles.Infrastructure\MyRecipeFiles.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\MyRecipeLogging.Infrastructure\MyRecipeLogging.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

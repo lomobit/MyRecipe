@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyRecipe.ComponentRegistrar;
 using MyRecipe.Handlers;
 using MyRecipeFiles.Handlers;
+using MyRecipeLogging.ComponentRegistrar;
 
 // Задаем сборке аттрибут, что все контроллеры - это API-контроллеры
 [assembly: ApiController]
@@ -23,6 +24,7 @@ builder.Services.AddCors();
 
 // Добавление зависимостей для MyRecipe
 builder.Services.AddMyRecipe();
+builder.Services.AddMyRecipeLogging();
 
 
 var app = builder.Build();

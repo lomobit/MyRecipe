@@ -23,8 +23,8 @@
 /src/Application/AppServices/obj
 /src/Infrastructure/MyRecipe.DataAccess/bin
 /src/Infrastructure/MyRecipe.DataAccess/obj
-/src/Common/MyRecipe.Common/obj
-/src/Common/MyRecipe.Common/bin
+/src/Common/MyRecipe.Common.ComponentRegistrar/obj
+/src/Common/MyRecipe.Common.ComponentRegistrar/bin
 /src/Logging/MyRecipe.Logging/obj
 /src/Logging/MyRecipe.Logging/bin
 /src/MyRecipeLogging.Infrastructure/obj
@@ -53,3 +53,5 @@
 /src/Application/MyRecipeFiles.AppServices/obj
 /src/ComponentRegistrar/MyRecipe.ComponentRegistrar/obj
 /src/ComponentRegistrar/MyRecipe.ComponentRegistrar/bin
+/src/ComponentRegistrar/MyRecipeLogging.ComponentRegistrar/obj
+/src/ComponentRegistrar/MyRecipeLogging.ComponentRegistrar/bin

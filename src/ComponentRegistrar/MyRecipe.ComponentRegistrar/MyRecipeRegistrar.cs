@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using MyRecipe.AppServices.Ingredient;
+using MyRecipe.Common.ComponentRegistrar;
 using MyRecipe.Contracts.Api;
 using MyRecipe.Contracts.Ingredient;
 using MyRecipe.Handlers.Contracts.Ingredient;
@@ -12,13 +11,9 @@ using MyRecipe.Handlers.Ingredient;
 using MyRecipe.Infrastructure;
 using MyRecipe.Infrastructure.MappingProfiles;
 using MyRecipe.Infrastructure.Repositories.Ingredient;
-using MyRecipe.Logging.Loggers;
 using MyRecipeFiles.AppServices.File;
 using MyRecipeFiles.Infrastructure;
 using MyRecipeFiles.Infrastructure.Repositories.File;
-using MyRecipeLogging.Infrastructure;
-using MyRecipeLogging.Infrastructure.MappingProfiles;
-using MyRecipeLogging.Infrastructure.Repositories.Log;
 
 namespace MyRecipe.ComponentRegistrar
 {
@@ -40,9 +35,6 @@ namespace MyRecipe.ComponentRegistrar
             // Добавление репозиториев для работы с базой данных
             services.AddMyRecipeRepositories();
 
-            // Добавление логгеров
-            services.AddMyRecipeLoggers();
-
             // Добавление автомапперов.
             services.AddMyRecipeMappers();
 
@@ -60,7 +52,6 @@ namespace MyRecipe.ComponentRegistrar
         public static IServiceCollection AddMyRecipeDbContexts(this IServiceCollection services)
         {
             services.AddDbContext<MyRecipeDbContext>(AddMyRecipeDbContext, ServiceLifetime.Scoped);
-            services.AddDbContext<MyRecipeLoggingDbContext>(AddMyRecipeLoggingDbContext, ServiceLifetime.Scoped);
             services.AddDbContext<MyRecipeFilesDbContext>(AddMyRecipeFilesDbContext, ServiceLifetime.Scoped);
 
             return services;
@@ -89,23 +80,8 @@ namespace MyRecipe.ComponentRegistrar
             // Репозитории MyRecipeDbContext'а
             services.AddScoped<IIngredientRepository, IngredientRepository>();
 
-            // Репозитории MyRecipeLoggingDbContext'а
-            services.AddScoped<ILogRepository, LogRepository>();
-
             // Репозитории MyRecipeFilesDbContext'а
             services.AddScoped<IFileRepository, FileRepository>();
-
-            return services;
-        }
-
-        /// <summary>
-        /// Добавление логгеров.
-        /// </summary>
-        /// <param name="services">Коллекция сервисов DI.</param>
-        /// <returns>Коллекция сервисов DI.</returns>
-        public static IServiceCollection AddMyRecipeLoggers(this IServiceCollection services)
-        {
-            services.AddScoped<ILogger, DbLogger>();
 
             return services;
         }
@@ -119,7 +95,6 @@ namespace MyRecipe.ComponentRegistrar
         {
             services.AddAutoMapper((IMapperConfigurationExpression cfg) =>
             {
-                cfg.AddProfile<MyRecipeLoggingMappingProfile>();
                 cfg.AddProfile<MyRecipeMappingProfile>();
             });
 
@@ -145,17 +120,7 @@ namespace MyRecipe.ComponentRegistrar
         /// <param name="dbOptions">Опции для построения конекста базы данных.</param>
         private static void AddMyRecipeDbContext(IServiceProvider sp, DbContextOptionsBuilder dbOptions)
         {
-            AddDbContextAction("MyRecipeDb", sp, dbOptions);
-        }
-
-        /// <summary>
-        /// Метод <see cref="Action"/>'а для добавления контекста базы данных MyRecipeLogging в коллекцию сервисов DI.
-        /// </summary>
-        /// <param name="sp">Провайдер сервисов.</param>
-        /// <param name="dbOptions">Опции для построения конекста базы данных.</param>
-        private static void AddMyRecipeLoggingDbContext(IServiceProvider sp, DbContextOptionsBuilder dbOptions)
-        {
-            AddDbContextAction("MyRecipeLoggingDb", sp, dbOptions);
+            RegistrarHelper.AddDbContextAction("MyRecipeDb", sp, dbOptions);
         }
 
         /// <summary>
@@ -165,28 +130,7 @@ namespace MyRecipe.ComponentRegistrar
         /// <param name="dbOptions">Опции для построения конекста базы данных.</param>
         private static void AddMyRecipeFilesDbContext(IServiceProvider sp, DbContextOptionsBuilder dbOptions)
         {
-            AddDbContextAction("MyRecipeFilesDb", sp, dbOptions);
-        }
-
-        /// <summary>
-        /// Метод <see cref="Action"/>'а для добавления контекста базы данных в коллекцию сервисов DI.
-        /// </summary>
-        /// <param name="connectionStringName">Название строки подключения.</param>
-        /// <param name="sp">Провайдер сервисов.</param>
-        /// <param name="dbOptions">Опции для построения конекста базы данных.</param>
-        /// <exception cref="InvalidOperationException">Не найдена строка подключения.</exception>
-        private static void AddDbContextAction(string connectionStringName, IServiceProvider sp, DbContextOptionsBuilder dbOptions)
-        {
-            var connectionString = sp.GetRequiredService<IConfiguration>().GetConnectionString(connectionStringName);
-            if (string.IsNullOrEmpty(connectionString))
-            {
-                throw new InvalidOperationException($"Не найдена строка подключения с именем {connectionStringName}");
-            }
-
-            dbOptions
-                .UseLazyLoadingProxies()
-                //.UseLoggerFactory(sp.GetRequiredService<ILoggerFactory>())
-                .UseNpgsql(connectionString);
+            RegistrarHelper.AddDbContextAction("MyRecipeFilesDb", sp, dbOptions);
         }
     }
 }
