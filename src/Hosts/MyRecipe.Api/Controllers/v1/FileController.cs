@@ -27,9 +27,6 @@ namespace MyRecipe.Api.Controllers.v1
             try
             {
                 var fileDto = await _mediator.Send(new FileDownloadRequest(guid), cancellationToken);
-
-                Response.Headers.Add("Content-Disposition", "inline");
-
                 return new FileContentResult(fileDto.Content, "application/octet-stream")
                 {
                     FileDownloadName = fileDto.Name
