@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRecipe.Logging", "Logging
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRecipeLogging.Infrastructure", "Infrastructure\MyRecipeLogging.Infrastructure\MyRecipeLogging.Infrastructure.csproj", "{6FBBD80B-F5FE-409D-B3D5-4A391991EC47}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRecipe.ComponentRegistrar", "Infrastructure\MyRecipe.ComponentRegistrar\MyRecipe.ComponentRegistrar.csproj", "{1FC8566F-F698-4C2F-876A-75316691BC9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRecipe.ComponentRegistrar", "ComponentRegistrar\MyRecipe.ComponentRegistrar\MyRecipe.ComponentRegistrar.csproj", "{1FC8566F-F698-4C2F-876A-75316691BC9B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRecipeLogging.Domain", "Domain\MyRecipeLogging.Domain\MyRecipeLogging.Domain.csproj", "{692F76F0-CF4B-4DCF-86A4-9D5436C29EB1}"
 EndProject
@@ -45,15 +45,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{0600
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRecipe.Handlers.Contracts", "Contracts\MyRecipe.Handlers.Contracts\MyRecipe.Handlers.Contracts.csproj", "{993BD569-BBDA-4A0A-B787-3341BF6465BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyRecipeFiles.Domain", "Domain\MyRecipeFiles.Domain\MyRecipeFiles.Domain.csproj", "{E9E79156-0B3D-4A20-A5AF-DA0A46B108C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRecipeFiles.Domain", "Domain\MyRecipeFiles.Domain\MyRecipeFiles.Domain.csproj", "{E9E79156-0B3D-4A20-A5AF-DA0A46B108C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyRecipeFiles.Infrastructure", "Infrastructure\MyRecipeFiles.Infrastructure\MyRecipeFiles.Infrastructure.csproj", "{5C17E97F-F413-40C1-9CA2-FAD8C4C200B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRecipeFiles.Infrastructure", "Infrastructure\MyRecipeFiles.Infrastructure\MyRecipeFiles.Infrastructure.csproj", "{5C17E97F-F413-40C1-9CA2-FAD8C4C200B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyRecipeFiles.Handlers", "Application\MyRecipeFiles.Handlers\MyRecipeFiles.Handlers.csproj", "{2AAB75D0-D1DD-4352-82FC-F94179101772}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRecipeFiles.Handlers", "Application\MyRecipeFiles.Handlers\MyRecipeFiles.Handlers.csproj", "{2AAB75D0-D1DD-4352-82FC-F94179101772}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyRecipeFiles.Handlers.Contracts", "Contracts\MyRecipeFiles.Handlers.Contracts\MyRecipeFiles.Handlers.Contracts.csproj", "{9A189E1C-5B12-4FCA-9E27-BC0C320EC419}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRecipeFiles.Handlers.Contracts", "Contracts\MyRecipeFiles.Handlers.Contracts\MyRecipeFiles.Handlers.Contracts.csproj", "{9A189E1C-5B12-4FCA-9E27-BC0C320EC419}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyRecipeFiles.AppServices", "Application\MyRecipeFiles.AppServices\MyRecipeFiles.AppServices.csproj", "{3DB95C6A-591D-4D37-928F-688F4CAEBF2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRecipeFiles.AppServices", "Application\MyRecipeFiles.AppServices\MyRecipeFiles.AppServices.csproj", "{3DB95C6A-591D-4D37-928F-688F4CAEBF2A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ComponentRegistrar", "ComponentRegistrar", "{69748607-A6EB-461E-B014-10ECAEAE4294}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -147,7 +149,7 @@ Global
 		{392FF990-CD83-4365-8C55-BC0E37B00373} = {D8E10566-B843-4825-B0D5-E006464BAD53}
 		{14DCF74D-3454-499A-A1A2-BF232E98FA34} = {04AE969F-D264-462C-96D7-A097F153074B}
 		{6FBBD80B-F5FE-409D-B3D5-4A391991EC47} = {0042F6BA-5A29-4AEA-9A2C-E1042A80C2CF}
-		{1FC8566F-F698-4C2F-876A-75316691BC9B} = {0042F6BA-5A29-4AEA-9A2C-E1042A80C2CF}
+		{1FC8566F-F698-4C2F-876A-75316691BC9B} = {69748607-A6EB-461E-B014-10ECAEAE4294}
 		{692F76F0-CF4B-4DCF-86A4-9D5436C29EB1} = {22CB87D7-55A9-46C6-A31F-2C9457F5961A}
 		{28D3C9E5-B095-46AC-8D3A-68F5DA2C8F3E} = {B857B53E-DCA2-4BC9-87AC-C941FD2DCDFA}
 		{993BD569-BBDA-4A0A-B787-3341BF6465BA} = {B857B53E-DCA2-4BC9-87AC-C941FD2DCDFA}

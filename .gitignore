@@ -12,9 +12,7 @@
 /src/Hosts/MyRecipe.WebUI/bin/
 /src/.idea/.idea.MyRecipe/.idea
 /src/Infrastructure/MyRecipe.Infrastructure/obj
-/src/Infrastructure/MyRecipe.ComponentRegistrar/obj
 /src/Infrastructure/MyRecipe.Infrastructure/bin
-/src/Infrastructure/MyRecipe.ComponentRegistrar/bin
 /src/Infrastructure/MyRecipe.Migrator/bin
 /src/Infrastructure/MyRecipe.Migrator/obj
 /src/Contracts/MyRecipe.Contracts/obj
@@ -29,9 +27,7 @@
 /src/Common/MyRecipe.Common/bin
 /src/Logging/MyRecipe.Logging/obj
 /src/Logging/MyRecipe.Logging/bin
-/src/MyRecipe.ComponentRegistrar/obj
 /src/MyRecipeLogging.Infrastructure/obj
-/src/MyRecipe.ComponentRegistrar/bin
 /src/MyRecipeLogging.Infrastructure/bin
 /src/Domain/MyRecipeLogging.Domain/bin
 /src/Domain/MyRecipeLogging.Domain/obj
@@ -55,3 +51,5 @@
 /src/Contracts/MyRecipeFiles.Handlers.Contracts/obj
 /src/Application/MyRecipeFiles.AppServices/bin
 /src/Application/MyRecipeFiles.AppServices/obj
+/src/ComponentRegistrar/MyRecipe.ComponentRegistrar/obj
+/src/ComponentRegistrar/MyRecipe.ComponentRegistrar/bin

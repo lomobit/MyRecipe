@@ -18,7 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Application\MyRecipe.Handlers\MyRecipe.Handlers.csproj" />
     <ProjectReference Include="..\..\Application\MyRecipeFiles.Handlers\MyRecipeFiles.Handlers.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\MyRecipe.ComponentRegistrar\MyRecipe.ComponentRegistrar.csproj" />
+    <ProjectReference Include="..\..\ComponentRegistrar\MyRecipe.ComponentRegistrar\MyRecipe.ComponentRegistrar.csproj" />
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
