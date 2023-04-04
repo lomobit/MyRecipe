@@ -57,7 +57,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRecipeFiles.AppServices",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ComponentRegistrar", "ComponentRegistrar", "{69748607-A6EB-461E-B014-10ECAEAE4294}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyRecipeLogging.ComponentRegistrar", "ComponentRegistrar\MyRecipeLogging.ComponentRegistrar\MyRecipeLogging.ComponentRegistrar.csproj", "{FDEFFDAB-A1E1-4753-920C-DA16FBC7C630}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRecipeLogging.ComponentRegistrar", "ComponentRegistrar\MyRecipeLogging.ComponentRegistrar\MyRecipeLogging.ComponentRegistrar.csproj", "{FDEFFDAB-A1E1-4753-920C-DA16FBC7C630}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyRecipeFiles.ComponentRegistrar", "ComponentRegistrar\MyRecipeFiles.ComponentRegistrar\MyRecipeFiles.ComponentRegistrar.csproj", "{57AFD5E2-62DD-4DD2-AC5C-65EEA5575FFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,6 +143,10 @@ Global
 		{FDEFFDAB-A1E1-4753-920C-DA16FBC7C630}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDEFFDAB-A1E1-4753-920C-DA16FBC7C630}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDEFFDAB-A1E1-4753-920C-DA16FBC7C630}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57AFD5E2-62DD-4DD2-AC5C-65EEA5575FFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57AFD5E2-62DD-4DD2-AC5C-65EEA5575FFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57AFD5E2-62DD-4DD2-AC5C-65EEA5575FFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57AFD5E2-62DD-4DD2-AC5C-65EEA5575FFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -165,6 +171,7 @@ Global
 		{9A189E1C-5B12-4FCA-9E27-BC0C320EC419} = {B857B53E-DCA2-4BC9-87AC-C941FD2DCDFA}
 		{3DB95C6A-591D-4D37-928F-688F4CAEBF2A} = {F52BF040-504C-4F09-9850-5FF87506F757}
 		{FDEFFDAB-A1E1-4753-920C-DA16FBC7C630} = {69748607-A6EB-461E-B014-10ECAEAE4294}
+		{57AFD5E2-62DD-4DD2-AC5C-65EEA5575FFE} = {69748607-A6EB-461E-B014-10ECAEAE4294}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {156C03F2-72DF-4AE9-9B8A-A00E22065A42}

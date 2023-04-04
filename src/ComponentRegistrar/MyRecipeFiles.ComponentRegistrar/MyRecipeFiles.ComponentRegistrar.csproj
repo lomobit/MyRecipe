@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -11,10 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Application\MyRecipe.AppServices\MyRecipe.AppServices.csproj" />
-    <ProjectReference Include="..\..\Application\MyRecipe.Handlers\MyRecipe.Handlers.csproj" />
+    <ProjectReference Include="..\..\Application\MyRecipeFiles.AppServices\MyRecipeFiles.AppServices.csproj" />
     <ProjectReference Include="..\..\Common\MyRecipe.Common.ComponentRegistrar\MyRecipe.Common.ComponentRegistrar.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\MyRecipe.Infrastructure\MyRecipe.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\MyRecipeFiles.Infrastructure\MyRecipeFiles.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

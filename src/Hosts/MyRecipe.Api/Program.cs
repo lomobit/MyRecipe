@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MyRecipe.ComponentRegistrar;
 using MyRecipe.Handlers;
+using MyRecipeFiles.ComponentRegistrar;
 using MyRecipeFiles.Handlers;
 using MyRecipeLogging.ComponentRegistrar;
 
@@ -25,6 +26,7 @@ builder.Services.AddCors();
 // Добавление зависимостей для MyRecipe
 builder.Services.AddMyRecipe();
 builder.Services.AddMyRecipeLogging();
+builder.Services.AddMyRecipeFiles();
 
 
 var app = builder.Build();

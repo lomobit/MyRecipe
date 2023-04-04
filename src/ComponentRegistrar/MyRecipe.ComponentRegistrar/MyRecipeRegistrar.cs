@@ -11,9 +11,6 @@ using MyRecipe.Handlers.Ingredient;
 using MyRecipe.Infrastructure;
 using MyRecipe.Infrastructure.MappingProfiles;
 using MyRecipe.Infrastructure.Repositories.Ingredient;
-using MyRecipeFiles.AppServices.File;
-using MyRecipeFiles.Infrastructure;
-using MyRecipeFiles.Infrastructure.Repositories.File;
 
 namespace MyRecipe.ComponentRegistrar
 {
@@ -52,7 +49,6 @@ namespace MyRecipe.ComponentRegistrar
         public static IServiceCollection AddMyRecipeDbContexts(this IServiceCollection services)
         {
             services.AddDbContext<MyRecipeDbContext>(AddMyRecipeDbContext, ServiceLifetime.Scoped);
-            services.AddDbContext<MyRecipeFilesDbContext>(AddMyRecipeFilesDbContext, ServiceLifetime.Scoped);
 
             return services;
         }
@@ -65,7 +61,6 @@ namespace MyRecipe.ComponentRegistrar
         public static IServiceCollection AddMyRecipeServices(this IServiceCollection services)
         {
             services.AddScoped<IIngredientService, IngredientService>();
-            services.AddScoped<IFileService, FileService>();
 
             return services;
         }
@@ -79,9 +74,6 @@ namespace MyRecipe.ComponentRegistrar
         {
             // Репозитории MyRecipeDbContext'а
             services.AddScoped<IIngredientRepository, IngredientRepository>();
-
-            // Репозитории MyRecipeFilesDbContext'а
-            services.AddScoped<IFileRepository, FileRepository>();
 
             return services;
         }
@@ -121,16 +113,6 @@ namespace MyRecipe.ComponentRegistrar
         private static void AddMyRecipeDbContext(IServiceProvider sp, DbContextOptionsBuilder dbOptions)
         {
             RegistrarHelper.AddDbContextAction("MyRecipeDb", sp, dbOptions);
-        }
-
-        /// <summary>
-        /// Метод <see cref="Action"/>'а для добавления контекста базы данных MyRecipeFiles в коллекцию сервисов DI.
-        /// </summary>
-        /// <param name="sp">Провайдер сервисов.</param>
-        /// <param name="dbOptions">Опции для построения конекста базы данных.</param>
-        private static void AddMyRecipeFilesDbContext(IServiceProvider sp, DbContextOptionsBuilder dbOptions)
-        {
-            RegistrarHelper.AddDbContextAction("MyRecipeFilesDb", sp, dbOptions);
         }
     }
 }
