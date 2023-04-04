@@ -1,4 +1,6 @@
-﻿using MyRecipe.Contracts.File;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
+using MyRecipe.Contracts.File;
 
 namespace MyRecipeFiles.Infrastructure.Repositories.File
 {
@@ -9,6 +11,25 @@ namespace MyRecipeFiles.Infrastructure.Repositories.File
         public FileRepository(MyRecipeFilesDbContext context)
         {
             _context = context;
+        }
+
+        /// <inheritdoc/>
+        public async Task<Domain.File> DownloadAsync(Guid fileGuid, CancellationToken cancellationToken)
+        {
+            var result = await _context.Files
+                .AsNoTracking()
+                .Where(f => f.Guid == fileGuid)
+                .FirstOrDefaultAsync(cancellationToken);
+            
+            if (result == null)
+            {
+                var ex = new ValidationException($"Файл с идентификатором \"{fileGuid}\" не существует");
+                ex.Data.Add("Файл", $"Файл с идентификатором \"{fileGuid}\" не существует");
+
+                throw ex;
+            }
+
+            return result;
         }
 
         /// <inheritdoc/>

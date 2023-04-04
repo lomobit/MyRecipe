@@ -49,6 +49,7 @@ namespace MyRecipe.Api.Controllers.v1
         /// <returns>Результат вызова API.</returns>
         protected IActionResult Error<T>(T? data, int statusCode, IDictionary errors)
         {
+            // TODO: Добавить логирование ошибок.
             return StatusCode(statusCode, ApiResult<T>.ErrorResult(data, errors));
         }
     }

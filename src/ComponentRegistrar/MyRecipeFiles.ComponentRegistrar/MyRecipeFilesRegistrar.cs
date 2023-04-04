@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MyRecipe.Common.ComponentRegistrar;
 using MyRecipeFiles.AppServices.File;
 using MyRecipeFiles.Infrastructure;
+using MyRecipeFiles.Infrastructure.MappingProfiles;
 using MyRecipeFiles.Infrastructure.Repositories.File;
 
 namespace MyRecipeFiles.ComponentRegistrar
@@ -24,6 +26,9 @@ namespace MyRecipeFiles.ComponentRegistrar
 
             // Добавление репозиториев для работы с базой данных
             services.AddMyRecipeFilesRepositories();
+
+            // Добавление автомапперов
+            services.AddMyRecipeFilesMappers();
 
             return services;
         }
@@ -61,6 +66,21 @@ namespace MyRecipeFiles.ComponentRegistrar
         {
             // Репозитории MyRecipeFilesDbContext'а
             services.AddScoped<IFileRepository, FileRepository>();
+
+            return services;
+        }
+        
+        /// <summary>
+        /// Добавление автомапперов.
+        /// </summary>
+        /// <param name="services">Коллекция сервисов DI.</param>
+        /// <returns>Коллекция сервисов DI.</returns>
+        public static IServiceCollection AddMyRecipeFilesMappers(this IServiceCollection services)
+        {
+            services.AddAutoMapper((IMapperConfigurationExpression cfg) =>
+            {
+                cfg.AddProfile<MyRecipeFilesMappingProfile>();
+            });
 
             return services;
         }
