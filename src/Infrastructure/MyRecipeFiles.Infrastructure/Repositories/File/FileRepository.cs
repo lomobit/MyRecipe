@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MyRecipe.Contracts.File;
 
 namespace MyRecipeFiles.Infrastructure.Repositories.File
@@ -23,8 +22,8 @@ namespace MyRecipeFiles.Infrastructure.Repositories.File
             
             if (result == null)
             {
-                var ex = new ValidationException($"Файл с идентификатором \"{fileGuid}\" не существует");
-                ex.Data.Add("Файл", $"Файл с идентификатором \"{fileGuid}\" не существует");
+                var ex = new FileNotFoundException($"Файл с идентификатором {fileGuid} не существует");
+                ex.Data.Add("Файл", $"Файл с идентификатором {fileGuid} не существует");
 
                 throw ex;
             }

@@ -20,10 +20,15 @@ namespace MyRecipe.Api.Controllers.v1
 
         [HttpGet]
         [Route("{guid}")]
-        [Produces("application/octet-stream")]
+        [Produces("application/octet-stream", "text/plain")]
         [ProducesResponseType(typeof(FileContentResult), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), statusCode: StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(string), statusCode: StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Download([FromRoute] Guid guid, CancellationToken cancellationToken)
         {
+            Response.ContentType = "text/plain";
+
             try
             {
                 var fileDto = await _mediator.Send(new FileDownloadRequest(guid), cancellationToken);
@@ -34,17 +39,16 @@ namespace MyRecipe.Api.Controllers.v1
             }
             catch (ValidationException ex)
             {
-                return Error(
-                    default(string),
-                    StatusCodes.Status400BadRequest,
-                    ex.Data);
+                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
+            }
+            catch (FileNotFoundException ex)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, ex.Message);
             }
             catch (Exception ex)
             {
-                return Error(
-                    default(string),
-                    StatusCodes.Status500InternalServerError,
-                    ex.Data);
+                // TODO: добавить логирование
+                return StatusCode(StatusCodes.Status500InternalServerError, "Сервис временно недоступен");
             }
         }
 
