@@ -8,11 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="MediatR" Version="11.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Application\MyRecipeFiles.AppServices\MyRecipeFiles.AppServices.csproj" />
+    <ProjectReference Include="..\..\Application\MyRecipeFiles.Handlers\MyRecipeFiles.Handlers.csproj" />
     <ProjectReference Include="..\..\Common\MyRecipe.Common.ComponentRegistrar\MyRecipe.Common.ComponentRegistrar.csproj" />
+    <ProjectReference Include="..\..\Contracts\MyRecipeFiles.Handlers.Contracts\MyRecipeFiles.Handlers.Contracts.csproj" />
     <ProjectReference Include="..\..\Infrastructure\MyRecipeFiles.Infrastructure\MyRecipeFiles.Infrastructure.csproj" />
   </ItemGroup>
 

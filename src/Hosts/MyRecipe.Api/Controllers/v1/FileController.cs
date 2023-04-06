@@ -65,41 +65,7 @@ namespace MyRecipe.Api.Controllers.v1
         [ProducesResponseType(typeof(ApiResult<Guid>), statusCode: StatusCodes.Status200OK)]
         public async Task<IActionResult> Upload(IFormFile file, CancellationToken cancellationToken)
         {
-            const int _1GB = 1073741824;
-            if (file.Length > _1GB)
-            {
-                var errors = new Dictionary<string, string>()
-                {
-                    { "Загрузка файла", "Попытка загрузить файл слишком большого размера. Максимальный размер файла: 1ГБ" }
-                };
-
-                return Error((Guid?)null, StatusCodes.Status400BadRequest, errors);
-            }
-            
-            if (file.Length == 0)
-            {
-                var errors = new Dictionary<string, string>()
-                {
-                    { "Загрузка файла", "Попытка загрузить пустой файл." }
-                };
-
-                return Error((Guid?)null, StatusCodes.Status400BadRequest, errors);
-            }
-
-            byte[] fileContent;
-            using (var stream = new MemoryStream((int)file.Length))
-            {
-                await file.CopyToAsync(stream, cancellationToken);
-                fileContent = stream.ToArray();
-            }
-
-            var command = new FileUploadCommand
-            {
-                Name = file.FileName,
-                Content = fileContent,
-                Size = file.Length
-            };
-            
+            var command = new FileUploadCommand(file);
             return await CallApiActionWithResultAsync(async () => await _mediator.Send(command, cancellationToken));
         }
     }

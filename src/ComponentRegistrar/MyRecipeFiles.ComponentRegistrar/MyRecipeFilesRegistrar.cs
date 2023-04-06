@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MyRecipe.Common.ComponentRegistrar;
 using MyRecipeFiles.AppServices.File;
+using MyRecipeFiles.Handlers.Contracts.File;
+using MyRecipeFiles.Handlers.File;
 using MyRecipeFiles.Infrastructure;
 using MyRecipeFiles.Infrastructure.MappingProfiles;
 using MyRecipeFiles.Infrastructure.Repositories.File;
@@ -29,6 +32,9 @@ namespace MyRecipeFiles.ComponentRegistrar
 
             // Добавление автомапперов
             services.AddMyRecipeFilesMappers();
+
+            // Добавление поведенческих пайплайнов.
+            services.AddMyRecipeFilesPipelineBehaviors();
 
             return services;
         }
@@ -81,6 +87,18 @@ namespace MyRecipeFiles.ComponentRegistrar
             {
                 cfg.AddProfile<MyRecipeFilesMappingProfile>();
             });
+
+            return services;
+        }
+
+        /// <summary>
+        /// Добавление поведенческих пайплайнов.
+        /// </summary>
+        /// <param name="services">Коллекция сервисов DI.</param>
+        /// <returns>Коллекция сервисов DI.</returns>
+        public static IServiceCollection AddMyRecipeFilesPipelineBehaviors(this IServiceCollection services)
+        {
+            services.AddScoped<IPipelineBehavior<FileUploadCommand, Guid>, FileUploadCommandBehavior>();
 
             return services;
         }
