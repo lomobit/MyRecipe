@@ -13,20 +13,18 @@ namespace MyRecipe.Api.Controllers.v1
     public class IngredientController : BaseApiController
     {
         private readonly IMediator _mediator;
-        private readonly ILogger _logger;
 
-        public IngredientController(IMediator mediator, ILogger logger)
+        public IngredientController(IMediator mediator)
         {
             _mediator = mediator;
-            _logger = logger;
         }
 
         /// <summary>
         /// Добавление ингредиента.
         /// </summary>
-        /// <param name="command"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="command">Команда на добавление ингредиента.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Идентификатор добавленного ингредиента.</returns>
         [HttpPost]
         [Route("Add")]
         [ProducesResponseType(typeof(ApiResult<int>), statusCode: StatusCodes.Status200OK)]
@@ -38,9 +36,9 @@ namespace MyRecipe.Api.Controllers.v1
         /// <summary>
         /// Получение ингредиентов.
         /// </summary>
-        /// <param name="query"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="query">Запрос на получение ингредиентов.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Ингредиенты.</returns>
         [HttpGet]
         [Route("Get")]
         [ProducesResponseType(typeof(ApiResult<Pagination<IngredientDto>>), statusCode: StatusCodes.Status200OK)]
@@ -52,9 +50,9 @@ namespace MyRecipe.Api.Controllers.v1
         /// <summary>
         /// Изменение ингредиента.
         /// </summary>
-        /// <param name="command"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="command">Команда на изменение ингредиента.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Возвращет true - если изменение успешно произведено, false - если нет.</returns>
         [HttpPost]
         [Route("Edit")]
         [ProducesResponseType(typeof(ApiResult<bool>), statusCode: StatusCodes.Status200OK)]

@@ -9,6 +9,10 @@ namespace MyRecipe.Domain.Configurations
         {
             builder.HasKey(x => x.Id);
             builder.HasAlternateKey(x => x.Name);
+
+            builder.HasMany(x => x.IngredientsForDish)
+                .WithOne()
+                .HasForeignKey(x => x.DishId);
         }
     }
 }
