@@ -10,7 +10,7 @@ namespace MyRecipe.Domain.Configurations
             builder.HasKey(x => x.Id);
 
             builder.HasOne(x => x.Dish)
-                .WithMany()
+                .WithMany(x => x.IngredientsForDish)
                 .HasForeignKey(x => x.DishId);
             builder.HasOne(x => x.Ingredient)
                 .WithMany()
