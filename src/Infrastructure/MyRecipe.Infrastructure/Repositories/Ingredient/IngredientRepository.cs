@@ -100,7 +100,17 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
                 _context.ChangeTracker.Clear();
             }
         }
-        
+
+        /// <inheritdoc/>
+        public async Task<int[]> CheckWhichIdsDontExist(IEnumerable<int> ids, CancellationToken cancellationToken)
+        {
+            var query = from ingredients in _context.Ingredients.AsNoTracking()
+                        where id != 0 && ingredients == null
+                        select id;
+
+            return await query.ToArrayAsync(cancellationToken);
+        }
+
         /// <summary>
         /// Возвращает Expression для методов сортировки, в зависимости от используемого для сортировки поля.
         /// </summary>

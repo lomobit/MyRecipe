@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyRecipe.Contracts.Ingredient;
+using MyRecipe.Domain;
 using MyRecipe.Handlers.Contracts.Dish;
 using System.ComponentModel.DataAnnotations;
 
@@ -21,12 +22,30 @@ namespace MyRecipe.Infrastructure.Repositories.Dish
 
             try
             {
-                await _context.Dishes.AddAsync(new Domain.Dish
+                // Добавляем ингредиенты, указанные для блюда
+                var ingredientsForDish = new List<IngredientsForDish>(command.IngredientsForDish.Count);
+                foreach (var ingredient in command.IngredientsForDish)
+                {
+                    ingredientsForDish.Add(new IngredientsForDish
+                    {
+                        IngredientId = ingredient.IngredientId,
+                        Quantity = ingredient.Quantity,
+                        OkeiCode = ingredient.OkeiCode,
+                        Condition = ingredient.Condition,
+                    });
+                }
+
+                // Добавляем новое блюдо
+                var dish = new Domain.Dish
                 {
                     Name = command.Name,
                     NumberOfPersons = command.NumberOfPersons,
+                    Description = command.Description,
+                    DishPhotoGuid = command.DishPhotoGuid,
+                    IngredientsForDish = ingredientsForDish
+                };
 
-                }, cancellationToken);
+                await _context.Dishes.AddAsync(dish, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
             }
             finally
@@ -34,8 +53,8 @@ namespace MyRecipe.Infrastructure.Repositories.Dish
                 _context.ChangeTracker.Clear();
             }
 
-            return await _context.Ingredients
-            .AsNoTracking()
+            return await _context.Dishes
+                .AsNoTracking()
                 .Where(x => x.Name == command.Name)
                 .Select(x => x.Id)
                 .FirstAsync(cancellationToken);

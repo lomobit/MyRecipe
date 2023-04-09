@@ -12,7 +12,7 @@ namespace MyRecipe.Handlers.Contracts.Dish
         /// <summary>
         /// Описание блюда.
         /// </summary>
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// Блюдо на какое количество человек.

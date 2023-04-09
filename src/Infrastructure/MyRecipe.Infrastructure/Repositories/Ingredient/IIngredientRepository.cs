@@ -30,5 +30,13 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Возвращает успешно ли был обновлен ингредиент.</returns>
         Task<bool> EditAsync(IngredientDto ingredientDto, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Проверить какие идентификаторы ингредиентов не существуют.
+        /// </summary>
+        /// <param name="ids">Идентификаторы ингредиентов.</param>
+        /// /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Переданные идентификаторы, которые не существуют.</returns>
+        Task<int[]> CheckWhichIdsDontExist(IEnumerable<int> ids, CancellationToken cancellationToken);
     }
 }
