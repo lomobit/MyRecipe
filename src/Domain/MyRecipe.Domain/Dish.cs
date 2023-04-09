@@ -21,6 +21,16 @@ namespace MyRecipe.Domain
         public int NumberOfPersons { get; set; }
 
         /// <summary>
+        /// Описание блюда.
+        /// </summary>
+        public string? Description { get; set; }
+
+        /// <summary>
+        /// Идентификатора загруженного фото блюда.
+        /// </summary>
+        public Guid? DishPhotoGuid { get; set; }
+
+        /// <summary>
         /// Список ингредиентов для блюда.
         /// </summary>
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

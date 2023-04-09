@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using MyRecipe.AppServices.Dish;
 using MyRecipe.AppServices.Ingredient;
 using MyRecipe.Common.ComponentRegistrar;
 using MyRecipe.Contracts.Api;
@@ -10,6 +11,7 @@ using MyRecipe.Handlers.Contracts.Ingredient;
 using MyRecipe.Handlers.Ingredient;
 using MyRecipe.Infrastructure;
 using MyRecipe.Infrastructure.MappingProfiles;
+using MyRecipe.Infrastructure.Repositories.Dish;
 using MyRecipe.Infrastructure.Repositories.Ingredient;
 
 namespace MyRecipe.ComponentRegistrar
@@ -61,6 +63,7 @@ namespace MyRecipe.ComponentRegistrar
         public static IServiceCollection AddMyRecipeServices(this IServiceCollection services)
         {
             services.AddScoped<IIngredientService, IngredientService>();
+            services.AddScoped<IDishService, DishService>();
 
             return services;
         }
@@ -74,6 +77,7 @@ namespace MyRecipe.ComponentRegistrar
         {
             // Репозитории MyRecipeDbContext'а
             services.AddScoped<IIngredientRepository, IngredientRepository>();
+            services.AddScoped<IDishRepository, DishRepository>();
 
             return services;
         }
