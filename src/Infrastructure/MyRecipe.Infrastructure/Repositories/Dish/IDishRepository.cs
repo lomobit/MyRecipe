@@ -1,4 +1,5 @@
-﻿using MyRecipe.Handlers.Contracts.Dish;
+﻿using MyRecipe.Contracts.Api;
+using MyRecipe.Handlers.Contracts.Dish;
 
 namespace MyRecipe.Infrastructure.Repositories.Dish
 {
@@ -11,5 +12,21 @@ namespace MyRecipe.Infrastructure.Repositories.Dish
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Идентификатор добавленного блюда.</returns>
         Task<int> AddAsync(DishAddCommand command, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Метод получения списка блюд с краткой информацией.
+        /// </summary>
+        /// <param name="query">Данные запроса.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Список блюд с краткой информацией.</returns>
+        Task<Pagination<Domain.Dish>> GetListAsync(DishGetListQuery query, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Получение полной информации о блюде по идентификатору.
+        /// </summary>
+        /// <param name="id">Идентификатор блюда.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Информация о блюде.</returns>
+        Task<Domain.Dish?> TryGetAsync(int id, CancellationToken cancellationToken);
     }
 }

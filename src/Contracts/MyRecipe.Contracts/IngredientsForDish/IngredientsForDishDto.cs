@@ -1,5 +1,4 @@
-﻿using MyRecipe.Contracts.Dish;
-using MyRecipe.Contracts.Ingredient;
+﻿using MyRecipe.Contracts.Ingredient;
 using MyRecipe.Contracts.Okei;
 
 namespace MyRecipe.Contracts.IngredientsForDish
@@ -21,18 +20,6 @@ namespace MyRecipe.Contracts.IngredientsForDish
         /// </summary>
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public IngredientDto Ingredient { get; set; }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
-        /// <summary>
-        /// Идентификатор блюда
-        /// </summary>
-        public int DishId { get; set; }
-
-        /// <summary>
-        /// Блюдо
-        /// </summary>
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public DishDto Dish { get; set; }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         /// <summary>

@@ -1,4 +1,6 @@
-﻿using MyRecipe.Handlers.Contracts.Dish;
+﻿using MyRecipe.Contracts.Api;
+using MyRecipe.Contracts.Dish;
+using MyRecipe.Handlers.Contracts.Dish;
 
 namespace MyRecipe.AppServices.Dish
 {
@@ -11,5 +13,21 @@ namespace MyRecipe.AppServices.Dish
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Идентификатор добавленного блюда.</returns>
         Task<int> AddAsync(DishAddCommand command, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Метод получения списка блюд с краткой информацией.
+        /// </summary>
+        /// <param name="query">Данные запроса.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Список блюд с краткой информацией.</returns>
+        Task<Pagination<DishForGridDto>> GetListAsync(DishGetListQuery query, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Получение полной информации о блюде по идентификатору.
+        /// </summary>
+        /// <param name="id">Идентификатор блюда.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Информация о блюде.</returns>
+        Task<DishDto> GetAsync(int id, CancellationToken cancellationToken);
     }
 }

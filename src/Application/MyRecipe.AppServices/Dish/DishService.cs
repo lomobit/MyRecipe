@@ -1,7 +1,11 @@
-﻿using MyRecipe.Handlers.Contracts.Dish;
+﻿using AutoMapper;
+using MyRecipe.Contracts.Api;
+using MyRecipe.Contracts.Dish;
+using MyRecipe.Handlers.Contracts.Dish;
 using MyRecipe.Infrastructure.Repositories.Dish;
 using MyRecipe.Infrastructure.Repositories.Ingredient;
 using System.ComponentModel.DataAnnotations;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MyRecipe.AppServices.Dish
 {
@@ -9,11 +13,16 @@ namespace MyRecipe.AppServices.Dish
     {
         private readonly IIngredientRepository _ingredientRepository;
         private readonly IDishRepository _dishRepository;
+        private readonly IMapper _mapper;
 
-        public DishService(IIngredientRepository ingredientRepository, IDishRepository dishRepository)
+        public DishService(
+            IIngredientRepository ingredientRepository,
+            IDishRepository dishRepository,
+            IMapper mapper)
         {
             _ingredientRepository = ingredientRepository;
             _dishRepository = dishRepository;
+            _mapper = mapper;
         }
 
         /// <inheritdoc/>
@@ -36,6 +45,30 @@ namespace MyRecipe.AppServices.Dish
 
             // Добавление нового блюда
             return await _dishRepository.AddAsync(command, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<Pagination<DishForGridDto>> GetListAsync(DishGetListQuery query, CancellationToken cancellationToken)
+        {
+            var paginatedResult = await _dishRepository.GetListAsync(query, cancellationToken);
+            return new Pagination<DishForGridDto>(
+                paginatedResult.Count,
+                _mapper.Map<IEnumerable<DishForGridDto>>(paginatedResult.ItemsSlice));
+        }
+
+        /// <inheritdoc/>
+        public async Task<DishDto> GetAsync(int id, CancellationToken cancellationToken)
+        {
+            var dish = await _dishRepository.TryGetAsync(id, cancellationToken);
+            if (dish == null)
+            {
+                var ex = new ValidationException($"Блюдо с идентификатором \"{id}\" не существует");
+                ex.Data.Add("Блюдо", $"Блюдо с идентификатором \"{id}\" не существует");
+
+                throw ex;
+            }
+
+            return _mapper.Map<DishDto>(dish);
         }
     }
 }
