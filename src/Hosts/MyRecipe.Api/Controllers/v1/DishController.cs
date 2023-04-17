@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MyRecipe.Contracts.Api;
+using MyRecipe.Contracts.Dish;
 using MyRecipe.Handlers.Contracts.Dish;
 
 namespace MyRecipe.Api.Controllers.v1
@@ -30,6 +31,33 @@ namespace MyRecipe.Api.Controllers.v1
         public async Task<IActionResult> Add([FromBody] DishAddCommand command, CancellationToken cancellationToken)
         {
             return await CallApiActionWithResultAsync(async () => await _mediator.Send(command, cancellationToken));
+        }
+
+        /// <summary>
+        /// Метод получения списка блюд с краткой информацией.
+        /// </summary>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Список блюд с краткой информацией.</returns>
+        [HttpGet]
+        [Route("GetList")]
+        [ProducesResponseType(typeof(ApiResult<List<DishForGridDto>>), statusCode: StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetList(CancellationToken cancellationToken)
+        {
+            return Ok();
+        }
+
+        /// <summary>
+        /// Метод получения полной информации о блюде по идентификатору.
+        /// </summary>
+        /// <param name="id">Идентификатор блюда.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Полную информацию о блюде.</returns>
+        [HttpGet]
+        [Route("Get/{id}")]
+        [ProducesResponseType(typeof(ApiResult<DishDto>), statusCode: StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get([FromRoute] int id, CancellationToken cancellationToken)
+        {
+            return Ok();
         }
     }
 }
