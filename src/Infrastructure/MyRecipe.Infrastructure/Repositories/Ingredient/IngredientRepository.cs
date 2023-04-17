@@ -4,7 +4,6 @@ using MyRecipe.Contracts.Ingredient;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using MyRecipe.Contracts.Enums.Common;
-using MyRecipe.Contracts.Enums.Ingredient;
 using MyRecipe.Handlers.Contracts.Ingredient;
 
 namespace MyRecipe.Infrastructure.Repositories.Ingredient

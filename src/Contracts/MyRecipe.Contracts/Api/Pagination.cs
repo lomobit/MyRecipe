@@ -1,5 +1,4 @@
-﻿
-namespace MyRecipe.Contracts.Api
+﻿namespace MyRecipe.Contracts.Api
 {
     /// <summary>
     /// Класс пагинации элементов.

@@ -1,4 +1,4 @@
-﻿namespace MyRecipe.Contracts.Enums.Ingredient
+﻿namespace MyRecipe.Contracts.Enums.Common
 {
     /// <summary>
     /// Поле, по которому происходит сортировка для получения ингредиентов.

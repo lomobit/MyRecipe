@@ -41,9 +41,9 @@ namespace MyRecipe.Api.Controllers.v1
         [HttpGet]
         [Route("GetList")]
         [ProducesResponseType(typeof(ApiResult<List<DishForGridDto>>), statusCode: StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetList(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetList([FromQuery] DishGetListQuery query, CancellationToken cancellationToken)
         {
-            return Ok();
+            return await CallApiActionWithResultAsync(async () => await _mediator.Send(query, cancellationToken));
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace MyRecipe.Api.Controllers.v1
         [ProducesResponseType(typeof(ApiResult<DishDto>), statusCode: StatusCodes.Status200OK)]
         public async Task<IActionResult> Get([FromRoute] int id, CancellationToken cancellationToken)
         {
-            return Ok();
+            return await CallApiActionWithResultAsync(async () => await _mediator.Send(new DishGetQuery(id), cancellationToken));
         }
     }
 }

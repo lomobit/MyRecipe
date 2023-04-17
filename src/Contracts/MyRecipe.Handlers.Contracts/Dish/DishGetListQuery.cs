@@ -1,11 +1,12 @@
 ﻿using MediatR;
 using MyRecipe.Contracts.Api;
+using MyRecipe.Contracts.Dish;
 using MyRecipe.Contracts.Enums.Common;
-using MyRecipe.Contracts.Ingredient;
 
-namespace MyRecipe.Handlers.Contracts.Ingredient
+namespace MyRecipe.Handlers.Contracts.Dish
 {
-    public class IngredientGetQuery : IRequest<Pagination<IngredientDto>>
+    // TODO: полностью копирует файл IngredientGetQuery, посмотреть, может стоит вынести все это дело в отдельное место
+    public class DishGetListQuery : IRequest<Pagination<DishForGridDto>>
     {
         /// <summary>
         /// Номер страницы.
