@@ -37,6 +37,6 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
         /// <param name="ids">Идентификаторы ингредиентов.</param>
         /// /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Переданные идентификаторы, которые не существуют.</returns>
-        Task<int[]> CheckWhichIdsDontExist(IEnumerable<int> ids, CancellationToken cancellationToken);
+        Task<int[]> GetNonExistsIds(IEnumerable<int> ids, CancellationToken cancellationToken);
     }
 }

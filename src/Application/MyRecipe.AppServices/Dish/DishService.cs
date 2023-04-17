@@ -19,8 +19,9 @@ namespace MyRecipe.AppServices.Dish
         /// <inheritdoc/>
         public async Task<int> AddAsync(DishAddCommand command, CancellationToken cancellationToken)
         {
+            // Валидация существования ингредиентов
             var ingredientsIds = command.IngredientsForDish.Select(x => x.IngredientId);
-            var unknownIngredientsIds = await _ingredientRepository.CheckWhichIdsDontExist(ingredientsIds, cancellationToken);
+            var unknownIngredientsIds = await _ingredientRepository.GetNonExistsIds(ingredientsIds, cancellationToken);
             if (unknownIngredientsIds != null && unknownIngredientsIds.Any())
             {
                 var unknownIngredientsIdsInRow = string.Join(", ", unknownIngredientsIds);
@@ -31,6 +32,9 @@ namespace MyRecipe.AppServices.Dish
                 throw ex;
             }
 
+            // TODO: добавить валидацию существования Okei-кодов
+
+            // Добавление нового блюда
             return await _dishRepository.AddAsync(command, cancellationToken);
         }
     }

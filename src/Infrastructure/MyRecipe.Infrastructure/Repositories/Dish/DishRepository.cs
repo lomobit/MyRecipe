@@ -53,6 +53,7 @@ namespace MyRecipe.Infrastructure.Repositories.Dish
                 _context.ChangeTracker.Clear();
             }
 
+            // Т.к. имена у блюд уникальные, то здесь можем искать идентификатор нашего блюда по имени.
             return await _context.Dishes
                 .AsNoTracking()
                 .Where(x => x.Name == command.Name)

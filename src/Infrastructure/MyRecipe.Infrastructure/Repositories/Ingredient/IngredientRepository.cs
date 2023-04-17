@@ -102,13 +102,15 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
         }
 
         /// <inheritdoc/>
-        public async Task<int[]> CheckWhichIdsDontExist(IEnumerable<int> ids, CancellationToken cancellationToken)
+        public async Task<int[]> GetNonExistsIds(IEnumerable<int> ids, CancellationToken cancellationToken)
         {
-            var query = from ingredients in _context.Ingredients.AsNoTracking()
-                        where id != 0 && ingredients == null
-                        select id;
+            var existsIds = await _context.Ingredients
+                .AsNoTracking()
+                .Where(i => ids.Contains(i.Id))
+                .Select(i => i.Id)
+                .ToArrayAsync(cancellationToken);
 
-            return await query.ToArrayAsync(cancellationToken);
+            return ids.Except(existsIds).ToArray();
         }
 
         /// <summary>
