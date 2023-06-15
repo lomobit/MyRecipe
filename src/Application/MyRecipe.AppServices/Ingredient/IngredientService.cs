@@ -34,6 +34,12 @@ namespace MyRecipe.AppServices.Ingredient
         }
 
         /// <inheritdoc/>
+        public async Task<IEnumerable<IngredientDto>> GetAllAsync(IngredientGetAllQuery query, CancellationToken cancellationToken)
+        {
+            return _mapper.Map<IEnumerable<IngredientDto>>(await _ingredientRepository.GetAllAsync(query, cancellationToken));
+        }
+
+        /// <inheritdoc/>
         public async Task<bool> EditAsync(IngredientDto ingredientDto, CancellationToken cancellationToken)
         {
             return await _ingredientRepository.EditAsync(ingredientDto, cancellationToken);

@@ -24,6 +24,16 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
         Task<Pagination<Domain.Ingredient>> GetAsync(IngredientGetQuery request, CancellationToken cancellationToken);
 
         /// <summary>
+        /// Получение из базы списка ингредиентов.
+        /// </summary>
+        /// <param name="query">Данные запроса.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Список ингредиентов.</returns>
+        Task<IEnumerable<Domain.Ingredient>> GetAllAsync(
+            IngredientGetAllQuery query,
+            CancellationToken cancellationToken);
+
+        /// <summary>
         /// Изменяет ингредиент в базе данных.
         /// </summary>
         /// <param name="ingredientDto">Данные об ингредиенте.</param>

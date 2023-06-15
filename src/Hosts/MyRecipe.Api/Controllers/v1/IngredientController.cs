@@ -47,6 +47,14 @@ namespace MyRecipe.Api.Controllers.v1
             return await CallApiActionWithResultAsync(async () => await _mediator.Send(query, cancellationToken));
         }
 
+        [HttpGet]
+        [Route("GetAll")]
+        [ProducesResponseType(typeof(ApiResult<IEnumerable<IngredientDto>>), statusCode: StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAll([FromQuery] IngredientGetAllQuery query, CancellationToken cancellationToken)
+        {
+            return await CallApiActionWithResultAsync(async () => await _mediator.Send(query, cancellationToken));
+        }
+
         /// <summary>
         /// Изменение ингредиента.
         /// </summary>

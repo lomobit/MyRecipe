@@ -71,6 +71,25 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
         }
 
         /// <inheritdoc/>
+        public async Task<IEnumerable<Domain.Ingredient>> GetAllAsync(
+            IngredientGetAllQuery query,
+            CancellationToken cancellationToken)
+        {
+            var commonQuery = _context.Ingredients.AsNoTracking();
+
+            // Добавление фильтрации по имени
+            if (!string.IsNullOrEmpty(query.NameFilter))
+            {
+                // TODO: добавить валидацию текстовых полей в Behaviour для всех запросов, потому что сейчас доступна SQL-инъекция для запросов.
+                commonQuery = commonQuery.Where(x => x.Name.ToLower().Contains(query.NameFilter.ToLower()));
+            }
+
+            commonQuery = commonQuery.OrderBy(x => x.Name);
+
+            return await commonQuery.ToArrayAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
         public async Task<bool> EditAsync(IngredientDto ingredientDto, CancellationToken cancellationToken)
         {
             await ValidateId(ingredientDto.Id, cancellationToken);
