@@ -7,6 +7,7 @@ namespace MyRecipe.Api.Controllers.v1
 {
     public abstract class BaseApiController : Controller
     {
+        // TODO: вынести форматирование результата в отдельный midleware. Этот метод удалить. 
         protected virtual async Task<IActionResult> CallApiActionWithResultAsync<T>(Func<Task<T>> apiAction)
         {
             try

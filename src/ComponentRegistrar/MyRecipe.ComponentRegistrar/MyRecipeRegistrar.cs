@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MyRecipe.AppServices.Dish;
 using MyRecipe.AppServices.Ingredient;
+using MyRecipe.AppServices.Okei;
 using MyRecipe.Common.ComponentRegistrar;
 using MyRecipe.Contracts.Api;
 using MyRecipe.Contracts.Ingredient;
@@ -13,6 +14,7 @@ using MyRecipe.Infrastructure;
 using MyRecipe.Infrastructure.MappingProfiles;
 using MyRecipe.Infrastructure.Repositories.Dish;
 using MyRecipe.Infrastructure.Repositories.Ingredient;
+using MyRecipe.Infrastructure.Repositories.Okei;
 
 namespace MyRecipe.ComponentRegistrar
 {
@@ -64,6 +66,7 @@ namespace MyRecipe.ComponentRegistrar
         {
             services.AddScoped<IIngredientService, IngredientService>();
             services.AddScoped<IDishService, DishService>();
+            services.AddScoped<IOkeiService, OkeiService>();
 
             return services;
         }
@@ -78,6 +81,7 @@ namespace MyRecipe.ComponentRegistrar
             // Репозитории MyRecipeDbContext'а
             services.AddScoped<IIngredientRepository, IngredientRepository>();
             services.AddScoped<IDishRepository, DishRepository>();
+            services.AddScoped<IOkeiRepository, OkeiRepository>();
 
             return services;
         }
