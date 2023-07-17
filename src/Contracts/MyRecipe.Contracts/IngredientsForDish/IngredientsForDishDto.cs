@@ -18,9 +18,7 @@ namespace MyRecipe.Contracts.IngredientsForDish
         /// <summary>
         /// Ингредиент
         /// </summary>
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public IngredientDto Ingredient { get; set; }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public IngredientDto? Ingredient { get; set; }
 
         /// <summary>
         /// Количество ингредиента для блюда
@@ -37,9 +35,7 @@ namespace MyRecipe.Contracts.IngredientsForDish
         /// <summary>
         /// ОКЕИ (единица измерения)
         /// </summary>
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public OkeiDto Okei { get; set; }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public OkeiDto? Okei { get; set; }
 
         /// <summary>
         /// Состояние ингридиента в блюде

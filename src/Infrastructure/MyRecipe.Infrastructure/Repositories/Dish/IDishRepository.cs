@@ -1,4 +1,5 @@
 ﻿using MyRecipe.Contracts.Api;
+using MyRecipe.Contracts.Dish;
 using MyRecipe.Handlers.Contracts.Dish;
 
 namespace MyRecipe.Infrastructure.Repositories.Dish
@@ -8,10 +9,10 @@ namespace MyRecipe.Infrastructure.Repositories.Dish
         /// <summary>
         /// Добавление блюда в базу данных.
         /// </summary>
-        /// <param name="command">Данные о блюде.</param>
+        /// <param name="dish">Данные о блюде.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Идентификатор добавленного блюда.</returns>
-        Task<int> AddAsync(DishAddCommand command, CancellationToken cancellationToken);
+        Task<int> AddAsync(DishDto dish, CancellationToken cancellationToken);
 
         /// <summary>
         /// Метод получения списка блюд с краткой информацией.

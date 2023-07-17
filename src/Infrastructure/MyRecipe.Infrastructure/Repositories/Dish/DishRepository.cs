@@ -5,6 +5,7 @@ using MyRecipe.Domain;
 using MyRecipe.Handlers.Contracts.Dish;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
+using MyRecipe.Contracts.Dish;
 
 namespace MyRecipe.Infrastructure.Repositories.Dish
 {
@@ -18,33 +19,26 @@ namespace MyRecipe.Infrastructure.Repositories.Dish
         }
 
         /// <inheritdoc/>
-        public async Task<int> AddAsync(DishAddCommand command, CancellationToken cancellationToken)
+        public async Task<int> AddAsync(DishDto dishDto, CancellationToken cancellationToken)
         {
-            await ValidateName(command.Name, cancellationToken);
+            await ValidateName(dishDto.Name, cancellationToken);
 
             try
             {
-                // Добавляем ингредиенты, указанные для блюда
-                var ingredientsForDish = new List<IngredientsForDish>(command.IngredientsForDish.Count);
-                foreach (var ingredient in command.IngredientsForDish)
-                {
-                    ingredientsForDish.Add(new IngredientsForDish
-                    {
-                        IngredientId = ingredient.IngredientId,
-                        Quantity = ingredient.Quantity,
-                        OkeiCode = ingredient.OkeiCode,
-                        Condition = ingredient.Condition,
-                    });
-                }
-
                 // Добавляем новое блюдо
                 var dish = new Domain.Dish
                 {
-                    Name = command.Name,
-                    NumberOfPersons = command.NumberOfPersons,
-                    Description = command.Description,
-                    DishPhotoGuid = command.DishPhotoGuid,
-                    IngredientsForDish = ingredientsForDish
+                    Name = dishDto.Name,
+                    NumberOfPersons = dishDto.NumberOfPersons,
+                    Description = dishDto.Description,
+                    DishPhotoGuid = dishDto.DishPhotoGuid,
+                    IngredientsForDish = dishDto.IngredientsForDish.Select(x => new IngredientsForDish
+                    {
+                        IngredientId = x.IngredientId,
+                        Quantity = x.Quantity,
+                        OkeiCode = x.OkeiCode,
+                        Condition = x.Condition
+                    }).ToList()
                 };
 
                 await _context.Dishes.AddAsync(dish, cancellationToken);
@@ -58,7 +52,7 @@ namespace MyRecipe.Infrastructure.Repositories.Dish
             // Т.к. имена у блюд уникальные, то здесь можем искать идентификатор нашего блюда по имени.
             return await _context.Dishes
                 .AsNoTracking()
-                .Where(x => x.Name == command.Name)
+                .Where(x => x.Name == dishDto.Name)
                 .Select(x => x.Id)
                 .FirstAsync(cancellationToken);
         }

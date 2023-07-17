@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace MyRecipe.Handlers.Contracts.Dish
 {
@@ -18,15 +19,15 @@ namespace MyRecipe.Handlers.Contracts.Dish
         /// Блюдо на какое количество человек.
         /// </summary>
         public int NumberOfPersons { get; set; }
+        
+        /// <summary>
+        /// Файл.
+        /// </summary>
+        public IFormFile? DishPhoto { get; set; }
 
         /// <summary>
-        /// Идентификатора загруженного фото блюда.
+        /// Список ингредиентов для блюда. Передаётся строкой, т.к. принимаем запросы в формате "multipart/form-data".
         /// </summary>
-        public Guid? DishPhotoGuid { get; set; }
-
-        /// <summary>
-        /// Ингредиенты для блюда.
-        /// </summary>
-        public List<IngredientsForDishAddCommand> IngredientsForDish { get; set; }
+        public string IngredientsForDish { get; set; }
     }
 }

@@ -16,4 +16,16 @@ public class OkeiRepository : IOkeiRepository
     {
         return await _context.Okeis.ToArrayAsync(cancellationToken);
     }
+
+    /// <inheritdoc/>
+    public async Task<string[]> GetNonExistsIds(IEnumerable<string> codes, CancellationToken cancellationToken)
+    {
+        var existsIds = await _context.Okeis
+            .AsNoTracking()
+            .Where(i => codes.Contains(i.Code))
+            .Select(i => i.Code)
+            .ToArrayAsync(cancellationToken);
+
+        return codes.Except(existsIds).ToArray();
+    }
 }

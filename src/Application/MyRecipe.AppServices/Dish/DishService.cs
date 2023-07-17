@@ -5,46 +5,92 @@ using MyRecipe.Handlers.Contracts.Dish;
 using MyRecipe.Infrastructure.Repositories.Dish;
 using MyRecipe.Infrastructure.Repositories.Ingredient;
 using System.ComponentModel.DataAnnotations;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using MyRecipe.Contracts.IngredientsForDish;
+using MyRecipe.Infrastructure.Repositories.Okei;
+using MyRecipeFiles.AppServices.File;
+using Newtonsoft.Json;
 
 namespace MyRecipe.AppServices.Dish
 {
     public class DishService : IDishService
     {
         private readonly IIngredientRepository _ingredientRepository;
+        private readonly IOkeiRepository _okeiRepository;
         private readonly IDishRepository _dishRepository;
+        private readonly IFileService _fileService;
         private readonly IMapper _mapper;
 
         public DishService(
             IIngredientRepository ingredientRepository,
+            IOkeiRepository okeiRepository,
             IDishRepository dishRepository,
+            IFileService fileService,
             IMapper mapper)
         {
             _ingredientRepository = ingredientRepository;
+            _okeiRepository = okeiRepository;
             _dishRepository = dishRepository;
+            _fileService = fileService;
             _mapper = mapper;
         }
 
         /// <inheritdoc/>
         public async Task<int> AddAsync(DishAddCommand command, CancellationToken cancellationToken)
         {
+            var ingredientsForDish = JsonConvert.DeserializeObject<List<IngredientsForDishDto>>(command.IngredientsForDish);
+            if (ingredientsForDish == null || !ingredientsForDish.Any())
+            {
+                var ex = new ValidationException($"Не переданы ингредиенты для блюда");
+                ex.Data.Add("Ингредиент", $"Не переданы ингредиенты для блюда");
+
+                throw ex;
+            }
+            
             // Валидация существования ингредиентов
-            var ingredientsIds = command.IngredientsForDish.Select(x => x.IngredientId);
+            var ingredientsIds = ingredientsForDish.Select(x => x.IngredientId);
             var unknownIngredientsIds = await _ingredientRepository.GetNonExistsIds(ingredientsIds, cancellationToken);
             if (unknownIngredientsIds != null && unknownIngredientsIds.Any())
             {
                 var unknownIngredientsIdsInRow = string.Join(", ", unknownIngredientsIds);
 
-                var ex = new ValidationException($"Ингредиенты с идентификаторами [{unknownIngredientsIdsInRow}] не существует");
-                ex.Data.Add("Ингредиент", $"Ингредиенты с идентификаторами [{unknownIngredientsIdsInRow}] не существует");
+                var ex = new ValidationException($"Ингредиенты с идентификаторами [{unknownIngredientsIdsInRow}] не существуют");
+                ex.Data.Add("Ингредиент", $"Ингредиенты с идентификаторами [{unknownIngredientsIdsInRow}] не существуют");
 
                 throw ex;
             }
 
-            // TODO: добавить валидацию существования Okei-кодов
+            // Валидацию существования Okei-кодов
+            var okeisIds = ingredientsForDish.Select(x => x.OkeiCode);
+            var unknownOkeisIds = await _okeiRepository.GetNonExistsIds(okeisIds, cancellationToken);
+            if (unknownOkeisIds != null && unknownOkeisIds.Any())
+            {
+                var unknownOkeisIdsInRow = string.Join(", ", unknownOkeisIds);
+
+                var ex = new ValidationException($"Okei-коды с кодами [{unknownOkeisIdsInRow}] не существуют");
+                ex.Data.Add("Единица измерения", $"Okei-коды с кодами [{unknownOkeisIdsInRow}] не существуют");
+
+                throw ex;
+            }
+            
+            // Добавление файла фотографии блюда в сервис документов.
+            var dishPhotoGuid = default(Guid?);
+            if (command.DishPhoto is not null)
+            {
+                dishPhotoGuid = await _fileService.UploadAsync(command.DishPhoto, cancellationToken);
+            }
 
             // Добавление нового блюда
-            return await _dishRepository.AddAsync(command, cancellationToken);
+            var dishDto = new DishDto
+            {
+                Id = 0,
+                Name = command.Name,
+                NumberOfPersons = command.NumberOfPersons,
+                Description = command.Description,
+                DishPhotoGuid = dishPhotoGuid,
+                IngredientsForDish = ingredientsForDish
+            };
+            
+            return await _dishRepository.AddAsync(dishDto, cancellationToken);
         }
 
         /// <inheritdoc/>

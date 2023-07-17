@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyRecipe.Contracts.Api;
 using MyRecipe.Contracts.Dish;
 using MyRecipe.Handlers.Contracts.Dish;
+using Newtonsoft.Json;
 
 namespace MyRecipe.Api.Controllers.v1
 {
@@ -28,7 +29,7 @@ namespace MyRecipe.Api.Controllers.v1
         [HttpPost]
         [Route("Add")]
         [ProducesResponseType(typeof(ApiResult<int>), statusCode: StatusCodes.Status200OK)]
-        public async Task<IActionResult> Add([FromBody] DishAddCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> Add([FromForm] DishAddCommand command, CancellationToken cancellationToken)
         {
             return await CallApiActionWithResultAsync(async () => await _mediator.Send(command, cancellationToken));
         }
@@ -40,6 +41,7 @@ namespace MyRecipe.Api.Controllers.v1
         /// <returns>Список блюд с краткой информацией.</returns>
         [HttpGet]
         [Route("GetList")]
+        
         [ProducesResponseType(typeof(ApiResult<List<DishForGridDto>>), statusCode: StatusCodes.Status200OK)]
         public async Task<IActionResult> GetList([FromQuery] DishGetListQuery query, CancellationToken cancellationToken)
         {

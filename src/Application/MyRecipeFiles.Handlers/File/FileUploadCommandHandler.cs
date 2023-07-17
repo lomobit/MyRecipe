@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using MyRecipe.Contracts.File;
 using MyRecipeFiles.AppServices.File;
 using MyRecipeFiles.Handlers.Contracts.File;
 
@@ -16,21 +15,7 @@ namespace MyRecipeFiles.Handlers.File
 
         public async Task<Guid> Handle(FileUploadCommand command, CancellationToken cancellationToken)
         {
-            byte[] fileContent;
-            using (var stream = new MemoryStream((int)command.File.Length))
-            {
-                await command.File.CopyToAsync(stream, cancellationToken);
-                fileContent = stream.ToArray();
-            }
-
-            var fileDto = new FileDto()
-            {
-                Name = command.File.Name,
-                Content = fileContent,
-                Size = command.File.Length
-            };
-
-            return await _fileService.UploadAsync(fileDto, cancellationToken);
+            return await _fileService.UploadAsync(command.File, cancellationToken);
         }
     }
 }
