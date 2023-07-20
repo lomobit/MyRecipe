@@ -108,7 +108,7 @@ namespace MyRecipe.ComponentRegistrar
         /// <returns>Коллекция сервисов DI.</returns>
         public static IServiceCollection AddMyRecipePipelineBehaviors(this IServiceCollection services)
         {
-            services.AddScoped<IPipelineBehavior<IngredientGetQuery, Pagination<IngredientDto>>, IngredientGetQueryBehavior>();
+            services.AddScoped<IPipelineBehavior<IngredientGetPageQuery, Pagination<IngredientDto>>, IngredientGetQueryBehavior>();
 
             return services;
         }

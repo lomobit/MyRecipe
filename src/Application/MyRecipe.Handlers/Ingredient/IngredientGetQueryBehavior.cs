@@ -8,7 +8,7 @@ using MyRecipe.Handlers.Contracts.Ingredient;
 
 namespace MyRecipe.Handlers.Ingredient
 {
-    public class IngredientGetQueryBehavior : IPipelineBehavior<IngredientGetQuery, Pagination<IngredientDto>>
+    public class IngredientGetQueryBehavior : IPipelineBehavior<IngredientGetPageQuery, Pagination<IngredientDto>>
     {
         private readonly ILogger _logger;
 
@@ -17,11 +17,11 @@ namespace MyRecipe.Handlers.Ingredient
             _logger = logger;
         }
 
-        public async Task<Pagination<IngredientDto>> Handle(IngredientGetQuery request, RequestHandlerDelegate<Pagination<IngredientDto>> next, CancellationToken cancellationToken)
+        public async Task<Pagination<IngredientDto>> Handle(IngredientGetPageQuery request, RequestHandlerDelegate<Pagination<IngredientDto>> next, CancellationToken cancellationToken)
         {
             if (request == null || request.PageNumber < 1 || request.PageSize < 1)
             {
-                _logger.LogError($"Некорректный запрос {nameof(IngredientGetQuery)} в {nameof(IngredientGetQueryBehavior)}");
+                _logger.LogError($"Некорректный запрос {nameof(IngredientGetPageQuery)} в {nameof(IngredientGetQueryBehavior)}");
                 
                 var ex = new ValidationException();
                 ex.Data.Add("Ошибка", "Некорректный запрос");

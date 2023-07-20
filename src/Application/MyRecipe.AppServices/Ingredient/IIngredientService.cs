@@ -21,7 +21,7 @@ namespace MyRecipe.AppServices.Ingredient
         /// <param name="request">Данные запроса.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Список ингредиентов для страницы.</returns>
-        Task<Pagination<IngredientDto>> GetAsync(IngredientGetQuery request, CancellationToken cancellationToken);
+        Task<Pagination<IngredientDto>> GetAsync(IngredientGetPageQuery request, CancellationToken cancellationToken);
 
         /// <summary>
         /// Получение из базы списка всех ингредиентов.

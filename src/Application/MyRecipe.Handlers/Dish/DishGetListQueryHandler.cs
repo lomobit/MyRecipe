@@ -6,7 +6,7 @@ using MyRecipe.Handlers.Contracts.Dish;
 
 namespace MyRecipe.Handlers.Dish
 {
-    public class DishGetListQueryHandler : IRequestHandler<DishGetListQuery, Pagination<DishForGridDto>>
+    public class DishGetListQueryHandler : IRequestHandler<DishGetPageQuery, Pagination<DishForGridDto>>
     {
         private readonly IDishService _dishService;
 
@@ -15,7 +15,7 @@ namespace MyRecipe.Handlers.Dish
             _dishService = dishService;
         }
 
-        public async Task<Pagination<DishForGridDto>> Handle(DishGetListQuery query, CancellationToken cancellationToken)
+        public async Task<Pagination<DishForGridDto>> Handle(DishGetPageQuery query, CancellationToken cancellationToken)
         {
             return await _dishService.GetListAsync(query, cancellationToken);
         }

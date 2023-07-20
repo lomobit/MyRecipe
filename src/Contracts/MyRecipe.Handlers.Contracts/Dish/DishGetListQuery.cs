@@ -6,7 +6,7 @@ using MyRecipe.Contracts.Enums.Common;
 namespace MyRecipe.Handlers.Contracts.Dish
 {
     // TODO: полностью копирует файл IngredientGetQuery, посмотреть, может стоит вынести все это дело в отдельное место
-    public class DishGetListQuery : IRequest<Pagination<DishForGridDto>>
+    public class DishGetPageQuery : IRequest<Pagination<DishForGridDto>>
     {
         /// <summary>
         /// Номер страницы.

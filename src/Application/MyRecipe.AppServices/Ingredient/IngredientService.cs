@@ -25,7 +25,7 @@ namespace MyRecipe.AppServices.Ingredient
         }
 
         /// <inheritdoc/>
-        public async Task<Pagination<IngredientDto>> GetAsync(IngredientGetQuery query, CancellationToken cancellationToken)
+        public async Task<Pagination<IngredientDto>> GetAsync(IngredientGetPageQuery query, CancellationToken cancellationToken)
         {
             var paginatedResult = await _ingredientRepository.GetAsync(query, cancellationToken);
             return new Pagination<IngredientDto>(

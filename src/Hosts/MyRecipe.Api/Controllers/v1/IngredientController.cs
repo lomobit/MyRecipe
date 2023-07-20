@@ -40,9 +40,9 @@ namespace MyRecipe.Api.Controllers.v1
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Ингредиенты.</returns>
         [HttpGet]
-        [Route("Get")]
+        [Route("GetPage")]
         [ProducesResponseType(typeof(ApiResult<Pagination<IngredientDto>>), statusCode: StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get([FromQuery] IngredientGetQuery query, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetPage([FromQuery] IngredientGetPageQuery query, CancellationToken cancellationToken)
         {
             return await CallApiActionWithResultAsync(async () => await _mediator.Send(query, cancellationToken));
         }

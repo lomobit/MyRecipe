@@ -58,7 +58,7 @@ namespace MyRecipe.Infrastructure.Repositories.Dish
         }
 
         /// <inheritdoc/>
-        public async Task<Pagination<Domain.Dish>> GetListAsync(DishGetListQuery query, CancellationToken cancellationToken)
+        public async Task<Pagination<Domain.Dish>> GetListAsync(DishGetPageQuery query, CancellationToken cancellationToken)
         {
             var commonQuery = _context.Dishes.AsNoTracking();
 

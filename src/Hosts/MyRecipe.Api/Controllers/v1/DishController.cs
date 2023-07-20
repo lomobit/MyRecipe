@@ -37,13 +37,14 @@ namespace MyRecipe.Api.Controllers.v1
         /// <summary>
         /// Метод получения списка блюд с краткой информацией.
         /// </summary>
+        /// <param name="query"></param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Список блюд с краткой информацией.</returns>
         [HttpGet]
-        [Route("GetList")]
+        [Route("GetPage")]
         
-        [ProducesResponseType(typeof(ApiResult<List<DishForGridDto>>), statusCode: StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetList([FromQuery] DishGetListQuery query, CancellationToken cancellationToken)
+        [ProducesResponseType(typeof(ApiResult<Pagination<DishForGridDto>>), statusCode: StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetPage([FromQuery] DishGetPageQuery query, CancellationToken cancellationToken)
         {
             return await CallApiActionWithResultAsync(async () => await _mediator.Send(query, cancellationToken));
         }

@@ -44,7 +44,7 @@ namespace MyRecipe.Infrastructure.Repositories.Ingredient
         }
 
         /// <inheritdoc/>
-        public async Task<Pagination<Domain.Ingredient>> GetAsync(IngredientGetQuery request, CancellationToken cancellationToken)
+        public async Task<Pagination<Domain.Ingredient>> GetAsync(IngredientGetPageQuery request, CancellationToken cancellationToken)
         {
             var commonQuery = _context.Ingredients.AsNoTracking();
 

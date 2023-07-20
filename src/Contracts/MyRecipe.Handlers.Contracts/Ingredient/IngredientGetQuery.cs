@@ -5,7 +5,7 @@ using MyRecipe.Contracts.Ingredient;
 
 namespace MyRecipe.Handlers.Contracts.Ingredient
 {
-    public class IngredientGetQuery : IRequest<Pagination<IngredientDto>>
+    public class IngredientGetPageQuery : IRequest<Pagination<IngredientDto>>
     {
         /// <summary>
         /// Номер страницы.
