@@ -26,8 +26,8 @@ namespace MyRecipe.Handlers.Contracts.Dish
         public IFormFile? DishPhoto { get; set; }
 
         /// <summary>
-        /// Список ингредиентов для блюда. Передаётся строкой, т.к. принимаем запросы в формате "multipart/form-data".
+        /// Список ингредиентов для блюда.
         /// </summary>
-        public string IngredientsForDish { get; set; }
+        public IngredientsForDishAddCommand[] IngredientsForDish { get; set; }
     }
 }

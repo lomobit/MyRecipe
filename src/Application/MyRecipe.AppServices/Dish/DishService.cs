@@ -37,8 +37,7 @@ namespace MyRecipe.AppServices.Dish
         /// <inheritdoc/>
         public async Task<int> AddAsync(DishAddCommand command, CancellationToken cancellationToken)
         {
-            var ingredientsForDish = JsonConvert.DeserializeObject<List<IngredientsForDishDto>>(command.IngredientsForDish);
-            if (ingredientsForDish == null || !ingredientsForDish.Any())
+            if (command.IngredientsForDish == null || !command.IngredientsForDish.Any())
             {
                 var ex = new ValidationException($"Не переданы ингредиенты для блюда");
                 ex.Data.Add("Ингредиент", $"Не переданы ингредиенты для блюда");
@@ -47,7 +46,7 @@ namespace MyRecipe.AppServices.Dish
             }
             
             // Валидация существования ингредиентов
-            var ingredientsIds = ingredientsForDish.Select(x => x.IngredientId);
+            var ingredientsIds = command.IngredientsForDish.Select(x => x.IngredientId);
             var unknownIngredientsIds = await _ingredientRepository.GetNonExistsIds(ingredientsIds, cancellationToken);
             if (unknownIngredientsIds != null && unknownIngredientsIds.Any())
             {
@@ -60,7 +59,7 @@ namespace MyRecipe.AppServices.Dish
             }
 
             // Валидацию существования Okei-кодов
-            var okeisIds = ingredientsForDish.Select(x => x.OkeiCode);
+            var okeisIds = command.IngredientsForDish.Select(x => x.OkeiCode);
             var unknownOkeisIds = await _okeiRepository.GetNonExistsIds(okeisIds, cancellationToken);
             if (unknownOkeisIds != null && unknownOkeisIds.Any())
             {
@@ -87,7 +86,13 @@ namespace MyRecipe.AppServices.Dish
                 NumberOfPersons = command.NumberOfPersons,
                 Description = command.Description,
                 DishPhotoGuid = dishPhotoGuid,
-                IngredientsForDish = ingredientsForDish
+                IngredientsForDish = command.IngredientsForDish.Select(x => new IngredientsForDishDto
+                {
+                    IngredientId = x.IngredientId,
+                    Quantity = x.Quantity,
+                    OkeiCode = x.OkeiCode,
+                    Condition = x.Condition
+                }).ToList()
             };
             
             return await _dishRepository.AddAsync(dishDto, cancellationToken);
