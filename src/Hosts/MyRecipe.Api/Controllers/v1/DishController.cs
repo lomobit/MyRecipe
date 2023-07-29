@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using MyRecipe.Contracts.Api;
 using MyRecipe.Contracts.Dish;
 using MyRecipe.Handlers.Contracts.Dish;
-using Newtonsoft.Json;
 
 namespace MyRecipe.Api.Controllers.v1
 {
