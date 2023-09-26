@@ -8,7 +8,6 @@ using System.ComponentModel.DataAnnotations;
 using MyRecipe.Contracts.IngredientsForDish;
 using MyRecipe.Infrastructure.Repositories.Okei;
 using MyRecipeFiles.AppServices.File;
-using Newtonsoft.Json;
 
 namespace MyRecipe.AppServices.Dish
 {
@@ -37,39 +36,7 @@ namespace MyRecipe.AppServices.Dish
         /// <inheritdoc/>
         public async Task<int> AddAsync(DishAddCommand command, CancellationToken cancellationToken)
         {
-            if (command.IngredientsForDish == null || !command.IngredientsForDish.Any())
-            {
-                var ex = new ValidationException($"Не переданы ингредиенты для блюда");
-                ex.Data.Add("Ингредиент", $"Не переданы ингредиенты для блюда");
-
-                throw ex;
-            }
-            
-            // Валидация существования ингредиентов
-            var ingredientsIds = command.IngredientsForDish.Select(x => x.IngredientId);
-            var unknownIngredientsIds = await _ingredientRepository.GetNonExistsIds(ingredientsIds, cancellationToken);
-            if (unknownIngredientsIds != null && unknownIngredientsIds.Any())
-            {
-                var unknownIngredientsIdsInRow = string.Join(", ", unknownIngredientsIds);
-
-                var ex = new ValidationException($"Ингредиенты с идентификаторами [{unknownIngredientsIdsInRow}] не существуют");
-                ex.Data.Add("Ингредиент", $"Ингредиенты с идентификаторами [{unknownIngredientsIdsInRow}] не существуют");
-
-                throw ex;
-            }
-
-            // Валидацию существования Okei-кодов
-            var okeisIds = command.IngredientsForDish.Select(x => x.OkeiCode);
-            var unknownOkeisIds = await _okeiRepository.GetNonExistsIds(okeisIds, cancellationToken);
-            if (unknownOkeisIds != null && unknownOkeisIds.Any())
-            {
-                var unknownOkeisIdsInRow = string.Join(", ", unknownOkeisIds);
-
-                var ex = new ValidationException($"Okei-коды с кодами [{unknownOkeisIdsInRow}] не существуют");
-                ex.Data.Add("Единица измерения", $"Okei-коды с кодами [{unknownOkeisIdsInRow}] не существуют");
-
-                throw ex;
-            }
+            await ValidateIngredients(command.IngredientsForDish, cancellationToken);
             
             // Добавление файла фотографии блюда в сервис документов.
             var dishPhotoGuid = default(Guid?);
@@ -99,6 +66,39 @@ namespace MyRecipe.AppServices.Dish
         }
 
         /// <inheritdoc/>
+        public async Task<bool> EditAsync(DishEditCommand command, CancellationToken cancellationToken)
+        {
+            await ValidateIngredients(command.IngredientsForDish, cancellationToken);
+            
+            // Добавление файла фотографии блюда в сервис документов.
+            var dishPhotoGuid = default(Guid?);
+            if (command.DishPhoto is not null)
+            {
+                dishPhotoGuid = await _fileService.UploadAsync(command.DishPhoto, cancellationToken);
+            }
+            
+            // Изменение блюда
+            var dishDto = new DishDto
+            {
+                Id = command.Id,
+                Name = command.Name,
+                NumberOfPersons = command.NumberOfPersons,
+                Description = command.Description,
+                DishPhotoGuid = dishPhotoGuid,
+                IngredientsForDish = command.IngredientsForDish.Select(x => new IngredientsForDishDto
+                {
+                    Id = x.Id ?? 0,
+                    IngredientId = x.IngredientId,
+                    Quantity = x.Quantity,
+                    OkeiCode = x.OkeiCode,
+                    Condition = x.Condition
+                }).ToList()
+            };
+            
+            return await _dishRepository.EditAsync(dishDto, cancellationToken);
+        }
+
+        /// <inheritdoc/>
         public async Task<Pagination<DishForGridDto>> GetListAsync(DishGetPageQuery query, CancellationToken cancellationToken)
         {
             var paginatedResult = await _dishRepository.GetListAsync(query, cancellationToken);
@@ -120,6 +120,50 @@ namespace MyRecipe.AppServices.Dish
             }
 
             return _mapper.Map<DishDto>(dish);
+        }
+        
+        /// <summary>
+        /// Валидация ингредиентов.
+        /// </summary>
+        /// <param name="ingredients">Ингредиенты.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <exception cref="ValidationException">Исключение валидации ингредиентов.</exception>
+        private async Task ValidateIngredients(IEnumerable<IIngredientsForDish> ingredients, CancellationToken cancellationToken)
+        {
+            // Валидация передачи ингредиентов для блюда
+            if (ingredients == null || !ingredients.Any())
+            {
+                var ex = new ValidationException($"Не переданы ингредиенты для блюда");
+                ex.Data.Add("Ингредиент", $"Не переданы ингредиенты для блюда");
+
+                throw ex;
+            }
+            
+            // Валидация существования ингредиентов
+            var ingredientsIds = ingredients.Select(x => x.IngredientId);
+            var unknownIngredientsIds = await _ingredientRepository.GetNonExistsIds(ingredientsIds, cancellationToken);
+            if (unknownIngredientsIds != null && unknownIngredientsIds.Any())
+            {
+                var unknownIngredientsIdsInRow = string.Join(", ", unknownIngredientsIds);
+
+                var ex = new ValidationException($"Ингредиенты с идентификаторами [{unknownIngredientsIdsInRow}] не существуют");
+                ex.Data.Add("Ингредиент", $"Ингредиенты с идентификаторами [{unknownIngredientsIdsInRow}] не существуют");
+
+                throw ex;
+            }
+            
+            // Валидацию существования Okei-кодов
+            var okeisIds = ingredients.Select(x => x.OkeiCode);
+            var unknownOkeisIds = await _okeiRepository.GetNonExistsIds(okeisIds, cancellationToken);
+            if (unknownOkeisIds != null && unknownOkeisIds.Any())
+            {
+                var unknownOkeisIdsInRow = string.Join(", ", unknownOkeisIds);
+
+                var ex = new ValidationException($"Okei-коды с кодами [{unknownOkeisIdsInRow}] не существуют");
+                ex.Data.Add("Единица измерения", $"Okei-коды с кодами [{unknownOkeisIdsInRow}] не существуют");
+
+                throw ex;
+            }
         }
     }
 }

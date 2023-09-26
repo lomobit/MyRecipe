@@ -1,7 +1,4 @@
-﻿using MyRecipe.Contracts.Ingredient;
-using MyRecipe.Contracts.Okei;
-
-namespace MyRecipe.Contracts.IngredientsForDish
+﻿namespace MyRecipe.Contracts.IngredientsForDish
 {
     public class IngredientsForDishDto
     {
@@ -16,11 +13,6 @@ namespace MyRecipe.Contracts.IngredientsForDish
         public int IngredientId { get; set; }
 
         /// <summary>
-        /// Ингредиент
-        /// </summary>
-        public IngredientDto? Ingredient { get; set; }
-
-        /// <summary>
         /// Количество ингредиента для блюда
         /// </summary>
         public int Quantity { get; set; }
@@ -31,11 +23,6 @@ namespace MyRecipe.Contracts.IngredientsForDish
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public string OkeiCode { get; set; }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
-        /// <summary>
-        /// ОКЕИ (единица измерения)
-        /// </summary>
-        public OkeiDto? Okei { get; set; }
 
         /// <summary>
         /// Состояние ингридиента в блюде

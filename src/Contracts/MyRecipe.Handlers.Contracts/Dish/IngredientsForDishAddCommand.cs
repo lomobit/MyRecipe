@@ -1,7 +1,7 @@
 ﻿
 namespace MyRecipe.Handlers.Contracts.Dish
 {
-    public class IngredientsForDishAddCommand
+    public class IngredientsForDishAddCommand : IIngredientsForDish
     {
         /// <summary>
         /// Идентификатор ингредиента.

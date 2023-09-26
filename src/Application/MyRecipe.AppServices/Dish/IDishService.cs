@@ -13,6 +13,14 @@ namespace MyRecipe.AppServices.Dish
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Идентификатор добавленного блюда.</returns>
         Task<int> AddAsync(DishAddCommand command, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// Изменение блюда в базе данных.
+        /// </summary>
+        /// <param name="command">Измененные данные о блюде.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Успешность изменения блюда.</returns>
+        Task<bool> EditAsync(DishEditCommand command, CancellationToken cancellationToken);
 
         /// <summary>
         /// Метод получения списка блюд с краткой информацией.

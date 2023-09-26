@@ -32,6 +32,14 @@ namespace MyRecipe.Api.Controllers.v1
         {
             return await CallApiActionWithResultAsync(async () => await _mediator.Send(command, cancellationToken));
         }
+        
+        [HttpPost]
+        [Route("Edit")]
+        [ProducesResponseType(typeof(ApiResult<int>), statusCode: StatusCodes.Status200OK)]
+        public async Task<IActionResult> Edit([FromForm] DishEditCommand command, CancellationToken cancellationToken)
+        {
+            return await CallApiActionWithResultAsync(async () => await _mediator.Send(command, cancellationToken));
+        }
 
         /// <summary>
         /// Метод получения списка блюд с краткой информацией.

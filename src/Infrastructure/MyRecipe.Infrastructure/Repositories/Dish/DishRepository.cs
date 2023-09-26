@@ -41,7 +41,7 @@ namespace MyRecipe.Infrastructure.Repositories.Dish
                     }).ToList()
                 };
 
-                await _context.Dishes.AddAsync(dish, cancellationToken);
+                _context.Dishes.Add(dish);
                 await _context.SaveChangesAsync(cancellationToken);
             }
             finally
@@ -55,6 +55,54 @@ namespace MyRecipe.Infrastructure.Repositories.Dish
                 .Where(x => x.Name == dishDto.Name)
                 .Select(x => x.Id)
                 .FirstAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> EditAsync(DishDto dishDto, CancellationToken cancellationToken)
+        {
+            var currentDishVersion = await _context.Dishes.FirstOrDefaultAsync(x => x.Id == dishDto.Id, cancellationToken);
+            if (currentDishVersion == null)
+            {
+                var ex = new ValidationException($"Блюдо с идентификатором \"{dishDto.Id}\" не существует");
+                ex.Data.Add("Блюдо", $"Блюдо с идентификатором \"{dishDto.Id}\" не существует");
+
+                throw ex;
+            }
+
+            if (dishDto.Name != currentDishVersion.Name)
+            {
+                await ValidateName(dishDto.Name, cancellationToken);
+            }
+
+            try
+            {
+                currentDishVersion.Name = dishDto.Name;
+                currentDishVersion.NumberOfPersons = dishDto.NumberOfPersons;
+                currentDishVersion.Description = dishDto.Description;
+
+                if (dishDto.DishPhotoGuid.HasValue)
+                {
+                    currentDishVersion.DishPhotoGuid = dishDto.DishPhotoGuid;
+                }
+
+                currentDishVersion.IngredientsForDish.Clear();
+                currentDishVersion.IngredientsForDish = dishDto.IngredientsForDish.Select(x => new IngredientsForDish
+                {
+                    Id = x.Id,
+                    IngredientId = x.IngredientId,
+                    Quantity = x.Quantity,
+                    OkeiCode = x.OkeiCode,
+                    Condition = x.Condition
+                }).ToList();
+
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            finally
+            {
+                _context.ChangeTracker.Clear();
+            }
+
+            return true;
         }
 
         /// <inheritdoc/>
@@ -96,7 +144,7 @@ namespace MyRecipe.Infrastructure.Repositories.Dish
         }
 
         // TODO: Приватные методы практически полностью повторяют методы из репозитория ингредиентов.
-        //       Подумать как их вынести в одно место.
+        //       Подумать о том, чтобы вынести их в одно место.
 
         /// <summary>
         /// Возвращает Expression для методов сортировки, в зависимости от используемого для сортировки поля.

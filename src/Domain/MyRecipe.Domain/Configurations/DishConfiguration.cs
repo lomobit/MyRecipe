@@ -8,7 +8,6 @@ namespace MyRecipe.Domain.Configurations
         public void Configure(EntityTypeBuilder<Dish> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasAlternateKey(x => x.Name);
 
             builder.HasMany(x => x.IngredientsForDish)
                 .WithOne()
