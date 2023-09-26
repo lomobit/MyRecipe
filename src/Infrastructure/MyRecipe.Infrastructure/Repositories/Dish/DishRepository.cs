@@ -79,11 +79,7 @@ namespace MyRecipe.Infrastructure.Repositories.Dish
                 currentDishVersion.Name = dishDto.Name;
                 currentDishVersion.NumberOfPersons = dishDto.NumberOfPersons;
                 currentDishVersion.Description = dishDto.Description;
-
-                if (dishDto.DishPhotoGuid.HasValue)
-                {
-                    currentDishVersion.DishPhotoGuid = dishDto.DishPhotoGuid;
-                }
+                currentDishVersion.DishPhotoGuid = dishDto.DishPhotoGuid;
 
                 currentDishVersion.IngredientsForDish.Clear();
                 currentDishVersion.IngredientsForDish = dishDto.IngredientsForDish.Select(x => new IngredientsForDish
