@@ -72,7 +72,11 @@ namespace MyRecipe.AppServices.Dish
             
             // Добавление файла фотографии блюда в сервис документов.
             var dishPhotoGuid = default(Guid?);
-            if (command.DishPhoto is not null)
+            if (command.DishPhotoGuid.HasValue)
+            {
+                dishPhotoGuid = command.DishPhotoGuid;
+            }
+            else if (command.DishPhoto is not null)
             {
                 dishPhotoGuid = await _fileService.UploadAsync(command.DishPhoto, cancellationToken);
             }

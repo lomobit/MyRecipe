@@ -31,6 +31,11 @@ public class DishEditCommand : IRequest<bool>
     public IFormFile? DishPhoto { get; set; }
 
     /// <summary>
+    /// Guid изображения.
+    /// </summary>
+    public Guid? DishPhotoGuid { get; set; }
+
+    /// <summary>
     /// Список ингредиентов для блюда.
     /// </summary>
     public IngredientsForDishEditCommand[] IngredientsForDish { get; set; }
