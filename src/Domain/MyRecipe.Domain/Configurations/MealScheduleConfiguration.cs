@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MyRecipe.Domain.Configurations
 {
-    public class MealScheduleConfiguration : IEntityTypeConfiguration<MealSchedule>
+    public class MealScheduleConfiguration : IEntityTypeConfiguration<Event>
     {
-        public void Configure(EntityTypeBuilder<MealSchedule> builder)
+        public void Configure(EntityTypeBuilder<Event> builder)
         {
             builder.HasKey(x => x.Id);
 

@@ -11,7 +11,7 @@ public class MyRecipeDbContext : DbContext
     public DbSet<Okei> Okeis { get; set; }
     public DbSet<IngredientsForDish> IngredientsForDishes { get; set; }
     public DbSet<Meal> Meals { get; set; }
-    public DbSet<MealSchedule> MealSchedules { get; set; }
+    public DbSet<Event> Events { get; set; }
 
 
     public MyRecipeDbContext(DbContextOptions<MyRecipeDbContext> options) : base(options)

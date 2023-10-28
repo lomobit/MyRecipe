@@ -4,7 +4,7 @@ namespace MyRecipe.Domain
     /// <summary>
     /// Расписание приёмов пищи.
     /// </summary>
-    public class MealSchedule
+    public class Event
     {
         /// <summary>
         /// Идентификатор расписания приёмов пищи.
@@ -27,7 +27,7 @@ namespace MyRecipe.Domain
         public virtual IEnumerable<Meal> Meals { get; set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public MealSchedule()
+        public Event()
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             Meals = Enumerable.Empty<Meal>();
