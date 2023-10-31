@@ -29,8 +29,8 @@
   </ItemGroup>
 	
   <Target Name="AfterBuild">
-	  <!--<Exec Command="cp ../../Infrastructure/MyRecipe.Infrastructure/SqlScriptsForMigrations/* ./bin/$(Configuration)/$(TargetFramework)/SqlScriptsForMigrations/" />-->
-	  <Exec Command="xcopy &quot;..\..\Infrastructure\MyRecipe.Infrastructure\SqlScriptsForMigrations\*&quot; &quot;.\bin\$(Configuration)\$(TargetFramework)\SqlScriptsForMigrations\&quot; /e /f /h /k /y" />
+	  <Exec Command="cp ../../Infrastructure/MyRecipe.Infrastructure/SqlScriptsForMigrations/* ./bin/$(Configuration)/$(TargetFramework)/SqlScriptsForMigrations/" />
+	  <!--<Exec Command="xcopy &quot;..\..\Infrastructure\MyRecipe.Infrastructure\SqlScriptsForMigrations\*&quot; &quot;.\bin\$(Configuration)\$(TargetFramework)\SqlScriptsForMigrations\&quot; /e /f /h /k /y" />-->
   </Target>
 
 </Project>
