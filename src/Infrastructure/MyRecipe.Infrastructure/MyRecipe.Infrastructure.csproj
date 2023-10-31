@@ -20,8 +20,5 @@
       <ProjectReference Include="..\..\Domain\MyRecipe.Domain\MyRecipe.Domain.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="SqlScriptsForMigrations\" />
-    </ItemGroup>
 
 </Project>

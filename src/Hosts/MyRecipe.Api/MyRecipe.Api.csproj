@@ -27,10 +27,14 @@
 	<ProjectReference Include="..\..\ComponentRegistrar\MyRecipeLogging.ComponentRegistrar\MyRecipeLogging.ComponentRegistrar.csproj" />
 	<ProjectReference Include="..\..\ComponentRegistrar\MyRecipeFiles.ComponentRegistrar\MyRecipeFiles.ComponentRegistrar.csproj" />
   </ItemGroup>
-	
-  <Target Name="AfterBuild">
-	  <Exec Command="cp ../../Infrastructure/MyRecipe.Infrastructure/SqlScriptsForMigrations/* ./bin/$(Configuration)/$(TargetFramework)/SqlScriptsForMigrations/" />
-	  <!--<Exec Command="xcopy &quot;..\..\Infrastructure\MyRecipe.Infrastructure\SqlScriptsForMigrations\*&quot; &quot;.\bin\$(Configuration)\$(TargetFramework)\SqlScriptsForMigrations\&quot; /e /f /h /k /y" />-->
-  </Target>
+
+  <ItemGroup>
+    <None Update="SqlScriptsForMigrations\20230124_AdditingMainOkeiCodes.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="SqlScriptsForMigrations\20230124_RemovingMainOkeiCodes.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
 </Project>
