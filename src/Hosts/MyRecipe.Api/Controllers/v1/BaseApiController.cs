@@ -25,7 +25,7 @@ namespace MyRecipe.Api.Controllers.v1
             catch (Exception ex)
             {
                 return Error(
-                    ex.InnerException ?? ex,
+                    ex.InnerException?.ToString() ?? ex.ToString(),
                     StatusCodes.Status500InternalServerError,
                     ex.Data);
             }
