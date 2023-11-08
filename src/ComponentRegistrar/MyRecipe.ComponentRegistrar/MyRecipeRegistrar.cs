@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MyRecipe.AppServices.Dish;
+using MyRecipe.AppServices.Event;
 using MyRecipe.AppServices.Ingredient;
 using MyRecipe.AppServices.Okei;
 using MyRecipe.Common.ComponentRegistrar;
@@ -13,6 +14,7 @@ using MyRecipe.Handlers.Ingredient;
 using MyRecipe.Infrastructure;
 using MyRecipe.Infrastructure.MappingProfiles;
 using MyRecipe.Infrastructure.Repositories.Dish;
+using MyRecipe.Infrastructure.Repositories.Event;
 using MyRecipe.Infrastructure.Repositories.Ingredient;
 using MyRecipe.Infrastructure.Repositories.Okei;
 
@@ -67,6 +69,7 @@ namespace MyRecipe.ComponentRegistrar
             services.AddScoped<IIngredientService, IngredientService>();
             services.AddScoped<IDishService, DishService>();
             services.AddScoped<IOkeiService, OkeiService>();
+            services.AddScoped<IEventService, EventService>();
 
             return services;
         }
@@ -82,6 +85,7 @@ namespace MyRecipe.ComponentRegistrar
             services.AddScoped<IIngredientRepository, IngredientRepository>();
             services.AddScoped<IDishRepository, DishRepository>();
             services.AddScoped<IOkeiRepository, OkeiRepository>();
+            services.AddScoped<IEventRepository, EventRepository>();
 
             return services;
         }
