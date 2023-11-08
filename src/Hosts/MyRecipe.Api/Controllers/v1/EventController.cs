@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MyRecipe.Contracts.Api;
+using MyRecipe.Contracts.Event;
 using MyRecipe.Handlers.Contracts.Event;
 
 namespace MyRecipe.Api.Controllers.v1;
@@ -33,5 +34,18 @@ public class EventController : BaseApiController
     public async Task<IActionResult> Add([FromForm] EventAddCommand command, CancellationToken cancellationToken)
     {
         return await CallApiActionWithResultAsync(async () => await _mediator.Send(command, cancellationToken));
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
+    [HttpGet]
+    [Route("GetPage")]
+    [ProducesResponseType(typeof(ApiResult<Pagination<EventForGridDto>>), statusCode: StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetPage(CancellationToken cancellation)
+    {
+        return Ok();
     }
 }
