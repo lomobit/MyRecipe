@@ -32,7 +32,12 @@ builder.Services.AddMyRecipeFiles();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment == null)
+{
+    throw new ArgumentNullException(nameof(app.Environment));
+}
+
+if (app.Environment.IsEnvironment(Environments.Development) || app.Environment.IsEnvironment(Environments.Staging))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
