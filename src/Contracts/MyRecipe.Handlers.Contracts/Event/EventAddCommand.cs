@@ -27,5 +27,5 @@ public class EventAddCommand : IRequest<int>
     /// <summary>
     /// Приёмы пищи.
     /// </summary>
-    public MealDto Meals { get; set; }
+    public MealDto[] Meals { get; set; }
 }

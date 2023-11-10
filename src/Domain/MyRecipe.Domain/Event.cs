@@ -20,6 +20,16 @@ namespace MyRecipe.Domain
         /// Описание расписания приёмов пищи.
         /// </summary>
         public string? Description { get; set; }
+        
+        /// <summary>
+        /// Дата начала события.
+        /// </summary>
+        public DateOnly StartDate { get; set; }
+    
+        /// <summary>
+        /// Дата окончания события.
+        /// </summary>
+        public DateOnly EndDate { get; set; }
 
         /// <summary>
         /// Приёмы пищи.

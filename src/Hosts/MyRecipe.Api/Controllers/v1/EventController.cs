@@ -23,7 +23,7 @@ public class EventController : BaseApiController
     }
     
     /// <summary>
-    /// Метода для добавления события.
+    /// Метод для добавления события.
     /// </summary>
     /// <param name="command">Команда добавления события.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
@@ -31,7 +31,7 @@ public class EventController : BaseApiController
     [HttpPost]
     [Route("Add")]
     [ProducesResponseType(typeof(ApiResult<int>), statusCode: StatusCodes.Status200OK)]
-    public async Task<IActionResult> Add([FromForm] EventAddCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> Add([FromBody] EventAddCommand command, CancellationToken cancellationToken)
     {
         return await CallApiActionWithResultAsync(async () => await _mediator.Send(command, cancellationToken));
     }

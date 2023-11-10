@@ -10,19 +10,14 @@ namespace MyRecipe.Domain
         public int Id { get; set; }
 
         /// <summary>
-        /// Наименование приёма пищи.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Описание расписания приёмов пищи.
+        /// Описание приёма пищи.
         /// </summary>
         public string? Description { get; set; }
 
         /// <summary>
         /// Дата и время приёма пищи.
         /// </summary>
-        public DateTime? StartAt { get; set; }
+        public DateOnly Date { get; set; }
 
         /// <summary>
         /// Тип приёма пищи.

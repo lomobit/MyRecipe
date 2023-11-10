@@ -14,6 +14,6 @@ public class EventAddCommandHandler : IRequestHandler<EventAddCommand, int>
     }
     public async Task<int> Handle(EventAddCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await _eventService.AddAsync(request, cancellationToken);
     }
 }

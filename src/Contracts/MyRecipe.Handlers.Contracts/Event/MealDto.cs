@@ -5,6 +5,11 @@ namespace MyRecipe.Handlers.Contracts.Event;
 public class MealDto
 {
     /// <summary>
+    /// Описание приёма пищи.
+    /// </summary>
+    public string? Description { get; set; }
+    
+    /// <summary>
     /// Дата приёма пищи.
     /// </summary>
     public DateOnly Date { get; set; }
