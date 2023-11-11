@@ -12,7 +12,7 @@ public class MealDto
     /// <summary>
     /// Дата приёма пищи.
     /// </summary>
-    public DateOnly Date { get; set; }
+    public DateTimeOffset Date { get; set; }
 
     /// <summary>
     /// Тип приёма пищи.

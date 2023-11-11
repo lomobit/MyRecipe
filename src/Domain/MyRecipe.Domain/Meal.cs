@@ -17,7 +17,7 @@ namespace MyRecipe.Domain
         /// <summary>
         /// Дата и время приёма пищи.
         /// </summary>
-        public DateOnly Date { get; set; }
+        public DateTimeOffset Date { get; set; }
 
         /// <summary>
         /// Тип приёма пищи.

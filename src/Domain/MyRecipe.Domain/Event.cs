@@ -24,12 +24,12 @@ namespace MyRecipe.Domain
         /// <summary>
         /// Дата начала события.
         /// </summary>
-        public DateOnly StartDate { get; set; }
+        public DateTimeOffset StartDate { get; set; }
     
         /// <summary>
         /// Дата окончания события.
         /// </summary>
-        public DateOnly EndDate { get; set; }
+        public DateTimeOffset EndDate { get; set; }
 
         /// <summary>
         /// Приёмы пищи.

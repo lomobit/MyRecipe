@@ -28,8 +28,8 @@ public class EventRepository : IEventRepository
                     Description = x.Description,
                     Date = x.Date,
                     MealType = x.Type,
-                    Dishes = _context.Dishes.Where(dish => x.DishesIds.Contains(dish.Id))
-                })
+                    Dishes = _context.Dishes.Where(dish => x.DishesIds.Contains(dish.Id)).ToArray()
+                }).ToArray()
             };
 
             _context.Events.Add(@event);
