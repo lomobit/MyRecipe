@@ -6,18 +6,18 @@ using MyRecipe.Handlers.Contracts.Dish;
 
 namespace MyRecipe.Handlers.Dish
 {
-    public class DishGetListQueryHandler : IRequestHandler<DishGetPageQuery, Pagination<DishForGridDto>>
+    public class DishGetPageQueryHandler : IRequestHandler<DishGetPageQuery, Pagination<DishForGridDto>>
     {
         private readonly IDishService _dishService;
 
-        public DishGetListQueryHandler(IDishService dishService)
+        public DishGetPageQueryHandler(IDishService dishService)
         {
             _dishService = dishService;
         }
 
         public async Task<Pagination<DishForGridDto>> Handle(DishGetPageQuery query, CancellationToken cancellationToken)
         {
-            return await _dishService.GetListAsync(query, cancellationToken);
+            return await _dishService.GetPageAsync(query, cancellationToken);
         }
     }
 }

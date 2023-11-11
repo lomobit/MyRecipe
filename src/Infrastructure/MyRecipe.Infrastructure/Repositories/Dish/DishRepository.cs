@@ -102,7 +102,7 @@ namespace MyRecipe.Infrastructure.Repositories.Dish
         }
 
         /// <inheritdoc/>
-        public async Task<Pagination<Domain.Dish>> GetListAsync(DishGetPageQuery query, CancellationToken cancellationToken)
+        public async Task<Pagination<Domain.Dish>> GetPageAsync(DishGetPageQuery query, CancellationToken cancellationToken)
         {
             var commonQuery = _context.Dishes.AsNoTracking();
 
@@ -117,15 +117,16 @@ namespace MyRecipe.Infrastructure.Repositories.Dish
             var fieldExpression = GetExpressionsForGetList(query.SortingField);
             var sliceQuery = AddSortingForGetList(commonQuery, query.SortingOrder, fieldExpression);
 
-            var ingredientsCount = await commonQuery
+            var dishesCount = await commonQuery
                 .CountAsync(cancellationToken);
 
-            var ingredientSlice = await sliceQuery
+            var dishesSlice = await sliceQuery
             .Skip((query.PageNumber - 1) * query.PageSize)
             .Take(query.PageSize)
                 .ToListAsync(cancellationToken);
 
-            return new Pagination<Domain.Dish>(ingredientsCount, ingredientSlice);
+            // TODO: работа с сущностями БД должна вестись исключительно в репозиториях
+            return new Pagination<Domain.Dish>(dishesCount, dishesSlice);
         }
 
         /// <inheritdoc/>

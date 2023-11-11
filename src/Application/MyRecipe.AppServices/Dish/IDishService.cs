@@ -28,7 +28,7 @@ namespace MyRecipe.AppServices.Dish
         /// <param name="query">Данные запроса.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Список блюд с краткой информацией.</returns>
-        Task<Pagination<DishForGridDto>> GetListAsync(DishGetPageQuery query, CancellationToken cancellationToken);
+        Task<Pagination<DishForGridDto>> GetPageAsync(DishGetPageQuery query, CancellationToken cancellationToken);
 
         /// <summary>
         /// Получение полной информации о блюде по идентификатору.

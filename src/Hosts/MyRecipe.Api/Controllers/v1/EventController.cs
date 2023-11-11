@@ -37,15 +37,16 @@ public class EventController : BaseApiController
     }
 
     /// <summary>
-    /// 
+    /// Получение списка событий для отображения на гриде.
     /// </summary>
-    /// <param name="cancellation"></param>
-    /// <returns></returns>
+    /// <param name="query">Данные запроса.</param>
+    /// <param name="cancellation">Токен отмены.</param>
+    /// <returns>Список событий.</returns>
     [HttpGet]
     [Route("GetPage")]
     [ProducesResponseType(typeof(ApiResult<Pagination<EventForGridDto>>), statusCode: StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetPage(CancellationToken cancellation)
+    public async Task<IActionResult> GetPage([FromQuery] EventGetPageQuery query, CancellationToken cancellation)
     {
-        return Ok();
+        return await CallApiActionWithResultAsync(async () => await _mediator.Send(query, cancellation));
     }
 }

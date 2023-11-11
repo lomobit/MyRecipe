@@ -6,7 +6,7 @@ namespace MyRecipe.Handlers.Event;
 
 public class EventAddCommandHandler : IRequestHandler<EventAddCommand, int>
 {
-    public IEventService _eventService;
+    private readonly IEventService _eventService;
 
     public EventAddCommandHandler(IEventService eventService)
     {

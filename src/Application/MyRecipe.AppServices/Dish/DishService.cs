@@ -103,9 +103,9 @@ namespace MyRecipe.AppServices.Dish
         }
 
         /// <inheritdoc/>
-        public async Task<Pagination<DishForGridDto>> GetListAsync(DishGetPageQuery query, CancellationToken cancellationToken)
+        public async Task<Pagination<DishForGridDto>> GetPageAsync(DishGetPageQuery query, CancellationToken cancellationToken)
         {
-            var paginatedResult = await _dishRepository.GetListAsync(query, cancellationToken);
+            var paginatedResult = await _dishRepository.GetPageAsync(query, cancellationToken);
             return new Pagination<DishForGridDto>(
                 paginatedResult.Count,
                 _mapper.Map<IEnumerable<DishForGridDto>>(paginatedResult.ItemsSlice));

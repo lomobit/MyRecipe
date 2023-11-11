@@ -44,7 +44,7 @@ namespace MyRecipe.Api.Controllers.v1
         /// <summary>
         /// Метод получения списка блюд с краткой информацией.
         /// </summary>
-        /// <param name="query"></param>
+        /// <param name="query">Данные запроса.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
         /// <returns>Список блюд с краткой информацией.</returns>
         [HttpGet]
