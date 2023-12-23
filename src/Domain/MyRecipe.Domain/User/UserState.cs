@@ -1,4 +1,6 @@
-﻿namespace MyRecipe.Domain.User;
+﻿using MyRecipe.Contracts.Enums.User;
+
+namespace MyRecipe.Domain.User;
 
 /// <summary>
 /// Состояние записи пользователя.
@@ -64,4 +66,9 @@ public class UserState
     /// Дата создания состояние учетной записи пользователя.
     /// </summary>
     public DateTime CreateTime { get; set; }
+
+    /// <summary>
+    /// Роль пользователя в системе.
+    /// </summary>
+    public RoleEnum Role { get; set; }
 }

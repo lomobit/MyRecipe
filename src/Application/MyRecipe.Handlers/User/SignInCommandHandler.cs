@@ -16,6 +16,7 @@ public class SignInCommandHandler : IRequestHandler<SignInCommand, string>
     public async Task<string> Handle(SignInCommand request, CancellationToken cancellationToken)
     {
         // Get user
+        var user = await _userService.GetUserAsync();
         
         // Generate JWT
         
