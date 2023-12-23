@@ -2,4 +2,4 @@
 
 namespace MyRecipe.Handlers.Contracts.User;
 
-public record SignInCommand(string Email, string Password) : IRequest<string>;
+public record SignInCommand(string Email, string Password) : IRequest<string?>;

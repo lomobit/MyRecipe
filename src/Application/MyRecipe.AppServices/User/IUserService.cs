@@ -8,5 +8,5 @@ public interface IUserService
     /// Получение пользователя.
     /// </summary>
     /// <returns></returns>
-    Task<UserForSignInDto> GetUserAsync();
+    Task<string?> GetUserTokenAsync();
 }
