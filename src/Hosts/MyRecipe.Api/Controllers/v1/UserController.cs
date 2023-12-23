@@ -1,17 +1,17 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MyRecipe.Handlers.Contracts.Login;
+using MyRecipe.Handlers.Contracts.User;
 
 namespace MyRecipe.Api.Controllers.v1;
 
 [Route("api/v1/[controller]")]
 [ProducesResponseType(typeof(string), statusCode: StatusCodes.Status400BadRequest)]
 [ProducesResponseType(typeof(string), statusCode: StatusCodes.Status500InternalServerError)]
-public class LoginController : BaseApiController
+public class UserController : BaseApiController
 {
     private readonly IMediator _mediator;
 
-    public LoginController(IMediator mediator)
+    public UserController(IMediator mediator)
     {
         _mediator = mediator;
     }
