@@ -14,4 +14,6 @@
     <ProjectReference Include="..\..\Contracts\MyRecipe.Contracts\MyRecipe.Contracts.csproj" />
   </ItemGroup>
 
+
+
 </Project>

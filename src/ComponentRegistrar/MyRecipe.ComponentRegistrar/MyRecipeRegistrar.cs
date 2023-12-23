@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MyRecipe.AppServices.Dish;
 using MyRecipe.AppServices.Event;
 using MyRecipe.AppServices.Ingredient;
+using MyRecipe.AppServices.Login;
 using MyRecipe.AppServices.Okei;
 using MyRecipe.Common.ComponentRegistrar;
 using MyRecipe.Contracts.Api;
@@ -16,6 +17,7 @@ using MyRecipe.Infrastructure.MappingProfiles;
 using MyRecipe.Infrastructure.Repositories.Dish;
 using MyRecipe.Infrastructure.Repositories.Event;
 using MyRecipe.Infrastructure.Repositories.Ingredient;
+using MyRecipe.Infrastructure.Repositories.Login;
 using MyRecipe.Infrastructure.Repositories.Okei;
 
 namespace MyRecipe.ComponentRegistrar
@@ -66,6 +68,7 @@ namespace MyRecipe.ComponentRegistrar
         /// <returns>Коллекция сервисов DI.</returns>
         public static IServiceCollection AddMyRecipeServices(this IServiceCollection services)
         {
+            services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IIngredientService, IngredientService>();
             services.AddScoped<IDishService, DishService>();
             services.AddScoped<IOkeiService, OkeiService>();
@@ -82,6 +85,7 @@ namespace MyRecipe.ComponentRegistrar
         public static IServiceCollection AddMyRecipeRepositories(this IServiceCollection services)
         {
             // Репозитории MyRecipeDbContext'а
+            services.AddScoped<ILoginRepository, LoginRepository>();
             services.AddScoped<IIngredientRepository, IngredientRepository>();
             services.AddScoped<IDishRepository, DishRepository>();
             services.AddScoped<IOkeiRepository, OkeiRepository>();
