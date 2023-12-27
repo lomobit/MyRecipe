@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
@@ -21,8 +22,6 @@ builder.Services
     {
         x.TokenValidationParameters = new TokenValidationParameters()
         {
-            ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
-            ValidAudience = builder.Configuration["JwtSettings:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]!)),
             ValidateIssuer = true,
             ValidateAudience = true,
@@ -71,10 +70,12 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.UseCors(options =>
-     options.WithOrigins("http://localhost:3000")
-            .WithOrigins("http://localhost:3001")
-            .AllowAnyHeader()
-            .AllowAnyMethod());
+{
+    options.WithOrigins("http://localhost:3000")
+        .WithOrigins("https://localhost:3001")
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+});
 
 // Https over Docker
 // https://github.com/dotnet/dotnet-docker/blob/main/samples/run-aspnetcore-https-development.md

@@ -1,4 +1,6 @@
-﻿namespace MyRecipe.Contracts.Enums.User;
+﻿using System.ComponentModel;
+
+namespace MyRecipe.Contracts.Enums.User;
 
 /// <summary>
 /// Роли пользователей системы.

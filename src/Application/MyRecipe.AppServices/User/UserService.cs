@@ -1,7 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MyRecipe.Contracts.Enums.User;
@@ -21,8 +20,6 @@ public class UserService : IUserService
         _configuration = configuration;
     }
 
-    /// <param name="email"></param>
-    /// <param name="password"></param>
     /// <inheritdoc/>
     public async Task<string?> GetUserTokenAsync(string email, string password)
     {
@@ -45,15 +42,15 @@ public class UserService : IUserService
         
         var claims = new List<Claim>
         {
-            new(ClaimTypes.Name, string.Join(" ", user.FirstName, user.MiddleName, user.LastName)),
+            new(ClaimTypes.Name, string.Join(" ",  user.LastName, user.FirstName, user.MiddleName)),
             new(ClaimTypes.Email, email),
             new(ClaimTypes.Role, user.Role.ToString())
         };
         
         // создаем JWT-токен
         var jwt = new JwtSecurityToken(
-            issuer: _configuration["JwtSettings:Issuer"],
-            audience: _configuration["JwtSettings:Audience"],
+            issuer: _configuration["Authentication:Schemes:Bearer:ValidIssuer"],
+            audience: $"MyRecipe.Client.{user.Role}",
             claims: claims,
             expires: DateTime.Now.Add(TimeSpan.FromMinutes(25)),
             signingCredentials: new SigningCredentials(
