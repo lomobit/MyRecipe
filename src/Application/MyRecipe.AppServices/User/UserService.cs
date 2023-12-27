@@ -1,8 +1,10 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using MyRecipe.Contracts.Enums.User;
 using MyRecipe.Contracts.User;
 using MyRecipe.Infrastructure.Repositories.User;
 
@@ -24,9 +26,28 @@ public class UserService : IUserService
     /// <inheritdoc/>
     public async Task<string?> GetUserTokenAsync(string email, string password)
     {
+        // находим пользователя по почте и паролю из репозитория
+        var user = new UserForSignInDto(
+            "Алексей",
+            "Михайлович",
+            "Кузнецов",
+            "test@test.net",
+            RoleEnum.Administrator
+        );
+        
+        // если пользователь не найден, отправляем статусный код 401
+        //if (user is null) return null;
+        if (user.Email != email)
+        {
+            return null;
+        }
+        
+        
         var claims = new List<Claim>
         {
-            new(ClaimTypes.Email, email)
+            new(ClaimTypes.Name, string.Join(" ", user.FirstName, user.MiddleName, user.LastName)),
+            new(ClaimTypes.Email, email),
+            new(ClaimTypes.Role, user.Role.ToString())
         };
         
         // создаем JWT-токен
@@ -40,27 +61,5 @@ public class UserService : IUserService
                 SecurityAlgorithms.HmacSha256));
             
         return new JwtSecurityTokenHandler().WriteToken(jwt);
-        
-        // var claims = new Claim[]
-        // {
-        //
-        // };
-        //
-        // var signingCredentials = new SigningCredentials(
-        //     new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret-key")),
-        //     SecurityAlgorithms.HmacSha512);
-        //
-        // var token = new JwtSecurityToken(
-        //     "issuer",
-        //     "audience",
-        //     claims,
-        //     null,
-        //     DateTime.Now.AddMinutes(25),
-        //     signingCredentials);
-        //
-        // var tokenValue = new JwtSecurityTokenHandler()
-        //     .WriteToken(token);
-        //
-        // return tokenValue;
     }
 }

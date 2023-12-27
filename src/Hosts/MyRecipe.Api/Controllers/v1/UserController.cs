@@ -23,6 +23,11 @@ public class UserController : BaseApiController
         try
         {
             var result = await _mediator.Send(command, cancellationToken);
+            if (result is null)
+            {
+                return Unauthorized();
+            }
+            
             return Ok(result);
         }
         catch (Exception ex)
