@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyRecipe.Contracts.Api;
+using MyRecipe.Contracts.Enums.User;
 using MyRecipe.Contracts.Ingredient;
 using MyRecipe.Handlers.Contracts.Ingredient;
 
@@ -50,7 +51,7 @@ namespace MyRecipe.Api.Controllers.v1
 
         [HttpGet]
         [Route("GetAll")]
-        [Authorize(Roles = "Visitor, Organizer")]
+        [Authorize(Roles = $"{nameof(RoleEnum.Administrator)}, {nameof(RoleEnum.Organizer)}")]
         [ProducesResponseType(typeof(ApiResult<IEnumerable<IngredientDto>>), statusCode: StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll([FromQuery] IngredientGetAllQuery query, CancellationToken cancellationToken)
         {
