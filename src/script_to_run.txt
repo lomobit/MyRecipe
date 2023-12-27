@@ -1,0 +1,9 @@
+cd ~/project/MyRecipe/
+
+git checkout develop
+git pull
+
+cd src
+
+docker build -t myrecipeapi .
+docker run --rm -d -p 4001:443 -e ASPNETCORE_URLS="https://+" -e ASPNETCORE_ENVIRONMENT=Development myrecipeapi

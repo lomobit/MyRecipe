@@ -16,12 +16,7 @@ using MyRecipeLogging.ComponentRegistrar;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
-    .AddAuthentication(x =>
-    {
-        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(x =>
     {
         x.TokenValidationParameters = new TokenValidationParameters()
@@ -81,4 +76,6 @@ app.UseCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod());
 
+// Https over Docker
+// https://github.com/dotnet/dotnet-docker/blob/main/samples/run-aspnetcore-https-development.md
 app.Run();

@@ -7,6 +7,8 @@ public interface IUserService
     /// <summary>
     /// Получение пользователя.
     /// </summary>
+    /// <param name="email"></param>
+    /// <param name="password"></param>
     /// <returns></returns>
-    Task<string?> GetUserTokenAsync();
+    Task<string?> GetUserTokenAsync(string email, string password);
 }
