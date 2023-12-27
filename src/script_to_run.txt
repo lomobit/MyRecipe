@@ -9,10 +9,18 @@ git pull
 
 cd src
 
-docker build -t myrecipeapi .
-docker run --rm -d -p 4001:443 -e ASPNETCORE_URLS="https://+" -e ASPNETCORE_ENVIRONMENT=Development myrecipeapi
+rem for dev
+docker build -t myrecipeapi -f Dockerfile.Development .
 
-docker run --rm -it -p 4001:443 -e ASPNETCORE_HTTPS_PORTS=4001 -e ASPNETCORE_ENVIRONMENT=Development -v $env:APPDATA\microsoft\UserSecrets\:/root/.microsoft/usersecrets -v $env:USERPROFILE\.aspnet\https:/root/.aspnet/https/ myrecipeapi
+rem for prod
+docker build -t myrecipeapi .
+
+
+rem $env:APPDATA и $env:USERPROFILE работают только через PowerShell, иначе необходимо вручную указать нужный путь
+rem ASPNETCORE_ENVIRONMENT=Development только для локальной разработки
+rem ASPNETCORE_ENVIRONMENT=Staging только для стендов разработки
+rem ASPNETCORE_ENVIRONMENT=Production только для прода
+docker run --rm -d -p 4001:443 -e ASPNETCORE_HTTPS_PORTS=4001 -e ASPNETCORE_ENVIRONMENT=Development -v $env:APPDATA\microsoft\UserSecrets\:/root/.microsoft/usersecrets -v $env:USERPROFILE\.aspnet\https:/root/.aspnet/https/ myrecipeapi
 
 
 
