@@ -1,3 +1,7 @@
+
+Container Run
+==============================================================================================
+
 cd ~/project/MyRecipe/
 
 git checkout develop
@@ -7,3 +11,24 @@ cd src
 
 docker build -t myrecipeapi .
 docker run --rm -d -p 4001:443 -e ASPNETCORE_URLS="https://+" -e ASPNETCORE_ENVIRONMENT=Development myrecipeapi
+
+docker run --rm -it -p 4001:443 -e ASPNETCORE_HTTPS_PORTS=4001 -e ASPNETCORE_ENVIRONMENT=Development -v $env:APPDATA\microsoft\UserSecrets\:/root/.microsoft/usersecrets -v $env:USERPROFILE\.aspnet\https:/root/.aspnet/https/ myrecipeapi
+
+
+
+==============================================================================================
+
+Generate Dev Cert (PowerShell)
+==============================================================================================
+
+// Захоим в папку с проектом MyRecipe.Api
+
+dotnet dev-certs https -ep $env:USERPROFILE\.aspnet\https\MyRecipe.Api.pfx -p MyRecipeApiPassword
+dotnet dev-certs https --trust
+
+dotnet user-secrets init -p .\MyRecipe.Api.csproj
+dotnet user-secrets -p .\MyRecipe.Api.csproj set "Kestrel:Certificates:Development:Password" "MyRecipeApiPassword"
+
+
+==============================================================================================
+
