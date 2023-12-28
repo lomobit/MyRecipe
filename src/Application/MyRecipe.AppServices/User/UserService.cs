@@ -39,20 +39,19 @@ public class UserService : IUserService
             return null;
         }
         
-        
         var claims = new List<Claim>
         {
             new(ClaimTypes.Name, string.Join(" ",  user.LastName, user.FirstName, user.MiddleName)),
             new(ClaimTypes.Email, email),
-            new(ClaimTypes.Role, user.Role.ToString())
+            new(ClaimTypes.Role, user.Role.ToString()),
         };
         
         // создаем JWT-токен
         var jwt = new JwtSecurityToken(
-            issuer: _configuration["Authentication:Schemes:Bearer:ValidIssuer"],
-            audience: $"MyRecipe.Client.{user.Role}",
+            issuer: _configuration["JwtSettings:ValidIssuer"],
+            audience: _configuration["JwtSettings:ValidAudience"],
             claims: claims,
-            expires: DateTime.Now.Add(TimeSpan.FromMinutes(25)),
+            expires: DateTime.Now.Add(TimeSpan.FromMinutes(3)),
             signingCredentials: new SigningCredentials(
                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:Key"]!)), 
                 SecurityAlgorithms.HmacSha256));

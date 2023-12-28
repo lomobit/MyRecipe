@@ -1,5 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Text;
+﻿using System.Text;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
@@ -16,15 +15,19 @@ using MyRecipeLogging.ComponentRegistrar;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Нужно будет добавить еще и рефреш токена после его истечения, вот тут есть хорошая статья
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(x =>
     {
+        x.SaveToken = true;
         x.TokenValidationParameters = new TokenValidationParameters()
         {
+            ValidIssuer = builder.Configuration["JwtSettings:ValidIssue"],
+            ValidAudience = builder.Configuration["JwtSettings:ValidAudience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]!)),
             ValidateIssuer = true,
-            ValidateAudience = true,
+            ValidateAudience = false,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true
         };
