@@ -51,7 +51,7 @@ public class UserService : IUserService
             issuer: _configuration["JwtSettings:ValidIssuer"],
             audience: _configuration["JwtSettings:ValidAudience"],
             claims: claims,
-            expires: DateTime.Now.Add(TimeSpan.FromMinutes(3)),
+            expires: DateTime.Now.Add(TimeSpan.FromMinutes(25)),
             signingCredentials: new SigningCredentials(
                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:Key"]!)), 
                 SecurityAlgorithms.HmacSha256));
