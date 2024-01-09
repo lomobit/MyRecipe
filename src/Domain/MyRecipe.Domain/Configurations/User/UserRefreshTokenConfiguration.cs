@@ -8,6 +8,8 @@ public class UserRefreshTokenConfiguration : IEntityTypeConfiguration<UserRefres
 {
     public void Configure(EntityTypeBuilder<UserRefreshToken> builder)
     {
+        builder.HasKey(x => x.Id);
+
         builder.HasOne(x => x.User)
             .WithMany(x => x.RefreshTokens)
             .HasForeignKey(x => x.UserId);

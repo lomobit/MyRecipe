@@ -3,6 +3,16 @@
 public class UserPassword
 {
     /// <summary>
+    /// Идентификатор записи.
+    /// </summary>
+    public uint Id { get; set; }
+    
+    /// <summary>
+    /// Идентификатор пользователя.
+    /// </summary>
+    public Guid UserId { get; set; }
+
+    /// <summary>
     /// Сущность пользователя.
     /// </summary>
     public virtual User User { get; set; }

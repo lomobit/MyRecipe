@@ -3,6 +3,11 @@
 public class UserRefreshToken
 {
     /// <summary>
+    /// Идентификатор записи.
+    /// </summary>
+    public uint Id { get; set; }
+
+    /// <summary>
     /// Идентификатор пользователя.
     /// </summary>
     public Guid UserId { get; set; }
