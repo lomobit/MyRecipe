@@ -10,6 +10,9 @@ public class MyRecipeDbContext : DbContext
 {
     public DbSet<User> Users { get; set; }
     public DbSet<UserState> UserStates { get; set; }
+    public DbSet<UserPassword> UserPasswords { get; set; }
+    public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
+    
     public DbSet<Ingredient> Ingredients { get; set; }
     public DbSet<Dish> Dishes { get; set; }
     public DbSet<Okei> Okeis { get; set; }
@@ -26,13 +29,16 @@ public class MyRecipeDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new UserStateConfiguration());
+        modelBuilder.ApplyConfiguration(new UserPasswordConfiguration());
+        modelBuilder.ApplyConfiguration(new UserRefreshTokenConfiguration());
+        
         modelBuilder.ApplyConfiguration(new IngredientConfiguration());
         modelBuilder.ApplyConfiguration(new DishConfiguration());
         modelBuilder.ApplyConfiguration(new OkeiConfiguration());
         modelBuilder.ApplyConfiguration(new IngredientsForDishConfiguration());
         modelBuilder.ApplyConfiguration(new MealConfiguration());
-        modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new MealScheduleConfiguration());
     }
 }

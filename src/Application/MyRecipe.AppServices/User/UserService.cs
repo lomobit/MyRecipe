@@ -4,7 +4,6 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using MyRecipe.Contracts.Enums.User;
 using MyRecipe.Contracts.User;
 using MyRecipe.Infrastructure.Repositories.User;
 using Newtonsoft.Json;
@@ -23,32 +22,33 @@ public class UserService : IUserService
     }
 
     /// <inheritdoc/>
-    public async Task<TokenDto> GetUserTokenAsync(string email, string password)
+    public async Task<TokenDto?> GetUserTokenAsync(string email, string password)
     {
-        // находим пользователя по почте и паролю из репозитория
-        var user = new UserForSignInDto(
-            "Алексей",
-            "Михайлович",
-            "Кузнецов",
-            "test@test.net",
-            RoleEnum.Administrator
-        );
-        
-        // если пользователь не найден, отправляем статусный код 401
-        //if (user is null) return null;
-        if (user.Email != email)
+        // Находим пользователя по почте
+        var userPassword = await _userRepository.GetUserIdWithPassword(email);
+        if (userPassword is null)
         {
             return null;
         }
-        
+
+        // Проверяем корректность пароля.
+        if (!IsPasswordCorrect(
+                password,
+                userPassword.PasswordHash, 
+                Convert.FromHexString(userPassword.PasswordHashSalt)))
+        {
+            return null;
+        }
+
+        // Получаем данные пользователя для того, чтобы задать список claim'ов для токена
+        var user = await _userRepository.GetUserForSignInAsync(userPassword.UserId);
         var claims = new List<Claim>
         {
             new(ClaimTypes.Name, string.Join(" ",  user.LastName, user.FirstName, user.MiddleName)),
-            new(ClaimTypes.Email, email),
             new(ClaimTypes.Role, user.Role.ToString()),
         };
 
-        // создаем JWT-токен
+        // Создаем JWT-токен
         var jwt = new JwtSecurityToken(
             issuer: _configuration["JwtSettings:ValidIssuer"],
             audience: _configuration["JwtSettings:ValidAudience"],
@@ -76,5 +76,25 @@ public class UserService : IUserService
             rng.GetBytes(randomNumber);
             return Convert.ToBase64String(randomNumber);
         }
+    }
+    
+    private bool IsPasswordCorrect(string password, string hash, byte[] salt)
+    {
+        if (!int.TryParse(_configuration["Login:PasswordHashKeySize"], out int keySize))
+        {
+            // TODO: Добавить логгирование ошибки
+            throw new ApplicationException($"Configuration \"Login:PasswordHashKeySize\" doesn't exists");
+        }
+        
+        if (!int.TryParse(_configuration["Login:PasswordHashIterations"], out int iterations))
+        {
+            // TODO: Добавить логгирование ошибки
+            throw new ApplicationException($"Configuration \"Login:PasswordHashIterations\" doesn't exists");
+        }
+        
+        HashAlgorithmName hashAlgorithm = HashAlgorithmName.SHA512;
+        
+        var hashToCompare = Rfc2898DeriveBytes.Pbkdf2(password, salt, iterations, hashAlgorithm, keySize);
+        return CryptographicOperations.FixedTimeEquals(hashToCompare, Convert.FromHexString(hash));
     }
 }

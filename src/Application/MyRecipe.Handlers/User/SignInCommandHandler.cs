@@ -5,7 +5,7 @@ using MyRecipe.Handlers.Contracts.User;
 
 namespace MyRecipe.Handlers.User;
 
-public class SignInCommandHandler : IRequestHandler<SignInCommand, TokenDto>
+public class SignInCommandHandler : IRequestHandler<SignInCommand, TokenDto?>
 {
     private readonly IUserService _userService;
 
@@ -14,7 +14,7 @@ public class SignInCommandHandler : IRequestHandler<SignInCommand, TokenDto>
         _userService = userService;
     }
 
-    public async Task<TokenDto> Handle(SignInCommand request, CancellationToken cancellationToken)
+    public async Task<TokenDto?> Handle(SignInCommand request, CancellationToken cancellationToken)
     {
         return await _userService.GetUserTokenAsync(request.Email, request.Password);
     }

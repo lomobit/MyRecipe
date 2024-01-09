@@ -21,6 +21,16 @@ public class User
     public DateTime CreateTime { get; set; }
 
     /// <summary>
+    /// Сущность пароля для пользователя.
+    /// </summary>
+    public virtual UserPassword Password { get; set; }
+
+    /// <summary>
+    /// Токены для обновления JWT-токенов пользователя.
+    /// </summary>
+    public virtual List<UserRefreshToken> RefreshTokens { get; set; }
+
+    /// <summary>
     /// Состояния учетной записи пользователя.
     /// </summary>
     public virtual List<UserState> States { get; set; }
@@ -49,11 +59,7 @@ public class User
         Console.WriteLine($"Password hash: {hash}");
         Console.WriteLine($"Generated salt: {Convert.ToHexString(salt)}");
 
-        bool VerifyPassword(string password, string hash, byte[] salt)
-        {
-            var hashToCompare = Rfc2898DeriveBytes.Pbkdf2(password, salt, iterations, hashAlgorithm, keySize);
-            return CryptographicOperations.FixedTimeEquals(hashToCompare, Convert.FromHexString(hash));
-        }
+        
 
 
 

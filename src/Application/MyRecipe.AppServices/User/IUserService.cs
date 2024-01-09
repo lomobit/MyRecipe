@@ -11,5 +11,5 @@ public interface IUserService
     /// <param name="password"></param>
     /// <param name="host"></param>
     /// <returns></returns>
-    Task<TokenDto> GetUserTokenAsync(string email, string password);
+    Task<TokenDto?> GetUserTokenAsync(string email, string password);
 }

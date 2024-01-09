@@ -19,6 +19,7 @@ public class UserController : BaseApiController
 
     [HttpPost("signin")]
     [ProducesResponseType(typeof(TokenDto), statusCode: StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), statusCode: StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> SignIn([FromBody] SignInCommand command, CancellationToken cancellationToken)
     {
         try

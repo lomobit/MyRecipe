@@ -51,19 +51,9 @@ public class UserState
     /// Логин.
     /// </summary>
     public string Login { get; set; }
-
-    /// <summary>
-    /// Хеш пользовательского пароля.
-    /// </summary>
-    public string PasswordHash { get; set; }
     
     /// <summary>
-    /// Соль, используемая для хеширования текущего пароля.
-    /// </summary>
-    public string PasswordHashSalt { get; set; }
-    
-    /// <summary>
-    /// Дата создания состояние учетной записи пользователя.
+    /// Дата создания записи состояния учетной записи пользователя.
     /// </summary>
     public DateTime CreateTime { get; set; }
 

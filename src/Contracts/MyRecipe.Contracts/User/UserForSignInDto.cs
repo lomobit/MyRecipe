@@ -6,6 +6,5 @@ public record UserForSignInDto(
     string FirstName,
     string MiddleName,
     string LastName,
-    string Email,
     RoleEnum Role
 );
