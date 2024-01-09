@@ -1,11 +1,13 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MyRecipe.Contracts.Enums.User;
 using MyRecipe.Contracts.User;
 using MyRecipe.Infrastructure.Repositories.User;
+using Newtonsoft.Json;
 
 namespace MyRecipe.AppServices.User;
 
@@ -21,7 +23,7 @@ public class UserService : IUserService
     }
 
     /// <inheritdoc/>
-    public async Task<string?> GetUserTokenAsync(string email, string password)
+    public async Task<TokenDto> GetUserTokenAsync(string email, string password)
     {
         // находим пользователя по почте и паролю из репозитория
         var user = new UserForSignInDto(
@@ -45,17 +47,34 @@ public class UserService : IUserService
             new(ClaimTypes.Email, email),
             new(ClaimTypes.Role, user.Role.ToString()),
         };
-        
+
         // создаем JWT-токен
         var jwt = new JwtSecurityToken(
             issuer: _configuration["JwtSettings:ValidIssuer"],
             audience: _configuration["JwtSettings:ValidAudience"],
             claims: claims,
-            expires: DateTime.Now.Add(TimeSpan.FromMinutes(25)),
+            expires: DateTime.UtcNow.Add(JsonConvert.DeserializeObject<TimeSpan>(_configuration["JwtSettings:TokenExpired"]!)),
             signingCredentials: new SigningCredentials(
                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:Key"]!)), 
                 SecurityAlgorithms.HmacSha256));
             
-        return new JwtSecurityTokenHandler().WriteToken(jwt);
+        var token = new JwtSecurityTokenHandler().WriteToken(jwt);
+        
+        var refreshToken = new RefreshTokenDto(
+            GenerateRefreshToken(),
+            DateTime.UtcNow.Add(JsonConvert.DeserializeObject<TimeSpan>(_configuration["JwtSettings:RefreshTokenExpired"]!)));
+
+        
+        return new TokenDto(token, refreshToken.Token);
+    }
+    
+    public string GenerateRefreshToken()
+    {
+        var randomNumber = new byte[64];
+        using (var rng = RandomNumberGenerator.Create())
+        {
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
+        }
     }
 }

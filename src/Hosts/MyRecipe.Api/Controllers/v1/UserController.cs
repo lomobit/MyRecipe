@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using MyRecipe.Contracts.User;
 using MyRecipe.Handlers.Contracts.User;
 
 namespace MyRecipe.Api.Controllers.v1;
@@ -17,7 +18,7 @@ public class UserController : BaseApiController
     }
 
     [HttpPost("signin")]
-    [ProducesResponseType(typeof(string), statusCode: StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(TokenDto), statusCode: StatusCodes.Status200OK)]
     public async Task<IActionResult> SignIn([FromBody] SignInCommand command, CancellationToken cancellationToken)
     {
         try
@@ -34,6 +35,8 @@ public class UserController : BaseApiController
         {
 #if DEBUG
             return BadRequest(ex.ToString());
+#else
+            return Unauthorized();
 #endif
         }
     }

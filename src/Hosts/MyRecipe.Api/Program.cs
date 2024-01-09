@@ -8,6 +8,7 @@ using MyRecipe.Handlers;
 using MyRecipeFiles.ComponentRegistrar;
 using MyRecipeFiles.Handlers;
 using MyRecipeLogging.ComponentRegistrar;
+using Newtonsoft.Json;
 
 // Задаем сборке аттрибут, что все контроллеры - это API-контроллеры
 [assembly: ApiController]
@@ -16,6 +17,7 @@ using MyRecipeLogging.ComponentRegistrar;
 var builder = WebApplication.CreateBuilder(args);
 
 // Нужно будет добавить еще и рефреш токена после его истечения, вот тут есть хорошая статья
+// https://codepedia.info/aspnet-core-jwt-refresh-token-authentication
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(x =>
@@ -28,7 +30,18 @@ builder.Services
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
-            ValidateIssuerSigningKey = true
+            ValidateIssuerSigningKey = true,
+            ClockSkew = JsonConvert.DeserializeObject<TimeSpan>(builder.Configuration["JwtSettings:ClockSkew"]!)
+            
+        };
+        x.Events = new JwtBearerEvents {
+            OnAuthenticationFailed = context => {
+                if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                {
+                    context.Response.Headers.Add("Is-Token-Expired", "true");
+                }
+                return Task.CompletedTask;
+            }
         };
     });
 builder.Services.AddAuthorization();
