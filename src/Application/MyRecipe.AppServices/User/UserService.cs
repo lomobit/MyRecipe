@@ -83,8 +83,8 @@ public class UserService : IUserService
             command.LastName,
             hash,
             salt);
-        
-        return false;
+
+        return await _userRepository.RegisterNewUser(newUser, cancellationToken);
     }
     
     private string GenerateRefreshToken()

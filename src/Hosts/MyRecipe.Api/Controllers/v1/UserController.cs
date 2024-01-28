@@ -49,7 +49,7 @@ public class UserController : BaseApiController
         try
         {
             var result = await _mediator.Send(command, cancellationToken);
-            return Ok(result);
+            return Ok(result ? "Success" : "Failure");
         }
         catch (Exception ex)
         {

@@ -50,7 +50,7 @@ public class UserState
     /// <summary>
     /// Логин.
     /// </summary>
-    public string Login { get; set; }
+    public string? Login { get; set; }
     
     /// <summary>
     /// Дата создания записи состояния учетной записи пользователя.
