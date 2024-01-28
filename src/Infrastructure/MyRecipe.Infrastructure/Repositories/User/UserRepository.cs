@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 using MyRecipe.Contracts.Enums.User;
 using MyRecipe.Contracts.User;
 using MyRecipe.Domain.User;
@@ -63,6 +64,11 @@ public class UserRepository : IUserRepository
     /// <inheritdoc/>
     public async Task<bool> RegisterNewUser(UserForSignUpDto newUser, CancellationToken cancellationToken)
     {
+        if (await ValidateEmailBeforeRegisterNewUser(newUser.Email, cancellationToken))
+        {
+            throw new ValidationException($"Ошибка: Пользователь с email'ом {newUser.Email} уже существует!");
+        }
+        
         try
         {
             var user = new Domain.User.User
@@ -99,5 +105,14 @@ public class UserRepository : IUserRepository
         }
         
         return true;
+    }
+
+    private async Task<bool> ValidateEmailBeforeRegisterNewUser(string email, CancellationToken cancellationToken)
+    {
+        return await _context.Users.Join(_context.UserStates,
+                u => new { Id = u.Id, Version = u.Version },
+                us => new { Id = us.UserId, Version = us.Version },
+                (u, us) => us.Email)
+            .ContainsAsync(email, cancellationToken);
     }
 }

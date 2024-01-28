@@ -53,11 +53,7 @@ public class UserController : BaseApiController
         }
         catch (Exception ex)
         {
-#if DEBUG
-            return BadRequest(ex.ToString());
-#else
-            return Unauthorized();
-#endif
+            return BadRequest(ex.Message);
         }
     }
 }
