@@ -15,6 +15,14 @@ public interface IUserService
     Task<TokenDto?> GetUserTokenAsync(string email, string password, CancellationToken cancellationToken);
 
     /// <summary>
+    /// Получение пользователя.
+    /// </summary>
+    /// <param name="refreshToken">Токен обновления.</param>
+    /// <param name="cancellationToken">Токен отмены.</param>
+    /// <returns>Токен авторизации.</returns>
+    Task<TokenDto?> GetUserTokenWithRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken);
+
+    /// <summary>
     /// Регистрация нового пользователя в системе.
     /// </summary>
     /// <param name="command">Данный пользователя.</param>

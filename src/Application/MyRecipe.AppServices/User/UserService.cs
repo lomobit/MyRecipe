@@ -41,8 +41,49 @@ public class UserService : IUserService
             return null;
         }
 
+        return await CreateNewTokenAsync(userPassword.UserId, cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public async Task<TokenDto?> GetUserTokenWithRefreshTokenAsync(
+        string refreshToken,
+        CancellationToken cancellationToken)
+    {
+        // Находим рефреш-токен
+        var refreshTokenInfo = await _userRepository.TryToFindRefreshTokenAsync(refreshToken, cancellationToken);
+        if (refreshTokenInfo is null)
+        {
+            return null;
+        }
+        
+        // Проверяем актуален ли этот рефреш-токен
+        if (DateTime.UtcNow >= refreshTokenInfo.ExpirationTime)
+        {
+            return null;
+        }
+        
+        return await CreateNewTokenAsync(refreshTokenInfo.UserId, cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public async Task<bool> UserRegistration(SignUpCommand command, CancellationToken cancellationToken)
+    {
+        var hash = HashPasword(command.Password, out var salt);
+        
+        var newUser = new UserForSignUpDto(
+            command.Email,
+            command.FirstName,
+            command.MiddleName,
+            command.LastName,
+            hash,
+            salt);
+
+        return await _userRepository.RegisterNewUser(newUser, cancellationToken);
+    }
+
+    private async Task<TokenDto> CreateNewTokenAsync(Guid userId, CancellationToken cancellationToken)
+    {
         // Получаем данные пользователя для того, чтобы задать список claim'ов для токена
-        var userId = userPassword.UserId;
         var user = await _userRepository.GetUserForSignInAsync(userId);
         var claims = new List<Claim>
         {
@@ -63,28 +104,13 @@ public class UserService : IUserService
         var token = new JwtSecurityTokenHandler().WriteToken(jwt);
         
         var refreshToken = new RefreshTokenDto(
+            userId,
             GenerateRefreshToken(),
             DateTime.UtcNow.Add(JsonConvert.DeserializeObject<TimeSpan>(_configuration["JwtSettings:RefreshTokenExpired"]!)));
 
-        await _userRepository.AddUserRefreshTokenAsync(userId, refreshToken, cancellationToken);
+        await _userRepository.AddUserRefreshTokenAsync(refreshToken, cancellationToken);
         
         return new TokenDto(token, refreshToken.Token);
-    }
-
-    /// <inheritdoc/>
-    public async Task<bool> UserRegistration(SignUpCommand command, CancellationToken cancellationToken)
-    {
-        var hash = HashPasword(command.Password, out var salt);
-        
-        var newUser = new UserForSignUpDto(
-            command.Email,
-            command.FirstName,
-            command.MiddleName,
-            command.LastName,
-            hash,
-            salt);
-
-        return await _userRepository.RegisterNewUser(newUser, cancellationToken);
     }
     
     private string GenerateRefreshToken()

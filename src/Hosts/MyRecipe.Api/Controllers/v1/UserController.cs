@@ -41,6 +41,31 @@ public class UserController : BaseApiController
 #endif
         }
     }
+
+    [HttpPost("signin/refresh")]
+    [ProducesResponseType(typeof(TokenDto), statusCode: StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), statusCode: StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> SignInWithRefreshToken([FromBody] SignInRefreshCommand command, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            if (result is null)
+            {
+                return Unauthorized();
+            }
+            
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+#if DEBUG
+            return BadRequest(ex.ToString());
+#else
+            return Unauthorized();
+#endif
+        }
+    }
     
     [HttpPost("signup")]
     [ProducesResponseType(typeof(bool), statusCode: StatusCodes.Status200OK)]

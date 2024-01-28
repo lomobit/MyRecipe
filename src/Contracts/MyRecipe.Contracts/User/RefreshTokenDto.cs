@@ -1,3 +1,3 @@
 ﻿namespace MyRecipe.Contracts.User;
 
-public record RefreshTokenDto(string Token, DateTime ExpirationTime);
+public record RefreshTokenDto(Guid UserId, string Token, DateTime ExpirationTime);

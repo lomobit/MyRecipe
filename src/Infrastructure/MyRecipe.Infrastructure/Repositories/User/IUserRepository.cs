@@ -18,12 +18,19 @@ public interface IUserRepository
     public Task<UserForSignInDto> GetUserForSignInAsync(Guid userId);
 
     /// <summary>
+    /// Ищет указанный рефреш-токен в бд.
+    /// </summary>
+    /// <param name="refreshToken">Рефреш-токен.</param>
+    /// <param name="cancellationToken">Токен отмены.</param>
+    /// <returns>Возвращает полную информацию о рефреш-токене из бд.</returns>
+    public Task<RefreshTokenDto?> TryToFindRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken);
+    
+    /// <summary>
     /// Добавляет новый токен обновления для пользователя.
     /// </summary>
-    /// <param name="userId">Идентификатор пользователя.</param>
     /// <param name="refreshToken">Токен обновления.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
-    public Task AddUserRefreshTokenAsync(Guid userId, RefreshTokenDto refreshToken, CancellationToken cancellationToken);
+    public Task AddUserRefreshTokenAsync(RefreshTokenDto refreshToken, CancellationToken cancellationToken);
 
     /// <summary>
     /// Регистрация нового пользователя.

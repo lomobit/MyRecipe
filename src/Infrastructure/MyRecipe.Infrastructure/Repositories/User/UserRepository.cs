@@ -43,13 +43,39 @@ public class UserRepository : IUserRepository
     }
 
     /// <inheritdoc/>
-    public async Task AddUserRefreshTokenAsync(Guid userId, RefreshTokenDto refreshToken, CancellationToken cancellationToken)
+    public async Task<RefreshTokenDto?> TryToFindRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken)
+    {
+        var tokenInfo = await _context.UserRefreshTokens
+            .Where(x => x.RefreshToken == refreshToken)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        RefreshTokenDto? result = null;
+        if (tokenInfo is not null)
+        {
+            try
+            {
+                _context.UserRefreshTokens.Remove(tokenInfo);
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            finally
+            {
+                _context.ChangeTracker.Clear();
+            }
+
+            result = new RefreshTokenDto(tokenInfo.UserId, tokenInfo.RefreshToken, tokenInfo.ExpirationTime);
+        }
+
+        return result;
+    }
+
+    /// <inheritdoc/>
+    public async Task AddUserRefreshTokenAsync(RefreshTokenDto refreshToken, CancellationToken cancellationToken)
     {
         try
         {
             _context.UserRefreshTokens.Add(new UserRefreshToken
             {
-                UserId = userId,
+                UserId = refreshToken.UserId,
                 RefreshToken = refreshToken.Token,
                 ExpirationTime = refreshToken.ExpirationTime
             });
