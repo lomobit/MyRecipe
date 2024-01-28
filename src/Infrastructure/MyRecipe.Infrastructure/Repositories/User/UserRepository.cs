@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyRecipe.Contracts.User;
+using MyRecipe.Domain.User;
 
 namespace MyRecipe.Infrastructure.Repositories.User;
 
@@ -37,5 +38,24 @@ public class UserRepository : IUserRepository
                     us.Role
                 ))
             .FirstAsync();
+    }
+
+    /// <inheritdoc/>
+    public async Task AddUserRefreshTokenAsync(Guid userId, RefreshTokenDto refreshToken, CancellationToken cancellationToken)
+    {
+        try
+        {
+            _context.UserRefreshTokens.Add(new UserRefreshToken
+            {
+                UserId = userId,
+                RefreshToken = refreshToken.Token,
+                ExpirationTime = refreshToken.ExpirationTime
+            });
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+        finally
+        {
+            _context.ChangeTracker.Clear();
+        }
     }
 }

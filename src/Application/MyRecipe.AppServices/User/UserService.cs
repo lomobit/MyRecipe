@@ -22,7 +22,7 @@ public class UserService : IUserService
     }
 
     /// <inheritdoc/>
-    public async Task<TokenDto?> GetUserTokenAsync(string email, string password)
+    public async Task<TokenDto?> GetUserTokenAsync(string email, string password, CancellationToken cancellationToken)
     {
         // Находим пользователя по почте
         var userPassword = await _userRepository.GetUserIdWithPassword(email);
@@ -41,7 +41,8 @@ public class UserService : IUserService
         }
 
         // Получаем данные пользователя для того, чтобы задать список claim'ов для токена
-        var user = await _userRepository.GetUserForSignInAsync(userPassword.UserId);
+        var userId = userPassword.UserId;
+        var user = await _userRepository.GetUserForSignInAsync(userId);
         var claims = new List<Claim>
         {
             new(ClaimTypes.Name, string.Join(" ",  user.LastName, user.FirstName, user.MiddleName)),
@@ -64,6 +65,7 @@ public class UserService : IUserService
             GenerateRefreshToken(),
             DateTime.UtcNow.Add(JsonConvert.DeserializeObject<TimeSpan>(_configuration["JwtSettings:RefreshTokenExpired"]!)));
 
+        await _userRepository.AddUserRefreshTokenAsync(userId, refreshToken, cancellationToken);
         
         return new TokenDto(token, refreshToken.Token);
     }

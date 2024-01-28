@@ -9,7 +9,7 @@ public interface IUserService
     /// </summary>
     /// <param name="email"></param>
     /// <param name="password"></param>
-    /// <param name="host"></param>
+    /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<TokenDto?> GetUserTokenAsync(string email, string password);
+    Task<TokenDto?> GetUserTokenAsync(string email, string password, CancellationToken cancellationToken);
 }

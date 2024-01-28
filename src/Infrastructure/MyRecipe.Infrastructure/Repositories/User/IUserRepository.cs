@@ -16,4 +16,12 @@ public interface IUserRepository
     /// <param name="userId">Идентификатор пользователя.</param>
     /// <exception cref="System.InvalidOperationException">В случае, если пользователя с указанным идентификатором не удалось найти.</exception>
     public Task<UserForSignInDto> GetUserForSignInAsync(Guid userId);
+
+    /// <summary>
+    /// Добавляет новый токен обновления для пользователя.
+    /// </summary>
+    /// <param name="userId">Идентификатор пользователя.</param>
+    /// <param name="refreshToken">Токен обновления.</param>
+    /// <param name="cancellationToken">Токен отмены.</param>
+    public Task AddUserRefreshTokenAsync(Guid userId, RefreshTokenDto refreshToken, CancellationToken cancellationToken);
 }
