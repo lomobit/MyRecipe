@@ -81,14 +81,20 @@ public class UserService : IUserService
         return await _userRepository.RegisterNewUser(newUser, cancellationToken);
     }
 
-    private async Task<TokenDto> CreateNewTokenAsync(Guid userId, CancellationToken cancellationToken)
+    private async Task<TokenDto?> CreateNewTokenAsync(Guid userId, CancellationToken cancellationToken)
     {
         // Получаем данные пользователя для того, чтобы задать список claim'ов для токена
-        var user = await _userRepository.GetUserForSignInAsync(userId);
+        var user = await _userRepository.GetUserForSignInAsync(userId, cancellationToken);
+        if (user is null)
+        {
+            return null;
+        }
+        
         var claims = new List<Claim>
         {
             new(ClaimTypes.Name, string.Join(" ",  user.LastName, user.FirstName, user.MiddleName)),
             new(ClaimTypes.Role, user.Role.ToString()),
+            new (ClaimTypes.NameIdentifier, userId.ToString())
         };
 
         // Создаем JWT-токен

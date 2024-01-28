@@ -1,5 +1,8 @@
-﻿using MediatR;
+﻿using System.Security.Claims;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyRecipe.Contracts.Enums.User;
 using MyRecipe.Contracts.User;
 using MyRecipe.Handlers.Contracts.User;
 
@@ -79,6 +82,22 @@ public class UserController : BaseApiController
         catch (Exception ex)
         {
             return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost("editprofile")]
+    [ProducesResponseType(typeof(bool), statusCode: StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), statusCode: StatusCodes.Status401Unauthorized)]
+    [Authorize(Roles = $"{nameof(RoleEnum.Visitor)}, {nameof(RoleEnum.Organizer)}")]
+    public async Task<IActionResult> EditProfile()
+    {
+        if (User.IsInRole(nameof(RoleEnum.Visitor)))
+        {
+            return Ok($"{User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "Visitor without ID! Wat?"}");
+        }
+        else
+        {
+            return Ok("Organizer");
         }
     }
 }

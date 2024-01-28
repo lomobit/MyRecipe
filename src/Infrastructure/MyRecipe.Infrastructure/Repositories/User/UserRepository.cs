@@ -27,9 +27,10 @@ public class UserRepository : IUserRepository
     }
 
     /// <inheritdoc/>
-    public async Task<UserForSignInDto> GetUserForSignInAsync(Guid userId)
+    public async Task<UserForSignInDto?> GetUserForSignInAsync(Guid userId, CancellationToken cancellationToken)
     {
         return await _context.Users
+            .Where(x => x.Id == userId)
             .Join(_context.UserStates,
                 u => new { Id = u.Id, Version = u.Version },
                 us => new { Id = us.UserId, Version = us.Version },
@@ -39,7 +40,7 @@ public class UserRepository : IUserRepository
                     us.LastName,
                     us.Role
                 ))
-            .FirstAsync();
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
     /// <inheritdoc/>
