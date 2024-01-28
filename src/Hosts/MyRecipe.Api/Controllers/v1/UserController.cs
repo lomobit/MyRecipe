@@ -44,8 +44,20 @@ public class UserController : BaseApiController
     
     [HttpPost("signup")]
     [ProducesResponseType(typeof(bool), statusCode: StatusCodes.Status200OK)]
-    public async Task<IActionResult> SignUp([FromBody] SignUpCommand command)
+    public async Task<IActionResult> SignUp([FromBody] SignUpCommand command, CancellationToken cancellationToken)
     {
-        return Ok();
+        try
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+#if DEBUG
+            return BadRequest(ex.ToString());
+#else
+            return Unauthorized();
+#endif
+        }
     }
 }

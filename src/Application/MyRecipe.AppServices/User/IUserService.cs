@@ -1,4 +1,5 @@
 ﻿using MyRecipe.Contracts.User;
+using MyRecipe.Handlers.Contracts.User;
 
 namespace MyRecipe.AppServices.User;
 
@@ -12,4 +13,12 @@ public interface IUserService
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     Task<TokenDto?> GetUserTokenAsync(string email, string password, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Регистрация нового пользователя в системе.
+    /// </summary>
+    /// <param name="command">Данный пользователя.</param>
+    /// <param name="cancellationToken">Токен отмены.</param>
+    /// <returns>Успешность операции.</returns>
+    public Task<bool> UserRegistration(SignUpCommand command, CancellationToken cancellationToken);
 }

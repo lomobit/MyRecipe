@@ -24,4 +24,12 @@ public interface IUserRepository
     /// <param name="refreshToken">Токен обновления.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     public Task AddUserRefreshTokenAsync(Guid userId, RefreshTokenDto refreshToken, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Регистрация нового пользователя.
+    /// </summary>
+    /// <param name="newUser">Данные о новом пользователе</param>
+    /// <param name="cancellationToken">Токен отмены.</param>
+    /// <returns>Успешность операции.</returns>
+    public Task<bool> RegisterNewUser(UserForSignUpDto newUser, CancellationToken cancellationToken);
 }

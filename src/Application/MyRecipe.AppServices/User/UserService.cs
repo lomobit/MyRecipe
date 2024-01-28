@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MyRecipe.Contracts.User;
+using MyRecipe.Handlers.Contracts.User;
 using MyRecipe.Infrastructure.Repositories.User;
 using Newtonsoft.Json;
 
@@ -69,8 +70,24 @@ public class UserService : IUserService
         
         return new TokenDto(token, refreshToken.Token);
     }
+
+    /// <inheritdoc/>
+    public async Task<bool> UserRegistration(SignUpCommand command, CancellationToken cancellationToken)
+    {
+        var hash = HashPasword(command.Password, out var salt);
+        
+        var newUser = new UserForSignUpDto(
+            command.Email,
+            command.FirstName,
+            command.MiddleName,
+            command.LastName,
+            hash,
+            salt);
+        
+        return false;
+    }
     
-    public string GenerateRefreshToken()
+    private string GenerateRefreshToken()
     {
         var randomNumber = new byte[64];
         using (var rng = RandomNumberGenerator.Create())
@@ -79,8 +96,8 @@ public class UserService : IUserService
             return Convert.ToBase64String(randomNumber);
         }
     }
-    
-    private bool IsPasswordCorrect(string password, string hash, byte[] salt)
+
+    private (int keySize, int iterations, HashAlgorithmName hashAlgorithm) CheckIfExistsAndGetPasswordHashValues()
     {
         if (!int.TryParse(_configuration["Login:PasswordHashKeySize"], out int keySize))
         {
@@ -94,7 +111,28 @@ public class UserService : IUserService
             throw new ApplicationException($"Configuration \"Login:PasswordHashIterations\" doesn't exists");
         }
         
-        HashAlgorithmName hashAlgorithm = HashAlgorithmName.SHA512;
+        return (keySize, iterations, HashAlgorithmName.SHA512);
+    }
+    
+    private string HashPasword(string password, out string salt)
+    {
+        var (keySize, iterations, hashAlgorithm) = CheckIfExistsAndGetPasswordHashValues();
+        
+        var bytesForSalt = RandomNumberGenerator.GetBytes(keySize);
+        var hash = Rfc2898DeriveBytes.Pbkdf2(
+            Encoding.UTF8.GetBytes(password),
+            bytesForSalt,
+            iterations,
+            hashAlgorithm,
+            keySize);
+
+        salt = Convert.ToHexString(bytesForSalt);
+        return Convert.ToHexString(hash);
+    }
+    
+    private bool IsPasswordCorrect(string password, string hash, byte[] salt)
+    {
+        var (keySize, iterations, hashAlgorithm) = CheckIfExistsAndGetPasswordHashValues();
         
         var hashToCompare = Rfc2898DeriveBytes.Pbkdf2(password, salt, iterations, hashAlgorithm, keySize);
         return CryptographicOperations.FixedTimeEquals(hashToCompare, Convert.FromHexString(hash));

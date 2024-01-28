@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyRecipe.Contracts.Enums.User;
 using MyRecipe.Contracts.User;
 using MyRecipe.Domain.User;
 
@@ -57,5 +58,46 @@ public class UserRepository : IUserRepository
         {
             _context.ChangeTracker.Clear();
         }
+    }
+
+    /// <inheritdoc/>
+    public async Task<bool> RegisterNewUser(UserForSignUpDto newUser, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var user = new Domain.User.User
+            {
+                Version = 1,
+                CreateTime = DateTime.UtcNow,
+                Password = new UserPassword
+                {
+                    PasswordHash = newUser.PasswordHash,
+                    PasswordHashSalt = newUser.PasswordHashSalt,
+                    LastUpdateTime = DateTime.UtcNow
+                },
+                States = new List<UserState>()
+            };
+
+            user.States.Add(new UserState
+            {
+                Version = 1,
+                LastName = newUser.LastName,
+                FistName = newUser.FirstName,
+                MiddleName = newUser.MiddleName,
+                Email = newUser.Email,
+                CreateTime = DateTime.UtcNow,
+                Role = RoleEnum.Visitor
+            });
+
+            _context.Users.Add(user);
+
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+        finally
+        {
+            _context.ChangeTracker.Clear();
+        }
+        
+        return true;
     }
 }
