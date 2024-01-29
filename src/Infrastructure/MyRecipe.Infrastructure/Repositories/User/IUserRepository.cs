@@ -40,4 +40,12 @@ public interface IUserRepository
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Успешность операции.</returns>
     public Task<bool> RegisterNewUser(UserForSignUpDto newUser, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Изменение профиля для участника мероприятий.
+    /// </summary>
+    /// <param name="newProfile">Данные для обновления информации.</param>
+    /// <param name="cancellationToken">Токен отмены.</param>
+    /// <returns>Успешность операции.</returns>
+    public Task<bool> EditVisitorProfile(VisitorProfileDto newProfile, CancellationToken cancellationToken);
 }

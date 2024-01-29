@@ -29,4 +29,12 @@ public interface IUserService
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Успешность операции.</returns>
     public Task<bool> UserRegistration(SignUpCommand command, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Изменение профиля для участника мероприятий.
+    /// </summary>
+    /// <param name="command">Данные для обновления информации.</param>
+    /// <param name="cancellationToken">Токен отмены.</param>
+    /// <returns>Успешность операции.</returns>
+    public Task<bool> EditVisitorProfile(EditVisitorProfileCommand command, CancellationToken cancellationToken);
 }

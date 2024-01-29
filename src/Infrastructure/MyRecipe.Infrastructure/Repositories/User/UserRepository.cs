@@ -35,7 +35,7 @@ public class UserRepository : IUserRepository
                 u => new { Id = u.Id, Version = u.Version },
                 us => new { Id = us.UserId, Version = us.Version },
                 (u, us) => new UserForSignInDto(
-                    us.FistName,
+                    us.FirstName,
                     us.MiddleName,
                     us.LastName,
                     us.Role
@@ -115,7 +115,7 @@ public class UserRepository : IUserRepository
             {
                 Version = 1,
                 LastName = newUser.LastName,
-                FistName = newUser.FirstName,
+                FirstName = newUser.FirstName,
                 MiddleName = newUser.MiddleName,
                 Email = newUser.Email,
                 CreateTime = DateTime.UtcNow,
@@ -131,6 +131,49 @@ public class UserRepository : IUserRepository
             _context.ChangeTracker.Clear();
         }
         
+        return true;
+    }
+
+    /// <inheritdoc/>
+    public async Task<bool> EditVisitorProfile(VisitorProfileDto newProfile, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var user = await _context.Users
+                .Include(user => user.States)
+                .FirstOrDefaultAsync(x => x.Id == newProfile.UserId, cancellationToken);
+            if (user is null)
+            {
+                throw new Exception($"[{nameof(EditVisitorProfile)}]: Ошибка системы: Пользователь не найден, невозможно обновить профиль.");
+            }
+            
+            var currentState = user.States.FirstOrDefault(x => x.Version == user.Version);
+            if (currentState is null)
+            {
+                throw new Exception($"[{nameof(EditVisitorProfile)}]: Ошибка системы: Состояние пользователя не найдено, невозможно обновить профиль.");
+            }
+
+            user.Version++;
+            user.States.Add(new UserState
+            {
+                UserId = user.Id,
+                Version = user.Version,
+                LastName = newProfile.LastName,
+                FirstName = newProfile.FirstName,
+                MiddleName = newProfile.MiddleName,
+                Email = newProfile.Email,
+                Login = null,
+                CreateTime = DateTime.UtcNow,
+                Role = currentState.Role
+            });
+
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+        finally
+        {
+            _context.ChangeTracker.Clear();
+        }
+
         return true;
     }
 

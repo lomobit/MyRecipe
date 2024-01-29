@@ -1,7 +1,8 @@
-﻿using System.Security.Claims;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyRecipe.Api.Managers.User;
+using MyRecipe.Contracts.Api;
 using MyRecipe.Contracts.Enums.User;
 using MyRecipe.Contracts.User;
 using MyRecipe.Handlers.Contracts.User;
@@ -86,18 +87,27 @@ public class UserController : BaseApiController
     }
 
     [HttpPost("editprofile")]
-    [ProducesResponseType(typeof(bool), statusCode: StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResult<bool>), statusCode: StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), statusCode: StatusCodes.Status401Unauthorized)]
-    [Authorize(Roles = $"{nameof(RoleEnum.Visitor)}, {nameof(RoleEnum.Organizer)}")]
-    public async Task<IActionResult> EditProfile()
+    [Authorize(Roles = $"{nameof(RoleEnum.Visitor)}")]
+    public async Task<IActionResult> EditVisitorProfile(
+        [FromBody] EditVisitorProfileWithoutUserIdCommand command,
+        CancellationToken cancellationToken)
     {
-        if (User.IsInRole(nameof(RoleEnum.Visitor)))
+        var userId = User.GetId();
+        if (userId is null)
         {
-            return Ok($"{User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "Visitor without ID! Wat?"}");
+            return BadRequest($"Ошибка: Невозможно определить пользователя. Попробуйте выйти из системы и заново войти.");
         }
-        else
-        {
-            return Ok("Organizer");
-        }
+        
+        var newCommand = new EditVisitorProfileCommand(
+            userId.Value,
+            command.FirstName,
+            command.MiddleName,
+            command.LastName,
+            command.Email
+            );
+
+        return await CallApiActionWithResultAsync(async () => await _mediator.Send(newCommand, cancellationToken));
     }
 }

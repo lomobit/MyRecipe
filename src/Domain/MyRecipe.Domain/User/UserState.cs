@@ -35,7 +35,7 @@ public class UserState
     /// <summary>
     /// Имя.
     /// </summary>
-    public string FistName { get; set; }
+    public string FirstName { get; set; }
 
     /// <summary>
     /// Отчество.

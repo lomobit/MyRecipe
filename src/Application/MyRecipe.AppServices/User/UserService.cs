@@ -81,6 +81,19 @@ public class UserService : IUserService
         return await _userRepository.RegisterNewUser(newUser, cancellationToken);
     }
 
+    /// <inheritdoc/>
+    public async Task<bool> EditVisitorProfile(EditVisitorProfileCommand command, CancellationToken cancellationToken)
+    {
+        var profile = new VisitorProfileDto(
+            command.UserId,
+            command.FirstName,
+            command.MiddleName,
+            command.LastName,
+            command.Email);
+
+        return await _userRepository.EditVisitorProfile(profile, cancellationToken);
+    }
+
     private async Task<TokenDto?> CreateNewTokenAsync(Guid userId, CancellationToken cancellationToken)
     {
         // Получаем данные пользователя для того, чтобы задать список claim'ов для токена
